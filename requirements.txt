@@ -21,4 +21,7 @@ spotipy
 tgcrypto
 youtube-search
 youtube-search-python
+# youtube-search-python uses removed httpx API (proxies=); pin httpx
+# to the last compatible release until the library is replaced.
+httpx<0.28
 git+https://github.com/yt-dlp/yt-dlp.git
