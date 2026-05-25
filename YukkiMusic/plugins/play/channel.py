@@ -8,6 +8,7 @@
 # All rights reserved.
 
 from pyrogram import filters
+from pyrogram.enums import ChatMemberStatus
 from pyrogram.types import Message
 
 from config import BANNED_USERS
@@ -64,7 +65,7 @@ async def playmode_(client, message: Message, _):
         except:
             return await message.reply_text(_["cplay_4"])
         for users in admins:
-            if users.status == "creator":
+            if users.status == ChatMemberStatus.OWNER:
                 creatorusername = users.user.username
                 creatorid = users.user.id
         if creatorid != message.from_user.id:
