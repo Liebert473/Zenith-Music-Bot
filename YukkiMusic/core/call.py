@@ -172,12 +172,12 @@ class Call(PyTgCalls):
         stream = (
             MediaStream(
                 link,
-                audio_flags=audio_stream_quality,
-                video_flags=video_stream_quality,
+                audio_parameters=audio_stream_quality,
+                video_parameters=video_stream_quality,
             )
             if video
             else MediaStream(
-                link, audio_flags=audio_stream_quality
+                link, audio_parameters=audio_stream_quality
             )
         )
         await assistant.play(
@@ -194,14 +194,14 @@ class Call(PyTgCalls):
         stream = (
             MediaStream(
                 file_path,
-                audio_flags=audio_stream_quality,
-                video_flags=video_stream_quality,
+                audio_parameters=audio_stream_quality,
+                video_parameters=video_stream_quality,
                 ffmpeg_parameters=f"-ss {to_seek} -to {duration}",
             )
             if mode == "video"
             else MediaStream(
                 file_path,
-                audio_flags=audio_stream_quality,
+                audio_parameters=audio_stream_quality,
                 ffmpeg_parameters=f"-ss {to_seek} -to {duration}",
             )
         )
@@ -211,7 +211,7 @@ class Call(PyTgCalls):
         assistant = await group_assistant(self, config.LOG_GROUP_ID)
         await assistant.play(
             config.LOG_GROUP_ID,
-            MediaStream(link, video_flags=VideoQuality.SD_480p),
+            MediaStream(link, video_parameters=VideoQuality.SD_480p),
         )
         await asyncio.sleep(0.5)
         await assistant.leave_call(config.LOG_GROUP_ID)
@@ -288,12 +288,12 @@ class Call(PyTgCalls):
         stream = (
             MediaStream(
                 link,
-                audio_flags=audio_stream_quality,
-                video_flags=video_stream_quality,
+                audio_parameters=audio_stream_quality,
+                video_parameters=video_stream_quality,
             )
             if video
             else MediaStream(
-                link, audio_flags=audio_stream_quality
+                link, audio_parameters=audio_stream_quality
             )
         )
         try:
@@ -376,12 +376,12 @@ class Call(PyTgCalls):
                 stream = (
                     MediaStream(
                         link,
-                        audio_flags=audio_stream_quality,
-                        video_flags=video_stream_quality,
+                        audio_parameters=audio_stream_quality,
+                        video_parameters=video_stream_quality,
                     )
                     if str(streamtype) == "video"
                     else MediaStream(
-                        link, audio_flags=audio_stream_quality
+                        link, audio_parameters=audio_stream_quality
                     )
                 )
                 try:
@@ -424,13 +424,13 @@ class Call(PyTgCalls):
                 stream = (
                     MediaStream(
                         file_path,
-                        audio_flags=audio_stream_quality,
-                        video_flags=video_stream_quality,
+                        audio_parameters=audio_stream_quality,
+                        video_parameters=video_stream_quality,
                     )
                     if str(streamtype) == "video"
                     else MediaStream(
                         file_path,
-                        audio_flags=audio_stream_quality,
+                        audio_parameters=audio_stream_quality,
                     )
                 )
                 try:
@@ -458,12 +458,12 @@ class Call(PyTgCalls):
                 stream = (
                     MediaStream(
                         videoid,
-                        audio_flags=audio_stream_quality,
-                        video_flags=video_stream_quality,
+                        audio_parameters=audio_stream_quality,
+                        video_parameters=video_stream_quality,
                     )
                     if str(streamtype) == "video"
                     else MediaStream(
-                        videoid, audio_flags=audio_stream_quality
+                        videoid, audio_parameters=audio_stream_quality
                     )
                 )
                 try:
@@ -486,12 +486,12 @@ class Call(PyTgCalls):
                 stream = (
                     MediaStream(
                         queued,
-                        audio_flags=audio_stream_quality,
-                        video_flags=video_stream_quality,
+                        audio_parameters=audio_stream_quality,
+                        video_parameters=video_stream_quality,
                     )
                     if str(streamtype) == "video"
                     else MediaStream(
-                        queued, audio_flags=audio_stream_quality
+                        queued, audio_parameters=audio_stream_quality
                     )
                 )
                 try:
