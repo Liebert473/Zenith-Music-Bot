@@ -66,7 +66,18 @@ class Userbot(Client):
                 await self.one.send_message(
                     config.LOG_GROUP_ID, "Assistant Started"
                 )
-            except:
+            except ValueError as e:
+                if "Peer id invalid" in str(e):
+                    LOGGER(__name__).warning(
+                        f"Assistant 1: log group not yet in session "
+                        "cache. Will resolve on next restart. Continuing..."
+                    )
+                else:
+                    LOGGER(__name__).error(
+                        f"Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
+                    )
+                    sys.exit()
+            except Exception:
                 LOGGER(__name__).error(
                     f"Assistant Account 1 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
                 )
@@ -91,7 +102,18 @@ class Userbot(Client):
                 await self.two.send_message(
                     config.LOG_GROUP_ID, "Assistant Started"
                 )
-            except:
+            except ValueError as e:
+                if "Peer id invalid" in str(e):
+                    LOGGER(__name__).warning(
+                        f"Assistant 2: log group not yet in session "
+                        "cache. Will resolve on next restart. Continuing..."
+                    )
+                else:
+                    LOGGER(__name__).error(
+                        f"Assistant Account 2 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
+                    )
+                    sys.exit()
+            except Exception:
                 LOGGER(__name__).error(
                     f"Assistant Account 2 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
                 )
@@ -116,7 +138,18 @@ class Userbot(Client):
                 await self.three.send_message(
                     config.LOG_GROUP_ID, "Assistant Started"
                 )
-            except:
+            except ValueError as e:
+                if "Peer id invalid" in str(e):
+                    LOGGER(__name__).warning(
+                        f"Assistant 3: log group not yet in session "
+                        "cache. Will resolve on next restart. Continuing..."
+                    )
+                else:
+                    LOGGER(__name__).error(
+                        f"Assistant Account 3 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
+                    )
+                    sys.exit()
+            except Exception:
                 LOGGER(__name__).error(
                     f"Assistant Account 3 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
                 )
@@ -141,7 +174,18 @@ class Userbot(Client):
                 await self.four.send_message(
                     config.LOG_GROUP_ID, "Assistant Started"
                 )
-            except:
+            except ValueError as e:
+                if "Peer id invalid" in str(e):
+                    LOGGER(__name__).warning(
+                        f"Assistant 4: log group not yet in session "
+                        "cache. Will resolve on next restart. Continuing..."
+                    )
+                else:
+                    LOGGER(__name__).error(
+                        f"Assistant Account 4 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
+                    )
+                    sys.exit()
+            except Exception:
                 LOGGER(__name__).error(
                     f"Assistant Account 4 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
                 )
@@ -166,7 +210,18 @@ class Userbot(Client):
                 await self.five.send_message(
                     config.LOG_GROUP_ID, "Assistant Started"
                 )
-            except:
+            except ValueError as e:
+                if "Peer id invalid" in str(e):
+                    LOGGER(__name__).warning(
+                        f"Assistant 5: log group not yet in session "
+                        "cache. Will resolve on next restart. Continuing..."
+                    )
+                else:
+                    LOGGER(__name__).error(
+                        f"Assistant Account 5 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
+                    )
+                    sys.exit()
+            except Exception:
                 LOGGER(__name__).error(
                     f"Assistant Account 5 has failed to access the log Group. Make sure that you have added your assistant to your log group and promoted as admin! "
                 )
