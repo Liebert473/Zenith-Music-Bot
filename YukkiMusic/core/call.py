@@ -19,10 +19,9 @@ from pyrogram.types import InlineKeyboardMarkup
 from pytgcalls import PyTgCalls
 from pytgcalls.exceptions import (CallBusy,
                                   NoActiveGroupCall)
-from pytgcalls.types import (JoinedGroupCallParticipant,
-                             LeftGroupCallParticipant, Update)
+from pytgcalls.types import (UpdatedGroupCallParticipant, Update)
 from pytgcalls.types import MediaStream, AudioQuality, VideoQuality
-from pytgcalls.types import StreamAudioEnded
+from pytgcalls.types import StreamEnded
 
 import config
 from strings import get_string
@@ -118,7 +117,7 @@ class Call(PyTgCalls):
         assistant = await group_assistant(self, chat_id)
         try:
             await _clear_(chat_id)
-            await assistant.leave_group_call(chat_id)
+            await assistant.leave_call(chat_id)
         except:
             pass
 
@@ -132,7 +131,7 @@ class Call(PyTgCalls):
         await remove_active_video_chat(chat_id)
         await remove_active_chat(chat_id)
         try:
-            await assistant.leave_group_call(chat_id)
+            await assistant.leave_call(chat_id)
         except:
             pass
 
@@ -178,7 +177,7 @@ class Call(PyTgCalls):
                 ffmpeg_parameters=f"-ss {to_seek} -to {duration}",
             )
         )
-        await assistant.change_stream(chat_id, stream)
+        await assistant.play(chat_id, stream)
 
     async def stream_call(self, link):
         assistant = await group_assistant(self, config.LOG_GROUP_ID)
@@ -187,7 +186,7 @@ class Call(PyTgCalls):
             MediaStream(link, video_flags=VideoQuality.SD_480p),
         )
         await asyncio.sleep(0.5)
-        await assistant.leave_group_call(config.LOG_GROUP_ID)
+        await assistant.leave_call(config.LOG_GROUP_ID)
 
     async def join_assistant(self, original_chat_id, chat_id):
         language = await get_lang(original_chat_id)
@@ -320,11 +319,11 @@ class Call(PyTgCalls):
                     await auto_clean(popped)
             if not check:
                 await _clear_(chat_id)
-                return await client.leave_group_call(chat_id)
+                return await client.leave_call(chat_id)
         except:
             try:
                 await _clear_(chat_id)
-                return await client.leave_group_call(chat_id)
+                return await client.leave_call(chat_id)
             except:
                 return
         else:
@@ -567,7 +566,7 @@ class Call(PyTgCalls):
         @self.four.on_stream_end()
         @self.five.on_stream_end()
         async def stream_end_handler1(client, update: Update):
-            if not isinstance(update, StreamAudioEnded):
+            if not isinstance(update, StreamEnded):
                 return
             await self.change_stream(client, update.chat_id)
 
@@ -577,37 +576,20 @@ class Call(PyTgCalls):
         @self.four.on_participants_change()
         @self.five.on_participants_change()
         async def participants_change_handler(client, update: Update):
-            if not isinstance(
-                update, JoinedGroupCallParticipant
-            ) and not isinstance(update, LeftGroupCallParticipant):
+            if not isinstance(update, UpdatedGroupCallParticipant):
                 return
             chat_id = update.chat_id
-            users = counter.get(chat_id)
-            if not users:
-                try:
-                    got = len(await client.get_participants(chat_id))
-                except:
-                    return
-                counter[chat_id] = got
-                if got == 1:
-                    autoend[chat_id] = datetime.now() + timedelta(
-                        minutes=AUTO_END_TIME
-                    )
-                    return
-                autoend[chat_id] = {}
-            else:
-                final = (
-                    users + 1
-                    if isinstance(update, JoinedGroupCallParticipant)
-                    else users - 1
+            try:
+                got = len(await client.get_participants(chat_id))
+            except:
+                return
+            counter[chat_id] = got
+            if got == 1:
+                autoend[chat_id] = datetime.now() + timedelta(
+                    minutes=AUTO_END_TIME
                 )
-                counter[chat_id] = final
-                if final == 1:
-                    autoend[chat_id] = datetime.now() + timedelta(
-                        minutes=AUTO_END_TIME
-                    )
-                    return
-                autoend[chat_id] = {}
+                return
+            autoend[chat_id] = {}
 
 
 Yukki = Call()
