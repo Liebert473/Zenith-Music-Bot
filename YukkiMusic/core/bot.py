@@ -37,9 +37,30 @@ class YukkiBot(Client):
             await self.send_message(
                 config.LOG_GROUP_ID, "Bot Started"
             )
-        except:
+        except ValueError as e:
+            if "Peer id invalid" in str(e):
+                # pyrogram 2.x: peer not yet in session cache.
+                # This happens on the first run with a fresh session.
+                # The bot will cache the log group once it receives the
+                # first update from it. After the first successful start
+                # the session file is persisted and this won't recur.
+                LOGGER(__name__).warning(
+                    f"Log group ({config.LOG_GROUP_ID}) not yet in session "
+                    "cache. If your bot IS in the log group, this will "
+                    "resolve itself on the next restart. Continuing..."
+                )
+            else:
+                LOGGER(__name__).error(
+                    "Bot has failed to access the log Group. Make sure "
+                    "that you have added your bot to your log channel and "
+                    "promoted as admin!"
+                )
+                sys.exit()
+        except Exception:
             LOGGER(__name__).error(
-                "Bot has failed to access the log Group. Make sure that you have added your bot to your log channel and promoted as admin!"
+                "Bot has failed to access the log Group. Make sure that "
+                "you have added your bot to your log channel and promoted "
+                "as admin!"
             )
             sys.exit()
         if config.SET_CMDS == str(True):
@@ -61,12 +82,21 @@ class YukkiBot(Client):
                 pass
         else:
             pass
-        a = await self.get_chat_member(config.LOG_GROUP_ID, self.id)
-        if a.status not in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER):
-            LOGGER(__name__).error(
-                "Please promote Bot as Admin in Logger Group"
-            )
-            sys.exit()
+        try:
+            a = await self.get_chat_member(config.LOG_GROUP_ID, self.id)
+            if a.status not in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER):
+                LOGGER(__name__).error(
+                    "Please promote Bot as Admin in Logger Group"
+                )
+                sys.exit()
+        except ValueError as e:
+            if "Peer id invalid" in str(e):
+                LOGGER(__name__).warning(
+                    "Skipping admin check — log group not yet in session "
+                    "cache. Will be checked on next restart."
+                )
+            else:
+                raise
         if get_me.last_name:
             self.name = get_me.first_name + " " + get_me.last_name
         else:
