@@ -129,6 +129,7 @@ async def play_commnd(
         return
     elif video_telegram:
         if not await is_video_allowed(message.chat.id):
+            print(f"[PLAY_3 DEBUG] Triggered at play.py line 132")
             return await mystic.edit_text(_["play_3"])
         if message.reply_to_message.document:
             try:
@@ -188,6 +189,7 @@ async def play_commnd(
                     )
                 except Exception as e:
                     print(e)
+                    print(f"[PLAY_3 DEBUG] Triggered at play.py line 191")
                     return await mystic.edit_text(_["play_3"])
                 streamtype = "playlist"
                 plist_type = "yt"
@@ -202,6 +204,7 @@ async def play_commnd(
                     details, track_id = await YouTube.track(url)
                 except Exception as e:
                     print(e)
+                    print(f"[PLAY_3 DEBUG] Triggered at play.py line 205")
                     return await mystic.edit_text(_["play_3"])
                 streamtype = "youtube"
                 img = details["thumb"]
@@ -222,6 +225,7 @@ async def play_commnd(
                 try:
                     details, track_id = await Spotify.track(url)
                 except Exception:
+                    print(f"[PLAY_3 DEBUG] Triggered at play.py line 225")
                     return await mystic.edit_text(_["play_3"])
                 streamtype = "youtube"
                 img = details["thumb"]
@@ -232,6 +236,7 @@ async def play_commnd(
                 try:
                     details, plist_id = await Spotify.playlist(url)
                 except Exception:
+                    print(f"[PLAY_3 DEBUG] Triggered at play.py line 235")
                     return await mystic.edit_text(_["play_3"])
                 streamtype = "playlist"
                 plist_type = "spplay"
@@ -243,6 +248,7 @@ async def play_commnd(
                 try:
                     details, plist_id = await Spotify.album(url)
                 except Exception:
+                    print(f"[PLAY_3 DEBUG] Triggered at play.py line 246")
                     return await mystic.edit_text(_["play_3"])
                 streamtype = "playlist"
                 plist_type = "spalbum"
@@ -254,6 +260,7 @@ async def play_commnd(
                 try:
                     details, plist_id = await Spotify.artist(url)
                 except Exception:
+                    print(f"[PLAY_3 DEBUG] Triggered at play.py line 257")
                     return await mystic.edit_text(_["play_3"])
                 streamtype = "playlist"
                 plist_type = "spartist"
@@ -268,6 +275,7 @@ async def play_commnd(
                 try:
                     details, track_id = await Apple.track(url)
                 except Exception:
+                    print(f"[PLAY_3 DEBUG] Triggered at play.py line 271")
                     return await mystic.edit_text(_["play_3"])
                 streamtype = "youtube"
                 img = details["thumb"]
@@ -279,6 +287,7 @@ async def play_commnd(
                 try:
                     details, plist_id = await Apple.playlist(url)
                 except Exception:
+                    print(f"[PLAY_3 DEBUG] Triggered at play.py line 282")
                     return await mystic.edit_text(_["play_3"])
                 streamtype = "playlist"
                 plist_type = "apple"
@@ -292,6 +301,7 @@ async def play_commnd(
             try:
                 details, track_id = await Resso.track(url)
             except Exception as e:
+                print(f"[PLAY_3 DEBUG] Triggered at play.py line 295")
                 return await mystic.edit_text(_["play_3"])
             streamtype = "youtube"
             img = details["thumb"]
@@ -302,6 +312,7 @@ async def play_commnd(
             try:
                 details, track_path = await SoundCloud.download(url)
             except Exception:
+                print(f"[PLAY_3 DEBUG] Triggered at play.py line 305")
                 return await mystic.edit_text(_["play_3"])
             duration_sec = details["duration_sec"]
             if duration_sec > config.DURATION_LIMIT:
@@ -386,6 +397,7 @@ async def play_commnd(
         try:
             details, track_id = await YouTube.track(query)
         except Exception:
+            print(f"[PLAY_3 DEBUG] Triggered at play.py line 389")
             return await mystic.edit_text(_["play_3"])
         streamtype = "youtube"
     if str(playmode) == "Direct":
@@ -536,6 +548,7 @@ async def play_music(client, CallbackQuery, _):
     try:
         details, track_id = await YouTube.track(vidid, True)
     except Exception:
+        print(f"[PLAY_3 DEBUG] Triggered at play.py line 539")
         return await mystic.edit_text(_["play_3"])
     if details["duration_min"]:
         duration_sec = time_to_seconds(details["duration_min"])
@@ -648,26 +661,31 @@ async def play_playlists_command(client, CallbackQuery, _):
                 True,
             )
         except Exception:
+            print(f"[PLAY_3 DEBUG] Triggered at play.py line 651")
             return await mystic.edit_text(_["play_3"])
     if ptype == "spplay":
         try:
             result, spotify_id = await Spotify.playlist(videoid)
         except Exception:
+            print(f"[PLAY_3 DEBUG] Triggered at play.py line 656")
             return await mystic.edit_text(_["play_3"])
     if ptype == "spalbum":
         try:
             result, spotify_id = await Spotify.album(videoid)
         except Exception:
+            print(f"[PLAY_3 DEBUG] Triggered at play.py line 661")
             return await mystic.edit_text(_["play_3"])
     if ptype == "spartist":
         try:
             result, spotify_id = await Spotify.artist(videoid)
         except Exception:
+            print(f"[PLAY_3 DEBUG] Triggered at play.py line 666")
             return await mystic.edit_text(_["play_3"])
     if ptype == "apple":
         try:
             result, apple_id = await Apple.playlist(videoid, True)
         except Exception:
+            print(f"[PLAY_3 DEBUG] Triggered at play.py line 671")
             return await mystic.edit_text(_["play_3"])
     try:
         await stream(
