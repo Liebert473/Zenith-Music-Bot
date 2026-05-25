@@ -396,8 +396,11 @@ async def play_commnd(
             query = query.replace("-v", "")
         try:
             details, track_id = await YouTube.track(query)
-        except Exception:
-            print(f"[PLAY_3 DEBUG] Triggered at play.py line 389")
+        except Exception as _exc:
+            import traceback
+            print(f"[PLAY_3 DEBUG] Triggered at play.py line 389; query={query!r}")
+            print(f"[PLAY_3 EXC] {type(_exc).__name__}: {_exc}")
+            traceback.print_exc()
             return await mystic.edit_text(_["play_3"])
         streamtype = "youtube"
     if str(playmode) == "Direct":
