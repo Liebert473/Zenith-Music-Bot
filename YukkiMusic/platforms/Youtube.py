@@ -21,6 +21,21 @@ import config
 from YukkiMusic.utils.database import is_on_off
 from YukkiMusic.utils.formatters import time_to_seconds
 
+# YouTube now blocks unauthenticated yt-dlp requests in most regions.
+# If a cookies.txt (Netscape format, exported from a logged-in browser)
+# exists at the bot root, inject it into every yt-dlp invocation.
+COOKIES_FILE = "cookies.txt"
+
+
+def _cookies_cli_args():
+    return ["--cookies", COOKIES_FILE] if os.path.exists(COOKIES_FILE) else []
+
+
+def _with_cookies(opts: dict) -> dict:
+    if os.path.exists(COOKIES_FILE):
+        opts["cookiefile"] = COOKIES_FILE
+    return opts
+
 
 async def shell_cmd(cmd):
     proc = await asyncio.create_subprocess_shell(
@@ -148,6 +163,7 @@ class YouTubeAPI:
             link = link.split("&")[0]
         proc = await asyncio.create_subprocess_exec(
             "yt-dlp",
+            *_cookies_cli_args(),
             "-g",
             "-f",
             "best[height<=?720][width<=?1280]",
@@ -168,8 +184,11 @@ class YouTubeAPI:
             link = self.listbase + link
         if "&" in link:
             link = link.split("&")[0]
+        _cookies_flag = (
+            f"--cookies {COOKIES_FILE} " if os.path.exists(COOKIES_FILE) else ""
+        )
         playlist = await shell_cmd(
-            f"yt-dlp -i --get-id --flat-playlist --playlist-end {limit} --skip-download {link}"
+            f"yt-dlp {_cookies_flag}-i --get-id --flat-playlist --playlist-end {limit} --skip-download {link}"
         )
         try:
             result = playlist.split("\n")
@@ -210,7 +229,7 @@ class YouTubeAPI:
             link = self.base + link
         if "&" in link:
             link = link.split("&")[0]
-        ytdl_opts = {"quiet": True}
+        ytdl_opts = _with_cookies({"quiet": True})
         ydl = yt_dlp.YoutubeDL(ytdl_opts)
         with ydl:
             formats_available = []
@@ -277,14 +296,14 @@ class YouTubeAPI:
         loop = asyncio.get_running_loop()
 
         def audio_dl():
-            ydl_optssx = {
+            ydl_optssx = _with_cookies({
                 "format": "bestaudio/best",
                 "outtmpl": "downloads/%(id)s.%(ext)s",
                 "geo_bypass": True,
                 "nocheckcertificate": True,
                 "quiet": True,
                 "no_warnings": True,
-            }
+            })
             x = yt_dlp.YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
             xyz = os.path.join(
@@ -296,14 +315,14 @@ class YouTubeAPI:
             return xyz
 
         def video_dl():
-            ydl_optssx = {
+            ydl_optssx = _with_cookies({
                 "format": "(bestvideo[height<=?720][width<=?1280][ext=mp4])+(bestaudio[ext=m4a])",
                 "outtmpl": "downloads/%(id)s.%(ext)s",
                 "geo_bypass": True,
                 "nocheckcertificate": True,
                 "quiet": True,
                 "no_warnings": True,
-            }
+            })
             x = yt_dlp.YoutubeDL(ydl_optssx)
             info = x.extract_info(link, False)
             xyz = os.path.join(
@@ -317,7 +336,7 @@ class YouTubeAPI:
         def song_video_dl():
             formats = f"{format_id}+140"
             fpath = f"downloads/{title}"
-            ydl_optssx = {
+            ydl_optssx = _with_cookies({
                 "format": formats,
                 "outtmpl": fpath,
                 "geo_bypass": True,
@@ -326,13 +345,13 @@ class YouTubeAPI:
                 "no_warnings": True,
                 "prefer_ffmpeg": True,
                 "merge_output_format": "mp4",
-            }
+            })
             x = yt_dlp.YoutubeDL(ydl_optssx)
             x.download([link])
 
         def song_audio_dl():
             fpath = f"downloads/{title}.%(ext)s"
-            ydl_optssx = {
+            ydl_optssx = _with_cookies({
                 "format": format_id,
                 "outtmpl": fpath,
                 "geo_bypass": True,
@@ -347,7 +366,7 @@ class YouTubeAPI:
                         "preferredquality": "192",
                     }
                 ],
-            }
+            })
             x = yt_dlp.YoutubeDL(ydl_optssx)
             x.download([link])
 
@@ -368,6 +387,7 @@ class YouTubeAPI:
             else:
                 proc = await asyncio.create_subprocess_exec(
                     "yt-dlp",
+                    *_cookies_cli_args(),
                     "-g",
                     "-f",
                     "best[height<=?720][width<=?1280]",
