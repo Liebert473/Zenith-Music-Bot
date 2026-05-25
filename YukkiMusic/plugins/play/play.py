@@ -118,6 +118,7 @@ async def play_commnd(
                     forceplay=fplay,
                 )
             except Exception as e:
+                import traceback; print(f"[GENERAL_3 EXC] {type(e).__name__}: {e}"); traceback.print_exc()
                 ex_type = type(e).__name__
                 err = (
                     e
@@ -169,6 +170,7 @@ async def play_commnd(
                     forceplay=fplay,
                 )
             except Exception as e:
+                import traceback; print(f"[GENERAL_3 EXC] {type(e).__name__}: {e}"); traceback.print_exc()
                 ex_type = type(e).__name__
                 err = (
                     e
@@ -335,6 +337,7 @@ async def play_commnd(
                     forceplay=fplay,
                 )
             except Exception as e:
+                import traceback; print(f"[GENERAL_3 EXC] {type(e).__name__}: {e}"); traceback.print_exc()
                 ex_type = type(e).__name__
                 err = (
                     e
@@ -373,6 +376,7 @@ async def play_commnd(
                     forceplay=fplay,
                 )
             except Exception as e:
+                import traceback; print(f"[GENERAL_3 EXC] {type(e).__name__}: {e}"); traceback.print_exc()
                 ex_type = type(e).__name__
                 err = (
                     e
@@ -444,6 +448,7 @@ async def play_commnd(
                 forceplay=fplay,
             )
         except Exception as e:
+            import traceback; print(f"[GENERAL_3 EXC] {type(e).__name__}: {e}"); traceback.print_exc()
             ex_type = type(e).__name__
             err = (
                 e
@@ -590,6 +595,7 @@ async def play_music(client, CallbackQuery, _):
             forceplay=ffplay,
         )
     except Exception as e:
+        import traceback; print(f"[GENERAL_3 EXC] {type(e).__name__}: {e}"); traceback.print_exc()
         ex_type = type(e).__name__
         err = (
             e
@@ -705,6 +711,7 @@ async def play_playlists_command(client, CallbackQuery, _):
             forceplay=ffplay,
         )
     except Exception as e:
+        import traceback; print(f"[GENERAL_3 EXC] {type(e).__name__}: {e}"); traceback.print_exc()
         ex_type = type(e).__name__
         err = (
             e
