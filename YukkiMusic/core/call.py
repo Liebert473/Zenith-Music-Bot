@@ -20,9 +20,15 @@ from pyrogram.types import InlineKeyboardMarkup
 from pytgcalls import PyTgCalls
 from pytgcalls.exceptions import (CallBusy,
                                   NoActiveGroupCall)
-from pytgcalls.types import (UpdatedGroupCallParticipant, Update)
-from pytgcalls.types import MediaStream, AudioQuality, VideoQuality
-from pytgcalls.types import StreamEnded
+from pytgcalls.types import (
+    AudioQuality,
+    ChatUpdate,
+    MediaStream,
+    StreamEnded,
+    Update,
+    UpdatedGroupCallParticipant,
+    VideoQuality,
+)
 
 import config
 from strings import get_string
@@ -121,19 +127,19 @@ class Call(PyTgCalls):
 
     async def pause_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
-        await assistant.pause_stream(chat_id)
+        await assistant.pause(chat_id)
 
     async def resume_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
-        await assistant.resume_stream(chat_id)
+        await assistant.resume(chat_id)
 
     async def mute_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
-        await assistant.mute_stream(chat_id)
+        await assistant.mute(chat_id)
 
     async def unmute_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
-        await assistant.unmute_stream(chat_id)
+        await assistant.unmute(chat_id)
 
     async def stop_stream(self, chat_id: int):
         assistant = await group_assistant(self, chat_id)
@@ -564,54 +570,46 @@ class Call(PyTgCalls):
             await self.five.start()
 
     async def decorators(self):
-        @self.one.on_kicked()
-        @self.two.on_kicked()
-        @self.three.on_kicked()
-        @self.four.on_kicked()
-        @self.five.on_kicked()
-        @self.one.on_closed_voice_chat()
-        @self.two.on_closed_voice_chat()
-        @self.three.on_closed_voice_chat()
-        @self.four.on_closed_voice_chat()
-        @self.five.on_closed_voice_chat()
-        @self.one.on_left()
-        @self.two.on_left()
-        @self.three.on_left()
-        @self.four.on_left()
-        @self.five.on_left()
-        async def stream_services_handler(_, chat_id: int):
-            await self.stop_stream(chat_id)
+        # py-tgcalls 2.x consolidated all per-event decorators
+        # (on_kicked / on_closed_voice_chat / on_left / on_stream_end /
+        # on_participants_change) into a single on_update() dispatcher.
+        _LEAVE_FLAGS = (
+            ChatUpdate.Status.KICKED
+            | ChatUpdate.Status.LEFT_GROUP
+            | ChatUpdate.Status.CLOSED_VOICE_CHAT
+        )
 
-        @self.one.on_stream_end()
-        @self.two.on_stream_end()
-        @self.three.on_stream_end()
-        @self.four.on_stream_end()
-        @self.five.on_stream_end()
-        async def stream_end_handler1(client, update: Update):
-            if not isinstance(update, StreamEnded):
+        @self.one.on_update()
+        @self.two.on_update()
+        @self.three.on_update()
+        @self.four.on_update()
+        @self.five.on_update()
+        async def call_update_handler(client, update: Update):
+            if isinstance(update, ChatUpdate):
+                if update.status & _LEAVE_FLAGS:
+                    await self.stop_stream(update.chat_id)
                 return
-            await self.change_stream(client, update.chat_id)
 
-        @self.one.on_participants_change()
-        @self.two.on_participants_change()
-        @self.three.on_participants_change()
-        @self.four.on_participants_change()
-        @self.five.on_participants_change()
-        async def participants_change_handler(client, update: Update):
-            if not isinstance(update, UpdatedGroupCallParticipant):
+            if isinstance(update, StreamEnded):
+                # Only advance the queue on audio-end; video-end fires
+                # alongside it for video streams and would double-skip.
+                if update.stream_type == StreamEnded.Type.AUDIO:
+                    await self.change_stream(client, update.chat_id)
                 return
-            chat_id = update.chat_id
-            try:
-                got = len(await client.get_participants(chat_id))
-            except:
-                return
-            counter[chat_id] = got
-            if got == 1:
-                autoend[chat_id] = datetime.now() + timedelta(
-                    minutes=AUTO_END_TIME
-                )
-                return
-            autoend[chat_id] = {}
+
+            if isinstance(update, UpdatedGroupCallParticipant):
+                chat_id = update.chat_id
+                try:
+                    got = len(await client.get_participants(chat_id))
+                except:
+                    return
+                counter[chat_id] = got
+                if got == 1:
+                    autoend[chat_id] = datetime.now() + timedelta(
+                        minutes=AUTO_END_TIME
+                    )
+                    return
+                autoend[chat_id] = {}
 
 
 Yukki = Call()
