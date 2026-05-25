@@ -17,9 +17,8 @@ from pyrogram.errors import (ChatAdminRequired,
                              UserNotParticipant)
 from pyrogram.types import InlineKeyboardMarkup
 from pytgcalls import PyTgCalls
-from pytgcalls.exceptions import (AlreadyJoinedError,
-                                  NoActiveGroupCall,
-                                  TelegramServerError)
+from pytgcalls.exceptions import (CallBusy,
+                                  NoActiveGroupCall)
 from pytgcalls.types import (JoinedGroupCallParticipant,
                              LeftGroupCallParticipant, Update)
 from pytgcalls.types import MediaStream, AudioQuality, VideoQuality
@@ -289,13 +288,9 @@ class Call(PyTgCalls):
                 raise AssistantErr(
                     "**No Active Voice Chat Found**\n\nPlease make sure group's voice chat is enabled. If already enabled, please end it and start fresh voice chat again and if the problem continues, try /restart"
                 )
-        except AlreadyJoinedError:
+        except CallBusy:
             raise AssistantErr(
-                "**Assistant Already in Voice Chat**\n\nSystems have detected that assistant is already there in the voice chat, this issue generally comes when you play 2 queries together.\n\nIf assistant is not present in voice chat, please end voice chat and start fresh voice chat again and if the  problem continues, try /restart"
-            )
-        except TelegramServerError:
-            raise AssistantErr(
-                "**Telegram Server Error**\n\nTelegram is having some internal server problems, Please try playing again.\n\n If this problem keeps coming everytime, please end your voice chat and start fresh voice chat again."
+                "**Assistant Already in Voice Chat**\n\nSystems have detected that assistant is already there in the voice chat, this issue generally comes when you play 2 queries together.\n\nIf assistant is not present in voice chat, please end voice chat and start fresh voice chat again and if the problem continues, try /restart"
             )
         await add_active_chat(chat_id)
         await mute_off(chat_id)
