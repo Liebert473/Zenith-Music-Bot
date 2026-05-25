@@ -44,6 +44,22 @@ from YukkiMusic.utils.inline.play import (stream_markup,
 from YukkiMusic.utils.stream.autoclear import auto_clean
 from YukkiMusic.utils.thumbnails import gen_thumb
 
+# ── pyrogram 2.x / py-tgcalls 2.x compat patch ──────────────────────────
+# py-tgcalls 2.x imports GroupcallForbidden from pyrogram.errors, but
+# pyrogram 2.0.106 dropped it (Telegram deprecated GROUPCALL_FORBIDDEN).
+# pyrogram_client.py is imported lazily inside MtProtoClient.__init__(),
+# so injecting the stub here runs before that import is attempted.
+try:
+    from pyrogram.errors import GroupcallForbidden as _  # noqa: F401
+except ImportError:
+    import pyrogram.errors as _pe
+    class _GroupcallForbidden(Exception):
+        ID = "GROUPCALL_FORBIDDEN"
+        CODE = 403
+    _pe.GroupcallForbidden = _GroupcallForbidden
+    del _pe, _GroupcallForbidden
+# ─────────────────────────────────────────────────────────────────────────
+
 autoend = {}
 counter = {}
 AUTO_END_TIME = 3
