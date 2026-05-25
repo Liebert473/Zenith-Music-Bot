@@ -61,6 +61,13 @@ class Userbot(Client):
         LOGGER(__name__).info(f"Starting Assistant Clients")
         if config.STRING1:
             await self.one.start()
+            try:
+                count = 0
+                async for _d in self.one.get_dialogs(limit=500):
+                    count += 1
+                LOGGER(__name__).info(f"Assistant one: cached {count} dialogs")
+            except Exception as _e:
+                LOGGER(__name__).warning(f"Assistant one dialog warmup failed: {_e}")
             assistants.append(1)
             try:
                 await self.one.send_message(
@@ -97,6 +104,13 @@ class Userbot(Client):
             )
         if config.STRING2:
             await self.two.start()
+            try:
+                count = 0
+                async for _d in self.two.get_dialogs(limit=500):
+                    count += 1
+                LOGGER(__name__).info(f"Assistant two: cached {count} dialogs")
+            except Exception as _e:
+                LOGGER(__name__).warning(f"Assistant two dialog warmup failed: {_e}")
             assistants.append(2)
             try:
                 await self.two.send_message(
@@ -133,6 +147,13 @@ class Userbot(Client):
             )
         if config.STRING3:
             await self.three.start()
+            try:
+                count = 0
+                async for _d in self.three.get_dialogs(limit=500):
+                    count += 1
+                LOGGER(__name__).info(f"Assistant three: cached {count} dialogs")
+            except Exception as _e:
+                LOGGER(__name__).warning(f"Assistant three dialog warmup failed: {_e}")
             assistants.append(3)
             try:
                 await self.three.send_message(
@@ -169,6 +190,13 @@ class Userbot(Client):
             )
         if config.STRING4:
             await self.four.start()
+            try:
+                count = 0
+                async for _d in self.four.get_dialogs(limit=500):
+                    count += 1
+                LOGGER(__name__).info(f"Assistant four: cached {count} dialogs")
+            except Exception as _e:
+                LOGGER(__name__).warning(f"Assistant four dialog warmup failed: {_e}")
             assistants.append(4)
             try:
                 await self.four.send_message(
@@ -205,6 +233,13 @@ class Userbot(Client):
             )
         if config.STRING5:
             await self.five.start()
+            try:
+                count = 0
+                async for _d in self.five.get_dialogs(limit=500):
+                    count += 1
+                LOGGER(__name__).info(f"Assistant five: cached {count} dialogs")
+            except Exception as _e:
+                LOGGER(__name__).warning(f"Assistant five dialog warmup failed: {_e}")
             assistants.append(5)
             try:
                 await self.five.send_message(

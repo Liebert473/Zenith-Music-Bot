@@ -41,7 +41,7 @@ async def reload_admin_cache(client, message: Message, _):
         authusers = await get_authuser_names(chat_id)
         adminlist[chat_id] = []
         for user in admins:
-            if user.can_manage_voice_chats:
+            if (user.privileges and user.privileges.can_manage_video_chats):
                 adminlist[chat_id].append(user.user.id)
         for user in authusers:
             user_id = await alpha_to_int(user)
@@ -108,7 +108,7 @@ async def close_menu(_, CallbackQuery):
 )
 @ActualAdminCB
 async def stop_download(client, CallbackQuery: CallbackQuery, _):
-    message_id = CallbackQuery.message.message_id
+    message_id = CallbackQuery.message.id
     task = lyrical.get(message_id)
     if not task:
         return await CallbackQuery.answer(

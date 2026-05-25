@@ -33,6 +33,15 @@ class YukkiBot(Client):
         get_me = await self.get_me()
         self.username = get_me.username
         self.id = get_me.id
+        # Warm the peer cache so numeric chat_ids (LOG_GROUP_ID and any
+        # served groups) resolve without ValueError on first /play.
+        try:
+            count = 0
+            async for _d in self.get_dialogs(limit=500):
+                count += 1
+            LOGGER(__name__).info(f"Bot: cached {count} dialogs")
+        except Exception as e:
+            LOGGER(__name__).warning(f"Bot dialog warmup failed: {e}")
         try:
             await self.send_message(
                 config.LOG_GROUP_ID, "Bot Started"

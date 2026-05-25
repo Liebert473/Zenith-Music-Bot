@@ -558,16 +558,40 @@ class Call(PyTgCalls):
 
     async def start(self):
         LOGGER(__name__).info("Starting PyTgCalls Client\n")
+        # pyrogram 2.x: bots can only resolve a chat_id via send_message/
+        # play/etc. if the peer is already cached locally. A fresh
+        # session has nothing cached, so we iterate get_dialogs() after
+        # start to bulk-populate the peer cache with every chat the
+        # assistant is a member of. Without this, every /play fails
+        # with "Peer id invalid: <chat_id>" inside PyTgCalls.
+        async def _warm(label, pyt, client):
+            try:
+                count = 0
+                async for _d in client.get_dialogs(limit=500):
+                    count += 1
+                LOGGER(__name__).info(
+                    f"{label}: cached {count} dialogs"
+                )
+            except Exception as e:
+                LOGGER(__name__).warning(
+                    f"{label}: dialog warmup failed: {e}"
+                )
+
         if config.STRING1:
             await self.one.start()
+            await _warm("Assistant1", self.one, self.userbot1)
         if config.STRING2:
             await self.two.start()
+            await _warm("Assistant2", self.two, self.userbot2)
         if config.STRING3:
             await self.three.start()
+            await _warm("Assistant3", self.three, self.userbot3)
         if config.STRING4:
             await self.four.start()
+            await _warm("Assistant4", self.four, self.userbot4)
         if config.STRING5:
             await self.five.start()
+            await _warm("Assistant5", self.five, self.userbot5)
 
     async def decorators(self):
         # py-tgcalls 2.x consolidated all per-event decorators
