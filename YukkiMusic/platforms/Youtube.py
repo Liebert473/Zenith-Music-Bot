@@ -28,7 +28,14 @@ COOKIES_FILE = "cookies.txt"
 
 
 def _cookies_cli_args():
-    return ["--cookies", COOKIES_FILE] if os.path.exists(COOKIES_FILE) else []
+    args = []
+    if os.path.exists(COOKIES_FILE):
+        args += ["--cookies", COOKIES_FILE]
+    # Enable the EJS challenge solver so yt-dlp can decrypt audio
+    # stream URLs (YouTube's signature/n challenge). Requires Deno
+    # on PATH; downloads ~100KB of JS the first time.
+    args += ["--remote-components", "ejs:github"]
+    return args
 
 
 def _with_cookies(opts: dict) -> dict:
@@ -188,7 +195,7 @@ class YouTubeAPI:
             f"--cookies {COOKIES_FILE} " if os.path.exists(COOKIES_FILE) else ""
         )
         playlist = await shell_cmd(
-            f"yt-dlp {_cookies_flag}-i --get-id --flat-playlist --playlist-end {limit} --skip-download {link}"
+            f"yt-dlp {_cookies_flag}--remote-components ejs:github -i --get-id --flat-playlist --playlist-end {limit} --skip-download {link}"
         )
         try:
             result = playlist.split("\n")
