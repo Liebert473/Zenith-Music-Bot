@@ -91,19 +91,35 @@ async def help_com_group(client, message: Message, _):
 async def helper_cb(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
     cb = callback_data.split(None, 1)[1]
-    keyboard = help_back_markup(_)
     # Fetch the user's lang code so HELP_X bodies render in their language
     lang = await get_lang(CallbackQuery.message.chat.id)
-    if cb == "hb5":
+
+    # ── Paginated HELP_5 (sudo/owner commands) ───────────────────────────
+    if cb in ("hb5", "hb5p2"):
         if CallbackQuery.from_user.id not in SUDOERS:
             return await CallbackQuery.answer(
                 "Only for Sudo Users", show_alert=True
             )
-        else:
-            await CallbackQuery.edit_message_text(
-                helpers.get_help(5, lang), reply_markup=keyboard
+        if cb == "hb5":
+            # Page 1: show with a "Next ▶" button
+            kbd = help_back_markup(
+                _, next_page="help_callback hb5p2"
             )
-            return await CallbackQuery.answer()
+            await CallbackQuery.edit_message_text(
+                helpers.get_help(5, lang), reply_markup=kbd
+            )
+        else:
+            # Page 2: show with a "◀ Prev" button
+            kbd = help_back_markup(
+                _, prev_page="help_callback hb5"
+            )
+            await CallbackQuery.edit_message_text(
+                helpers.get_help("5b", lang), reply_markup=kbd
+            )
+        return await CallbackQuery.answer()
+
+    # ── Regular help sections (no pagination) ───────────────────────────
+    keyboard = help_back_markup(_)
     try:
         await CallbackQuery.answer()
     except:

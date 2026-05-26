@@ -326,275 +326,253 @@ _HELP_4_MY = """✅<u>**[⚡ EXTRA COMMANDS] ⚡**</u>
 3️⃣ **🫂 Play Type** [Everyone / Admins] - `Admins` ဆိုပါက admins များသာ voice chat တွင် music play နိုင်သည်။"""
 
 
-# ── HELP_5: Sudo / Owner Commands ──────────────────────────────────────
-_HELP_5_EN = """🔰**<u>ADD & REMOVE SUDO USERS :</u>**
-/addsudo [Username or Reply to a user]
-/delsudo [Username or Reply to a user]
+# ── HELP_5: Sudo / Owner Commands — PAGE 1 (user/start/support/bot mgmt) ──
+_HELP_5p1_EN = """📄 **Sudo Commands — Page 1 / 2**
+
+🔰**<u>ADD & REMOVE SUDO USERS:</u>**
+/addsudo [Username or Reply] — Add to sudo list.
+/delsudo [Username or Reply] — Remove from sudo list.
 
 🛸**<u>OWNER /START CUSTOMIZATION:</u>**
-The /start welcome shown in private chats is owner-editable and bypasses the language system entirely (works in any user's language).
+/start welcome in private chat is owner-editable and bypasses the language system (all users see the same message).
 
-/setstart [text] or reply to a message - Set the welcome text. Use `{bot}` as a placeholder for the bot name. Markdown is preserved when replying to a formatted message.
-/setstartimg - Reply to a photo to use it as the welcome image. Or /setstartimg [https://url.jpg] for a URL.
-/clearstart [text|image|all] - Clear the custom text, image, or both. Defaults to `all`.
-/viewstart - Preview the currently-configured custom /start.
+/setstart [text] or reply to a message — Set welcome text. Use `{bot}` for the bot name.
+/setstartimg — Reply to a photo to set it as the welcome image, or /setstartimg [url].
+/clearstart [text|image|all] — Clear custom text, image, or both. Default: `all`.
+/viewstart — Preview current custom /start.
 
 🔗**<u>SUPPORT LINKS (runtime override):</u>**
-Override the Support Group and Support Channel buttons that appear on the /start inline keyboard — no need to restart the bot.
+Override the Support Group / Channel buttons on /start without restarting.
 
-/setsupportgroup or /setgroup [@username | https://t.me/...] - Set the Support Group link (public @username, t.me URL, or invite link).
-/setsupportchannel or /setchannel [@username | https://t.me/...] - Set the Support Channel link.
-/clearsupport [group|channel|all] - Clear the override and fall back to the `.env` config value. Defaults to `all`.
-/viewsupport - Show the currently active support links (override + .env defaults side-by-side).
+/setsupportgroup or /setgroup [@user | https://t.me/...] — Set support group link.
+/setsupportchannel or /setchannel [@user | https://t.me/...] — Set support channel link.
+/clearsupport [group|channel|all] — Clear override, fall back to `.env`. Default: `all`.
+/viewsupport — Show active links (override vs .env defaults).
 
-🛃**<u>HEROKU:</u>**
-/usage - Dyno Usage.
+🛃**<u>HEROKU / CONFIG:</u>**
+/usage — Dyno usage.
+/get_var — Get a config var.
+/del_var — Delete a config var.
+/set_var [Name] [Value] — Set or update a config var.
 
-🌐**<u>CONFIG VARS:</u>**
-/get_var - Get a config var from Heroku or .env.
-/del_var - Delete any var on Heroku or .env.
-/set_var [Var Name] [Value] - Set a Var or Update a Var on heroku or .env. Seperate Var and its Value with a space.
-
-🤖**<u>BOT COMMANDS:</u>**
-/reboot - Reboot your Bot.
-/update - Update Bot.
-/speedtest - Check server speeds
-/maintenance [enable / disable]
-/logger [enable / disable] - Bot logs the searched queries in logger group.
-/get_log [Number of Lines] - Get log of your bot from heroku or vps. Works for both.
-/autoend [enable|disable] - Enable Auto stream end after 3 mins if no one is listening.
-
-📈**<u>STATS COMMANDS:</u>**
-/activevoice - Check active voice chats on bot.
-/activevideo - Check active video calls on bot.
-/stats - Check Bots Stats
-
-⚠️**<u>BLACKLIST CHAT FUNCTION:</u>**
-/blacklistchat [CHAT_ID] - Blacklist any chat from using Music Bot
-/whitelistchat [CHAT_ID] - Whitelist any blacklisted chat from using Music Bot
-/blacklistedchat - Check all blacklisted chats.
-
-👤**<u>BLOCKED FUNCTION:</u>**
-/block [Username or Reply to a user] - Prevents a user from using bot commands.
-/unblock [Username or Reply to a user] - Remove a user from Bot's Blocked List.
-/blockedusers - Check blocked Users Lists
-
-👤**<u>GBAN FUNCTION:</u>**
-/gban [Username or Reply to a user] - Gban a user from bot's served chat and stop him from using your bot.
-/ungban [Username or Reply to a user] - Remove a user from Bot's gbanned List and allow him for using your bot
-/gbannedusers - Check Gbanned Users Lists
-
-🎥**<u>VIDEOCALLS FUNCTION:</u>**
-/set_video_limit [Number of Chats] - Set a maximum Number of Chats allowed for Video Calls at a time. Default to 3 chats.
-/videomode [download|m3u8] - If download mode is enabled, Bot will download videos instead of playing them in M3u8 form. ByDefault to M3u8. You can use download mode when any query doesnt plays in m3u8 mode.
-
-⚡️**<u>PRIVATE BOT FUNCTION:</u>**
-/authorize [CHAT_ID] - Allow a chat for using your bot.
-/unauthorize [CHAT_ID] - Disallow a chat from using your bot.
-/authorized - Check all allowed chats of your bot.
-
-🌐**<u>BROADCAST FUNCTION:</u>**
-Broadcast text **or media** (photo, GIF, video, document, audio, sticker) to every served chat.
-
-**Three input modes:**
-1. `/broadcast Hello everyone` — plain text.
-2. **Reply** to any message (with or without media) with `/broadcast`.
-3. **Upload media** (photo / GIF / video / etc.) and put `/broadcast <caption>` in the *caption* — the media is broadcast with the cleaned caption.
-
-<u>Flags (can appear anywhere in the text or caption):</u>
-**-pin** : Pin the message silently in each chat.
-**-pinloud** : Pin with loud notification.
-**-user** : Also DM every user who has started the bot.
-**-assistant** : Also broadcast through assistant accounts.
-**-nobot** : Skip the bot's own served-chat sweep.
-**-forward** : Use `forward_messages` (shows "Forwarded from"). **Default is `copy_message`** — clean look with no forward header, recommended for advertising / promotional sends.
-
-**Examples:**
-• `/broadcast -user -assistant -pin Hello Testing` — text everywhere, pinned silently.
-• Upload a promo image with caption `/broadcast -user Check out our new bot!` — image + caption is delivered cleanly to every chat and user.
-• Reply to a video message with `/broadcast -pinloud` — video is copied (no forward tag) and pinned loudly.
-
-"""
+🤖**<u>BOT MANAGEMENT:</u>**
+/reboot — Reboot the bot.
+/update — Update the bot.
+/speedtest — Check server speed.
+/maintenance [enable|disable] — Toggle maintenance mode.
+/logger [enable|disable] — Log queries to logger group.
+/get_log [lines] — Fetch bot log (Heroku or VPS).
+/autoend [enable|disable] — Auto-end stream after 3 min if nobody listening."""
 
 
-_HELP_5_ZH = """🔰**<u>添加 / 移除 Sudo 用户:</u>**
-/addsudo [用户名 或 回复某用户]
-/delsudo [用户名 或 回复某用户]
+# ── HELP_5: Sudo / Owner Commands — PAGE 2 (moderation / broadcast) ────
+_HELP_5p2_EN = """📄 **Sudo Commands — Page 2 / 2**
+
+📈**<u>STATS:</u>**
+/activevoice — Active voice chats.
+/activevideo — Active video calls.
+/stats — Overall bot stats.
+
+⚠️**<u>BLACKLIST CHAT:</u>**
+/blacklistchat [CHAT_ID] — Block a chat from using the bot.
+/whitelistchat [CHAT_ID] — Unblock a chat.
+/blacklistedchat — List all blocked chats.
+
+👤**<u>BLOCK / GBAN:</u>**
+/block [User or Reply] — Block a user from bot commands.
+/unblock [User or Reply] — Unblock a user.
+/blockedusers — View blocked users.
+/gban [User or Reply] — Global-ban a user across all served chats.
+/ungban [User or Reply] — Remove global ban.
+/gbannedusers — View gbanned users.
+
+🎥**<u>VIDEO CALLS:</u>**
+/set_video_limit [N] — Max simultaneous video-call chats (default 3).
+/videomode [download|m3u8] — Switch video delivery mode.
+
+⚡️**<u>PRIVATE BOT:</u>**
+/authorize [CHAT_ID] — Allow a chat to use the bot.
+/unauthorize [CHAT_ID] — Remove a chat's access.
+/authorized — List allowed chats.
+
+🌐**<u>BROADCAST:</u>**
+Sends text **or media** (photo, GIF, video, doc, audio, sticker) to all served chats.
+
+**Input modes:**
+1. `/broadcast Hello` — plain text.
+2. Reply to any message + `/broadcast` — copies that message (no forward tag).
+3. Upload media with `/broadcast caption` — media + caption sent cleanly.
+
+**Flags:** `-pin` `-pinloud` `-user` `-assistant` `-nobot` `-forward`
+• `-forward` — use forward_messages (shows "Forwarded from"). Default is `copy_message`.
+
+**Example:** `/broadcast -user -pin` + reply to a promo image."""
+
+
+# ── PAGE 1: Chinese ─────────────────────────────────────────────────────
+_HELP_5p1_ZH = """📄 **Sudo 命令 — 第 1 / 2 页**
+
+🔰**<u>添加 / 移除 Sudo 用户:</u>**
+/addsudo [用户名 或 回复] — 加入 sudo 名单。
+/delsudo [用户名 或 回复] — 移出 sudo 名单。
 
 🛸**<u>主人专属 — /start 自定义:</u>**
-私聊中的 /start 欢迎语可由主人编辑，且**不受语言系统影响**（无论用户用哪种语言都看到同一条）。
+私聊 /start 欢迎语可由主人编辑，不受语言系统影响。
 
-/setstart [文本] 或 回复某条消息 - 设置欢迎文本。`{bot}` 会被替换为机器人名字。回复带格式的消息时会保留 Markdown。
-/setstartimg - 回复一张图片以将其设为欢迎图。或 /setstartimg [https://url.jpg] 使用 URL。
-/clearstart [text|image|all] - 清除自定义文本、图片或全部。默认 `all`。
-/viewstart - 预览当前自定义 /start 配置。
+/setstart [文本] 或 回复消息 — 设置欢迎文本，`{bot}` 替换为机器人名字。
+/setstartimg — 回复图片设为欢迎图，或 /setstartimg [url]。
+/clearstart [text|image|all] — 清除自定义内容。默认 `all`。
+/viewstart — 预览当前 /start 配置。
 
 🔗**<u>支持链接（运行时覆盖）:</u>**
-覆盖 /start 内联键盘上的「支持群组」和「支持频道」按钮 — 无需重启机器人。
+无需重启即可更改 /start 键盘上的支持群组 / 频道按钮。
 
-/setsupportgroup 或 /setgroup [@用户名 | https://t.me/...] - 设置支持群组链接（公开 @username、t.me URL 或邀请链接均可）。
-/setsupportchannel 或 /setchannel [@用户名 | https://t.me/...] - 设置支持频道链接。
-/clearsupport [group|channel|all] - 清除覆盖，回退到 `.env` 配置值。默认 `all`。
-/viewsupport - 显示当前生效的支持链接（覆盖值 + .env 默认值对比）。
+/setsupportgroup 或 /setgroup [@用户名 | https://t.me/...] — 设置支持群组链接。
+/setsupportchannel 或 /setchannel [@用户名 | https://t.me/...] — 设置支持频道链接。
+/clearsupport [group|channel|all] — 清除覆盖，回退到 `.env`。默认 `all`。
+/viewsupport — 显示当前生效的链接。
 
-🛃**<u>HEROKU:</u>**
-/usage - Dyno 使用情况。
+🛃**<u>Heroku / 配置:</u>**
+/usage — Dyno 使用量。
+/get_var — 获取配置变量。
+/del_var — 删除配置变量。
+/set_var [名称] [值] — 设置或更新配置变量。
 
-🌐**<u>配置变量:</u>**
-/get_var - 获取 Heroku / .env 中的配置变量。
-/del_var - 删除 Heroku / .env 中的任意变量。
-/set_var [变量名] [值] - 在 Heroku / .env 中设置或更新变量。变量名和值用空格分隔。
+🤖**<u>机器人管理:</u>**
+/reboot — 重启机器人。
+/update — 更新机器人。
+/speedtest — 服务器测速。
+/maintenance [enable|disable] — 维护模式开关。
+/logger [enable|disable] — 是否记录查询到日志群。
+/get_log [行数] — 获取机器人日志。
+/autoend [enable|disable] — 无人收听 3 分钟后自动结束语音流。"""
 
-🤖**<u>机器人命令:</u>**
-/reboot - 重启机器人。
-/update - 更新机器人。
-/speedtest - 测试服务器速度。
-/maintenance [enable / disable]
-/logger [enable / disable] - 机器人将搜索查询记录到日志群。
-/get_log [行数] - 从 Heroku 或 VPS 获取日志（两者都可用）。
-/autoend [enable|disable] - 启用后，如果 3 分钟无人收听，自动结束语音流。
 
-📈**<u>统计命令:</u>**
-/activevoice - 查看机器人当前活跃的语音聊天。
-/activevideo - 查看活跃的视频通话。
-/stats - 查看机器人整体状态。
+# ── PAGE 2: Chinese ─────────────────────────────────────────────────────
+_HELP_5p2_ZH = """📄 **Sudo 命令 — 第 2 / 2 页**
 
-⚠️**<u>群组黑名单功能:</u>**
-/blacklistchat [CHAT_ID] - 将聊天加入黑名单。
-/whitelistchat [CHAT_ID] - 从黑名单移除。
-/blacklistedchat - 查看所有被加入黑名单的聊天。
+📈**<u>统计:</u>**
+/activevoice — 当前活跃语音聊天。
+/activevideo — 当前活跃视频通话。
+/stats — 机器人整体统计。
 
-👤**<u>用户屏蔽功能:</u>**
-/block [用户名 或 回复某用户] - 禁止用户使用机器人。
-/unblock [用户名 或 回复某用户] - 从屏蔽名单移除用户。
-/blockedusers - 查看被屏蔽的用户列表。
+⚠️**<u>群组黑名单:</u>**
+/blacklistchat [CHAT_ID] — 将聊天加入黑名单。
+/whitelistchat [CHAT_ID] — 从黑名单移除。
+/blacklistedchat — 查看黑名单列表。
 
-👤**<u>GBAN 功能:</u>**
-/gban [用户名 或 回复某用户] - 在机器人服务的所有聊天中封禁该用户。
-/ungban [用户名 或 回复某用户] - 解除 gban。
-/gbannedusers - 查看被 gban 的用户列表。
+👤**<u>屏蔽 / 全局封禁:</u>**
+/block [用户 或 回复] — 屏蔽某用户。
+/unblock [用户 或 回复] — 取消屏蔽。
+/blockedusers — 查看屏蔽列表。
+/gban [用户 或 回复] — 全局封禁（所有服务群）。
+/ungban [用户 或 回复] — 解除全局封禁。
+/gbannedusers — 查看封禁列表。
 
-🎥**<u>视频通话功能:</u>**
-/set_video_limit [聊天数] - 设置同时允许视频通话的最大聊天数（默认 3）。
-/videomode [download|m3u8] - 若启用 download 模式，机器人会先下载视频再播放，而非 m3u8 流式播放。默认 m3u8。
+🎥**<u>视频通话:</u>**
+/set_video_limit [N] — 最大同时视频通话群数（默认 3）。
+/videomode [download|m3u8] — 切换视频传输模式。
 
-⚡️**<u>私有机器人功能:</u>**
-/authorize [CHAT_ID] - 允许某聊天使用机器人。
-/unauthorize [CHAT_ID] - 禁止某聊天使用机器人。
-/authorized - 查看已允许的聊天列表。
+⚡️**<u>私有机器人:</u>**
+/authorize [CHAT_ID] — 允许某聊天使用机器人。
+/unauthorize [CHAT_ID] — 禁止某聊天使用机器人。
+/authorized — 查看已授权列表。
 
-🌐**<u>广播功能:</u>**
-向机器人服务过的所有聊天广播 **文字或媒体**（图片、GIF、视频、文档、音频、贴纸）。
+🌐**<u>广播:</u>**
+发送 **文字或媒体**（图片 / GIF / 视频 / 文档 / 音频 / 贴纸）到所有服务群。
 
 **三种输入方式:**
-1. `/broadcast 你好大家` — 纯文字广播。
-2. **回复**任意消息（带或不带媒体）并加上 `/broadcast`。
-3. **直接上传媒体**（图片 / GIF / 视频 等）并在「caption」里写 `/broadcast <你的文字>` — 媒体会连同清理后的文字一起广播。
+1. `/broadcast 你好` — 纯文字。
+2. 回复任意消息 + `/broadcast` — 复制该消息（无转发标签）。
+3. 上传媒体，caption 写 `/broadcast 文字` — 干净地发送媒体+文字。
 
-<u>选项（可以出现在文字或 caption 的任何位置）:</u>
-**-pin** : 静默置顶消息
-**-pinloud** : 带强提示的置顶
-**-user** : 同时给所有启动过机器人的用户发私信
-**-assistant** : 用助手账号广播
-**-nobot** : 跳过机器人自身的服务群广播
-**-forward** : 使用 `forward_messages`（显示「转发自」）。**默认是 `copy_message`** — 干净的外观，无转发标签，适合广告/推广场景。
+**标志:** `-pin` `-pinloud` `-user` `-assistant` `-nobot` `-forward`
+• `-forward` 显示「转发自」，默认为 `copy_message`（无标签）。
 
-**示例:**
-• `/broadcast -user -assistant -pin Hello Testing` — 文字广播到所有地方，静默置顶。
-• 上传一张推广图，caption 写 `/broadcast -user 来看看我们的新机器人!` — 图片 + caption 干净地送达每个群和每个用户。
-• 回复一条视频消息并发 `/broadcast -pinloud` — 视频被复制（无转发标签），并带提示置顶。
-
-"""
+**示例:** 回复推广图 + `/broadcast -user -pin`"""
 
 
-_HELP_5_MY = """🔰**<u>[⭐ SUDO USERS MANAGEMENT] ⭐</u>**
-/addsudo [Username / Reply to a user] - Sudo user ထဲ ထည့်ပါ။
-/delsudo [Username / Reply to a user] - Sudo user မှ ဖယ်ရှားပါ။
+# ── PAGE 1: Burmese ──────────────────────────────────────────────────────
+_HELP_5p1_MY = """📄 **[SUDO COMMANDS :: PAGE 1 / 2]**
 
-🛸**<u>[OWNER /START CUSTOMIZATION] 🛸</u>**
-Private chat တွင် ပြသသော /start welcome ကို Owner သတ်မှတ်နိုင်ပါသည်။ Language system ၏ ဩဇာ မထိရောက်ပါ — user မည်သည့်ဘာသာစကား ရွေးထားသည် ဖြစ်စေ တူညီသော message ပြသပါမည်။
+🔰**<u>[⭐ SUDO USERS]</u>**
+/addsudo [Username / Reply] — Sudo list ထဲ ထည့်ပါ။
+/delsudo [Username / Reply] — Sudo list မှ ဖယ်ပါ။
 
-/setstart [text] / Reply to a message - Welcome text ကို သတ်မှတ်ပါ။ `{bot}` placeholder ကို bot ၏ name အဖြစ် အလိုအလျောက် ပြောင်းပါမည်။ Replied message မှ Markdown ကို ထိန်းသိမ်းပါမည်။
-/setstartimg - Photo တစ်ပုံကို reply လုပ်ပြီး welcome image အဖြစ် သတ်မှတ်ပါ။ သို့မဟုတ် /setstartimg [https://url.jpg] ဖြင့် URL ပေးပါ။
-/clearstart [text|image|all] - Custom text/image/all ကို ဖျက်ပါ။ Default = `all`။
-/viewstart - လက်ရှိ custom /start config ကို preview ပြသပါ။
+🛸**<u>[OWNER /START CUSTOMIZATION]</u>**
+Private chat /start welcome ကို Owner ပြောင်းနိုင်သည်။ Language system ကို bypass ပြုလုပ်သည်။
 
-🔗**<u>[SUPPORT LINKS :: RUNTIME OVERRIDE] 🔗</u>**
-/start keyboard ပေါ်ရှိ Support Group နှင့် Support Channel buttons များကို bot restart မလုပ်ဘဲ runtime တွင် တိုက်ရိုက် ပြောင်းလဲနိုင်ပါသည်။
+/setstart [text] / reply — Welcome text သတ်မှတ်ပါ (`{bot}` = bot name)။
+/setstartimg — Photo reply / URL ဖြင့် welcome image သတ်မှတ်ပါ။
+/clearstart [text|image|all] — Custom /start ဖျက်ပါ [default: all]။
+/viewstart — Custom /start preview ကြည့်ပါ။
 
-/setsupportgroup / /setgroup [@username | https://t.me/...] - Support Group link သတ်မှတ်ပါ (public @username, t.me URL, invite link ဖြစ်နိုင်ပါသည်)။
-/setsupportchannel / /setchannel [@username | https://t.me/...] - Support Channel link သတ်မှတ်ပါ။
-/clearsupport [group|channel|all] - Override ဖျက်ပြီး `.env` config value သို့ fallback ပြန်ပါ [default: all]။
-/viewsupport - လက်ရှိ active support links ကို ပြသပါ (override + .env defaults နှိုင်းယှဉ်)။
+🔗**<u>[SUPPORT LINKS :: RUNTIME]</u>**
+Bot restart မလုပ်ဘဲ /start keyboard ၏ support buttons ပြောင်းနိုင်သည်။
 
-🛃**<u>[HEROKU] 🛃</u>**
-/usage - Dyno Usage ။
+/setsupportgroup / /setgroup [@user | t.me/...] — Support group link သတ်မှတ်ပါ။
+/setsupportchannel / /setchannel [@user | t.me/...] — Support channel link သတ်မှတ်ပါ။
+/clearsupport [group|channel|all] — Override ဖျက်ပြီး .env fallback [default: all]။
+/viewsupport — Active links ကြည့်ပါ (override vs .env)။
 
-🌐**<u>[CONFIG VARS] 🌐</u>**
-/get_var - Heroku / .env မှ config var ရယူပါ။
-/del_var - Heroku / .env မှ var တစ်ခု ဖျက်ပါ။
-/set_var [Var Name] [Value] - Heroku / .env တွင် var ထည့်/update ပြုလုပ်ပါ။ Var name နှင့် value ကို space ဖြင့် ခွဲပါ။
+🛃**<u>[HEROKU / CONFIG]</u>**
+/usage — Dyno usage ။
+/get_var — Config var ရယူပါ။
+/del_var — Config var ဖျက်ပါ။
+/set_var [Name] [Value] — Config var ထည့်/update ပါ။
 
-🤖**<u>[BOT COMMANDS] 🤖</u>**
-/reboot - Bot ကို reboot ပြုလုပ်ပါ။
-/update - Bot ကို update ပြုလုပ်ပါ။
-/speedtest - Server speeds ကို စစ်ပါ။
-/maintenance [enable / disable] - Maintenance mode ။
-/logger [enable / disable] - Bot သည် ရှာဖွေချက်များကို logger group တွင် မှတ်ပါမည်။
-/get_log [Number of Lines] - Heroku / VPS မှ bot log ရယူပါ။
-/autoend [enable|disable] - နားထောင်သူ မရှိပါက 3 မိနစ်အကြာတွင် auto stream end ။
+🤖**<u>[BOT MANAGEMENT]</u>**
+/reboot — Bot restart ပြုလုပ်ပါ။
+/update — Bot update ပြုလုပ်ပါ။
+/speedtest — Server speed စစ်ပါ။
+/maintenance [enable|disable] — Maintenance mode ။
+/logger [enable|disable] — Query logging ။
+/get_log [lines] — Bot log ရယူပါ။
+/autoend [enable|disable] — 3 မိနစ် နားမထောင်ပါက auto stream end ။"""
 
-📈**<u>[STATS COMMANDS] 📈</u>**
-/activevoice - Active voice chats ကို စစ်ပါ။
-/activevideo - Active video calls ကို စစ်ပါ။
-/stats - Bot ၏ stats စစ်ပါ။
 
-⚠️**<u>[BLACKLIST CHAT] ⚠️</u>**
-/blacklistchat [CHAT_ID] - Chat တစ်ခုကို blacklist ထဲ ထည့်ပါ။
-/whitelistchat [CHAT_ID] - Blacklisted chat တစ်ခုကို whitelist ပြန်ထည့်ပါ။
-/blacklistedchat - Blacklisted chats အားလုံး စစ်ပါ။
+# ── PAGE 2: Burmese ──────────────────────────────────────────────────────
+_HELP_5p2_MY = """📄 **[SUDO COMMANDS :: PAGE 2 / 2]**
 
-👤**<u>[BLOCKED FUNCTION] 👤</u>**
-/block [Username / Reply] - User တစ်ဦးကို bot commands သုံးခွင့်မပြုပါ။
-/unblock [Username / Reply] - Bot ၏ Blocked List မှ ဖယ်ရှားပါ။
-/blockedusers - Blocked Users စာရင်း စစ်ပါ။
+📈**<u>[STATS]</u>**
+/activevoice — Active voice chats ။
+/activevideo — Active video calls ။
+/stats — Bot stats စစ်ပါ။
 
-👤**<u>[GBAN FUNCTION] 👤</u>**
-/gban [Username / Reply] - User တစ်ဦးကို bot ၏ served chats အားလုံးတွင် ban ပြုလုပ်ပါ။
-/ungban [Username / Reply] - Gbanned List မှ ဖယ်ရှားပါ။
-/gbannedusers - Gbanned Users စာရင်း စစ်ပါ။
+⚠️**<u>[BLACKLIST CHAT]</u>**
+/blacklistchat [CHAT_ID] — Chat ကို blacklist ထည့်ပါ။
+/whitelistchat [CHAT_ID] — Blacklist မှ ဖယ်ပါ။
+/blacklistedchat — Blacklisted chats ကြည့်ပါ။
 
-🎥**<u>[VIDEOCALLS] 🎥</u>**
-/set_video_limit [Number of Chats] - တစ်ပြိုင်နက် Video Calls အတွက် Maximum chats အရေအတွက် သတ်မှတ်ပါ [default: 3]။
-/videomode [download|m3u8] - Download mode ဖွင့်ပါက bot သည် video များကို m3u8 ဖြင့် play မလုပ်ဘဲ download ပြုလုပ်ပါမည် [default: m3u8]။
+👤**<u>[BLOCK / GBAN]</u>**
+/block [User / Reply] — User ကို bot commands သုံးခွင့်မပြုပါ။
+/unblock [User / Reply] — Unblock ပြုလုပ်ပါ။
+/blockedusers — Blocked users ကြည့်ပါ။
+/gban [User / Reply] — Served chats အားလုံးတွင် ban ပြုလုပ်ပါ။
+/ungban [User / Reply] — Gban ဖြုတ်ပါ။
+/gbannedusers — Gbanned users ကြည့်ပါ။
 
-⚡️**<u>[PRIVATE BOT FUNCTION] ⚡️</u>**
-/authorize [CHAT_ID] - Chat တစ်ခုကို bot သုံးခွင့်ပြုပါ။
-/unauthorize [CHAT_ID] - Bot သုံးခွင့်မပြုပါ။
-/authorized - Allowed chats အားလုံး စစ်ပါ။
+🎥**<u>[VIDEOCALLS]</u>**
+/set_video_limit [N] — Max video call chats [default: 3]။
+/videomode [download|m3u8] — Video delivery mode ပြောင်းပါ။
 
-🌐**<u>[BROADCAST FUNCTION] 🌐</u>**
-**Text** သို့မဟုတ် **media** (photo, GIF, video, document, audio, sticker) ကို bot ၏ served chats အားလုံးသို့ broadcast ပါ။
+⚡️**<u>[PRIVATE BOT]</u>**
+/authorize [CHAT_ID] — Chat ကို bot သုံးခွင့်ပြုပါ။
+/unauthorize [CHAT_ID] — ခွင့်မပြုပါ။
+/authorized — Allowed chats ကြည့်ပါ။
 
-**[INPUT_MODES :: 3]**
-1. `/broadcast မင်္ဂလာပါ` — text broadcast ။
-2. Message တစ်ခုကို **reply** လုပ်ပြီး `/broadcast` — media ပါသည် ဖြစ်စေ မပါသည် ဖြစ်စေ ။
-3. Media (photo / GIF / video / etc.) ကို တင်ပြီး caption တွင် `/broadcast <သင်၏ caption>` ထည့်ပါ — media + cleaned caption ကို broadcast ပါမည်။
+🌐**<u>[BROADCAST]</u>**
+Text / media (photo, GIF, video, doc, audio, sticker) ကို served chats အားလုံးသို့ ပို့ပါ။
 
-<u>[FLAGS :: text/caption အတွင်း မည်သည့်နေရာတွင်ဖြစ်စေ ထည့်နိုင်]</u>
-**-pin** : Silent pin ထိုးပါ။
-**-pinloud** : Loud notification ဖြင့် pin ထိုးပါ။
-**-user** : Bot စတင်ဖူးသော users အားလုံးသို့ DM ပါ။
-**-assistant** : Assistant accounts မှလည်း broadcast ပါ။
-**-nobot** : Bot ၏ served chats sweep ကို skip ပါ။
-**-forward** : `forward_messages` သုံးပါ ("Forwarded from" header ပြသမည်)။ **Default = `copy_message`** [forward header မပါ — advertisement / promotion အတွက် သင့်တော်]။
+**[INPUT MODES]**
+1. `/broadcast မင်္ဂလာပါ` — Text ။
+2. Message ကို reply + `/broadcast` — copy ပြုလုပ်ပါ (forward tag မပါ)။
+3. Media upload + caption တွင် `/broadcast text` — media + text ပို့ပါ။
 
-**Examples:**
-• `/broadcast -user -assistant -pin Hello Testing` — text ကို everywhere ပို့ပြီး silent pin ။
-• Promo image တင်ပြီး caption: `/broadcast -user ကျွန်ုပ်တို့၏ bot အသစ်ကို ကြည့်ပါ!` — image + caption ကို clean ပုံစံဖြင့် ပို့ပါမည်။
-• Video တစ်ခုကို reply လုပ်ပြီး `/broadcast -pinloud` — video ကို copy ပြုလုပ်ပြီး (forward tag မပါ) loud pin ထိုးပါမည်။
+**Flags:** `-pin` `-pinloud` `-user` `-assistant` `-nobot` `-forward`
+• `-forward` = "Forwarded from" ပြသမည်། Default = `copy_message`[tag မပါ]။
 
-"""
+**Example:** Promo image ကို reply + `/broadcast -user -pin`"""
 
 
 # ── public lookup ───────────────────────────────────────────────────────
@@ -603,12 +581,20 @@ _HELP = {
     2: {"en": _HELP_2_EN, "zh": _HELP_2_ZH, "my": _HELP_2_MY},
     3: {"en": _HELP_3_EN, "zh": _HELP_3_ZH, "my": _HELP_3_MY},
     4: {"en": _HELP_4_EN, "zh": _HELP_4_ZH, "my": _HELP_4_MY},
-    5: {"en": _HELP_5_EN, "zh": _HELP_5_ZH, "my": _HELP_5_MY},
+    # HELP_5 is paginated — key 5 = page 1, key "5b" = page 2.
+    5:    {"en": _HELP_5p1_EN, "zh": _HELP_5p1_ZH, "my": _HELP_5p1_MY},
+    "5b": {"en": _HELP_5p2_EN, "zh": _HELP_5p2_ZH, "my": _HELP_5p2_MY},
 }
 
 
-def get_help(num: int, lang: str = "en") -> str:
-    """Return the localized HELP_<num> string. Falls back to en."""
+def get_help(num, lang: str = "en") -> str:
+    """Return the localized HELP_<num> string.
+
+    num can be 1-4 (int) or 5 / "5b" (HELP_5 is paginated):
+      get_help(5,   lang)  → page 1 of sudo/owner commands
+      get_help("5b", lang) → page 2 of sudo/owner commands
+    Falls back to English when the requested language is not available.
+    """
     bucket = _HELP.get(num)
     if bucket is None:
         return ""
@@ -623,4 +609,4 @@ HELP_1 = _HELP_1_EN
 HELP_2 = _HELP_2_EN
 HELP_3 = _HELP_3_EN
 HELP_4 = _HELP_4_EN
-HELP_5 = _HELP_5_EN
+HELP_5 = _HELP_5p1_EN  # legacy alias points to page 1

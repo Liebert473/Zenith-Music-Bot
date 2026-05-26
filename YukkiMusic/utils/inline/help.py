@@ -64,21 +64,32 @@ def help_pannel(_, START: Union[bool, int] = None, is_sudo: bool = False):
     return InlineKeyboardMarkup(rows)
 
 
-def help_back_markup(_):
-    upl = InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton(
-                    text=_["BACK_BUTTON"],
-                    callback_data=f"settings_back_helper",
-                ),
-                InlineKeyboardButton(
-                    text=_["CLOSE_BUTTON"], callback_data=f"close"
-                ),
-            ]
-        ]
-    )
-    return upl
+def help_back_markup(_, next_page: str = None, prev_page: str = None):
+    """Back/Close row, with optional Prev ◀ / Next ▶ nav buttons above it."""
+    rows = []
+    # Navigation row — only rendered for paginated sections (e.g. HELP_5)
+    nav = []
+    if prev_page:
+        nav.append(InlineKeyboardButton(
+            text="◀ Prev", callback_data=prev_page,
+        ))
+    if next_page:
+        nav.append(InlineKeyboardButton(
+            text="Next ▶", callback_data=next_page,
+        ))
+    if nav:
+        rows.append(nav)
+    # Always-present back / close row
+    rows.append([
+        InlineKeyboardButton(
+            text=_["BACK_BUTTON"],
+            callback_data="settings_back_helper",
+        ),
+        InlineKeyboardButton(
+            text=_["CLOSE_BUTTON"], callback_data="close",
+        ),
+    ])
+    return InlineKeyboardMarkup(rows)
 
 
 def private_help_panel(_):
