@@ -92,6 +92,8 @@ async def helper_cb(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
     cb = callback_data.split(None, 1)[1]
     keyboard = help_back_markup(_)
+    # Fetch the user's lang code so HELP_X bodies render in their language
+    lang = await get_lang(CallbackQuery.message.chat.id)
     if cb == "hb5":
         if CallbackQuery.from_user.id not in SUDOERS:
             return await CallbackQuery.answer(
@@ -99,7 +101,7 @@ async def helper_cb(client, CallbackQuery, _):
             )
         else:
             await CallbackQuery.edit_message_text(
-                helpers.HELP_5, reply_markup=keyboard
+                helpers.get_help(5, lang), reply_markup=keyboard
             )
             return await CallbackQuery.answer()
     try:
@@ -108,17 +110,17 @@ async def helper_cb(client, CallbackQuery, _):
         pass
     if cb == "hb1":
         await CallbackQuery.edit_message_text(
-            helpers.HELP_1, reply_markup=keyboard
+            helpers.get_help(1, lang), reply_markup=keyboard
         )
     elif cb == "hb2":
         await CallbackQuery.edit_message_text(
-            helpers.HELP_2, reply_markup=keyboard
+            helpers.get_help(2, lang), reply_markup=keyboard
         )
     elif cb == "hb3":
         await CallbackQuery.edit_message_text(
-            helpers.HELP_3, reply_markup=keyboard
+            helpers.get_help(3, lang), reply_markup=keyboard
         )
     elif cb == "hb4":
         await CallbackQuery.edit_message_text(
-            helpers.HELP_4, reply_markup=keyboard
+            helpers.get_help(4, lang), reply_markup=keyboard
         )
