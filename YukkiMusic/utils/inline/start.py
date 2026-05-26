@@ -56,26 +56,26 @@ def _support_channel():
 
 
 def start_pannel(_):
-    """Group /start panel — compact command+settings row + support links."""
+    """Group /start panel — compact: commands + settings + links + stats."""
     rows = [
         [
             btn(_["S_B_1"], url=f"https://t.me/{app.username}?start=help",
-                style=SUCCESS, icon_emoji="🎵"),
+                icon_emoji="🎵"),
             btn(_["S_B_2"], callback_data="settings_helper",
-                style=PRIMARY, icon_emoji="⚡"),
+                icon_emoji="⚙️"),
         ],
     ]
     ch, gr = _support_channel(), _support_group()
     if ch and gr:
         rows.append([
-            btn(_["S_B_4"], url=ch, style=PRIMARY, icon_emoji="📡"),
-            btn(_["S_B_3"], url=gr, style=PRIMARY, icon_emoji="📨"),
+            btn(_["S_B_4"], url=ch, icon_emoji="📡"),
+            btn(_["S_B_3"], url=gr, icon_emoji="📨"),
         ])
     else:
         if ch:
-            rows.append([btn(_["S_B_4"], url=ch, style=PRIMARY, icon_emoji="📡")])
+            rows.append([btn(_["S_B_4"], url=ch, icon_emoji="📡")])
         if gr:
-            rows.append([btn(_["S_B_3"], url=gr, style=PRIMARY, icon_emoji="📨")])
+            rows.append([btn(_["S_B_3"], url=gr, icon_emoji="📨")])
     rows.append([
         btn(_["ADV_BUTTON"], callback_data="advertise_stats",
             style=SUCCESS, icon_emoji="⭐"),
@@ -84,48 +84,62 @@ def start_pannel(_):
 
 
 def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
-    """Private /start panel — full feature set."""
-    rows = [
-        [btn(_["S_B_8"], callback_data="settings_back_helper",
-             style=SUCCESS, icon_emoji="🎵")],
-    ]
-    ch, gr = _support_channel(), _support_group()
-    if ch and gr:
-        rows.append([
-            btn(_["S_B_4"], url=ch, style=PRIMARY, icon_emoji="📡"),
-            btn(_["S_B_3"], url=gr, style=PRIMARY, icon_emoji="📨"),
-        ])
-    else:
-        if ch:
-            rows.append([btn(_["S_B_4"], url=ch, style=PRIMARY, icon_emoji="📡")])
-        if gr:
-            rows.append([btn(_["S_B_3"], url=gr, style=PRIMARY, icon_emoji="📨")])
+    """Private /start panel — clean layout, minimal colors.
 
+    Layout (top → bottom):
+      1. Add me to your group       — SUCCESS  (primary CTA)
+      2. How to Use? Commands Menu  — default
+      3. Channel + Support          — default
+      4. Bot Owner                  — DANGER   (distinctive contact)
+      5. Bot Reach + Git Repo       — default
+      6. Language                   — default
+    """
+    rows = []
+
+    # ── 1. Primary CTA: Add me to your group ──────────────────────────────
     rows.append([
         btn(_["S_B_5"],
             url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
             style=SUCCESS, icon_emoji="🛸"),
     ])
 
-    if GITHUB_REPO and OWNER:
+    # ── 2. Help menu ──────────────────────────────────────────────────────
+    rows.append([
+        btn(_["S_B_8"], callback_data="settings_back_helper",
+            icon_emoji="🎵"),
+    ])
+
+    # ── 3. Channel + Support ──────────────────────────────────────────────
+    ch, gr = _support_channel(), _support_group()
+    if ch and gr:
         rows.append([
-            btn(_["S_B_7"], user_id=OWNER, style=DANGER, icon_emoji="👑"),
-            btn(_["S_B_6"], url=GITHUB_REPO, style=PRIMARY, icon_emoji="💎"),
+            btn(_["S_B_4"], url=ch, icon_emoji="📡"),
+            btn(_["S_B_3"], url=gr, icon_emoji="📨"),
         ])
     else:
-        if GITHUB_REPO:
-            rows.append([btn(_["S_B_6"], url=GITHUB_REPO,
-                             style=PRIMARY, icon_emoji="💎")])
-        if OWNER:
-            rows.append([btn(_["S_B_7"], user_id=OWNER,
-                             style=DANGER, icon_emoji="👑")])
+        if ch:
+            rows.append([btn(_["S_B_4"], url=ch, icon_emoji="📡")])
+        if gr:
+            rows.append([btn(_["S_B_3"], url=gr, icon_emoji="📨")])
 
-    rows.append([
+    # ── 4. Bot Owner (distinctive contact) ────────────────────────────────
+    if OWNER:
+        rows.append([
+            btn(_["S_B_7"], user_id=OWNER, style=DANGER, icon_emoji="👑"),
+        ])
+
+    # ── 5. Bot Reach + Git Repo ───────────────────────────────────────────
+    adv_row = [
         btn(_["ADV_BUTTON"], callback_data="advertise_stats",
-            style=SUCCESS, icon_emoji="⭐"),
-    ])
+            icon_emoji="⭐"),
+    ]
+    if GITHUB_REPO:
+        adv_row.append(btn(_["S_B_6"], url=GITHUB_REPO, icon_emoji="💎"))
+    rows.append(adv_row)
+
+    # ── 6. Language ───────────────────────────────────────────────────────
     rows.append([
-        btn(_["ST_B_6"], callback_data="LG", style=PRIMARY),
+        btn(_["ST_B_6"], callback_data="LG", icon_emoji="🌐"),
     ])
     return rows
 
