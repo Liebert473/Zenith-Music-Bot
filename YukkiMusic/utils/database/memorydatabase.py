@@ -23,6 +23,46 @@ videodb = mongodb.yukkivideocalls
 onoffdb = mongodb.onoffper
 suggdb = mongodb.suggestion
 autoenddb = mongodb.autoend
+customstartdb = mongodb.customstart
+
+
+# Custom /start message (owner-set, language-independent)
+async def get_custom_start():
+    return await customstartdb.find_one({"_id": "start"})
+
+
+async def set_custom_start_text(text: str):
+    await customstartdb.update_one(
+        {"_id": "start"},
+        {"$set": {"text": text}},
+        upsert=True,
+    )
+
+
+async def set_custom_start_photo(photo: str):
+    await customstartdb.update_one(
+        {"_id": "start"},
+        {"$set": {"photo": photo}},
+        upsert=True,
+    )
+
+
+async def clear_custom_start_text():
+    await customstartdb.update_one(
+        {"_id": "start"},
+        {"$unset": {"text": ""}},
+    )
+
+
+async def clear_custom_start_photo():
+    await customstartdb.update_one(
+        {"_id": "start"},
+        {"$unset": {"photo": ""}},
+    )
+
+
+async def clear_custom_start():
+    await customstartdb.delete_one({"_id": "start"})
 
 
 # Shifting to memory [ mongo sucks often]

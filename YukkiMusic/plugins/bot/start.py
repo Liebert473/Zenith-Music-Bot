@@ -26,8 +26,9 @@ from YukkiMusic.plugins.sudo.sudoers import sudoers_list
 from YukkiMusic.utils.database import (add_served_chat,
                                        add_served_user,
                                        blacklisted_chats,
-                                       get_assistant, get_lang,
-                                       get_userss, is_on_off,
+                                       get_assistant, get_custom_start,
+                                       get_lang, get_userss,
+                                       is_on_off,
                                        is_served_private_chat)
 from YukkiMusic.utils.decorators.language import LanguageStart
 from YukkiMusic.utils.inline import (help_pannel, private_panel,
@@ -195,24 +196,31 @@ async def start_comm(client, message: Message, _):
         except:
             OWNER = None
         out = private_panel(_, app.username, OWNER)
-        if config.START_IMG_URL:
+        # Owner-set custom start overrides language translation entirely.
+        custom = await get_custom_start()
+        if custom and custom.get("text"):
+            caption = custom["text"].replace("{bot}", config.MUSIC_BOT_NAME)
+        else:
+            caption = _["start_2"].format(config.MUSIC_BOT_NAME)
+        photo = (custom or {}).get("photo") or config.START_IMG_URL
+        if photo:
             try:
                 await message.reply_photo(
-                    photo=config.START_IMG_URL,
-                    caption=_["start_2"].format(
-                        config.MUSIC_BOT_NAME
-                    ),
+                    photo=photo,
+                    caption=caption,
                     reply_markup=InlineKeyboardMarkup(out),
                 )
-            except:
+            except Exception:
                 await message.reply_text(
-                    _["start_2"].format(config.MUSIC_BOT_NAME),
+                    caption,
                     reply_markup=InlineKeyboardMarkup(out),
+                    disable_web_page_preview=True,
                 )
         else:
             await message.reply_text(
-                _["start_2"].format(config.MUSIC_BOT_NAME),
+                caption,
                 reply_markup=InlineKeyboardMarkup(out),
+                disable_web_page_preview=True,
             )
         if await is_on_off(config.LOG):
             sender_id = message.from_user.id
