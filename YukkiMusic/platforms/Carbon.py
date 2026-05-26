@@ -110,6 +110,20 @@ class CarbonAPI:
             except client_exceptions.ClientConnectorError:
                 raise UnableToFetchCarbon("Can not reach the Host!")
             resp = await request.read()
+            # Carbonara sometimes returns an HTML error page or JSON error
+            # with a 200/500 status; previously we wrote those bytes
+            # straight to a .jpg and Telegram rejected with
+            # IMAGE_PROCESS_FAILED. Validate before writing.
+            if request.status != 200:
+                raise UnableToFetchCarbon(
+                    f"Carbon API HTTP {request.status}"
+                )
+            # JPEG SOI marker is 0xFF 0xD8 0xFF
+            if not (len(resp) > 3 and resp[:3] == b"\xff\xd8\xff"):
+                preview = resp[:120].decode("utf-8", errors="replace")
+                raise UnableToFetchCarbon(
+                    f"Carbon API returned non-JPEG payload: {preview!r}"
+                )
             with open(f"cache/carbon{user_id}.jpg", "wb") as f:
                 f.write(resp)
             return realpath(f.name)

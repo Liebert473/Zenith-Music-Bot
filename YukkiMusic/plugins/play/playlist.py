@@ -60,11 +60,20 @@ async def check_playlist(client, message: Message, _):
         car = os.linesep.join(msg.split(os.linesep)[:17])
     else:
         car = msg
-    carbon = await Carbon.generate(car, randint(100, 10000000000))
     await get.delete()
-    await message.reply_photo(
-        carbon, caption=_["playlist_15"].format(link)
-    )
+    try:
+        carbon = await Carbon.generate(car, randint(100, 10000000000))
+        await message.reply_photo(
+            carbon, caption=_["playlist_15"].format(link)
+        )
+    except Exception:
+        # Carbon API down or returning garbage; fall back to a plain
+        # text reply so the playlist is still readable.
+        import traceback
+        traceback.print_exc()
+        await message.reply_text(
+            f"```\n{car[:3500]}\n```\n\n{_['playlist_15'].format(link)}"
+        )
 
 
 @app.on_message(

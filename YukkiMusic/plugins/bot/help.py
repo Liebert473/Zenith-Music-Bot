@@ -46,9 +46,10 @@ async def helper_private(
         except:
             pass
         chat_id = update.message.chat.id
+        user_id = update.from_user.id
         language = await get_lang(chat_id)
         _ = get_string(language)
-        keyboard = help_pannel(_, True)
+        keyboard = help_pannel(_, True, is_sudo=(user_id in SUDOERS))
         if update.message.photo:
             await update.message.delete()
             await update.message.reply_text(
@@ -60,6 +61,7 @@ async def helper_private(
             )
     else:
         chat_id = update.chat.id
+        user_id = update.from_user.id
         if await is_commanddelete_on(update.chat.id):
             try:
                 await update.delete()
@@ -67,7 +69,7 @@ async def helper_private(
                 pass
         language = await get_lang(chat_id)
         _ = get_string(language)
-        keyboard = help_pannel(_)
+        keyboard = help_pannel(_, is_sudo=(user_id in SUDOERS))
         await update.reply_text(_["help_1"], reply_markup=keyboard)
 
 
