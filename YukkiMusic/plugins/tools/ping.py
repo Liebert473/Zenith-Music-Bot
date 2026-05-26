@@ -25,15 +25,21 @@ PING_COMMAND = get_command("PING_COMMAND")
 
 @app.on_message(
     filters.command(PING_COMMAND)
-    & filters.group
+    & (filters.group | filters.private)
     & ~BANNED_USERS
 )
 @language
 async def ping_com(client, message: Message, _):
-    response = await message.reply_photo(
-        photo=PING_IMG_URL,
-        caption=_["ping_1"],
-    )
+    if PING_IMG_URL:
+        try:
+            response = await message.reply_photo(
+                photo=PING_IMG_URL,
+                caption=_["ping_1"],
+            )
+        except Exception:
+            response = await message.reply_text(_["ping_1"])
+    else:
+        response = await message.reply_text(_["ping_1"])
     start = datetime.now()
     pytgping = await Yukki.ping()
     UP, CPU, RAM, DISK = await bot_sys_stats()

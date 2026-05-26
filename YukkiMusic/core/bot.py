@@ -11,7 +11,9 @@ import sys
 
 from pyrogram import Client
 from pyrogram.enums import ChatMemberStatus
-from pyrogram.types import BotCommand
+from pyrogram.types import (BotCommand, BotCommandScopeAllGroupChats,
+                             BotCommandScopeAllPrivateChats,
+                             BotCommandScopeChat, BotCommandScopeDefault)
 
 import config
 
@@ -73,121 +75,172 @@ class YukkiBot(Client):
             )
             sys.exit()
         if config.SET_CMDS == str(True):
-            # Localized command menu. Telegram picks the version that
-            # matches the user's Telegram client language; the no-
-            # language_code call is the fallback for everyone else.
-            # (cmd, en, zh, my) — keep descriptions <256 chars.
-            _CMDS = [
-                # ── Core playback ──
-                ("play",        "🎵 Play a song by name or URL",
-                                "🎵 通过名称或链接播放歌曲",
-                                "🎵 သီချင်းအမည် သို့မဟုတ် URL ဖြင့် ဖွင့်ပါ"),
-                ("vplay",       "🎥 Play a video by name or URL",
-                                "🎥 通过名称或链接播放视频",
-                                "🎥 ဗီဒီယိုကို အမည် သို့မဟုတ် URL ဖြင့် ဖွင့်ပါ"),
-                ("playforce",   "⚡ Force-play (skip current, keep queue)",
-                                "⚡ 强制播放（跳过当前曲目，保留队列）",
-                                "⚡ Force-play [လက်ရှိ track ကို ကျော်၊ queue မထိ]"),
-                ("song",        "💾 Download a song from YouTube (PM only)",
-                                "💾 从 YouTube 下载歌曲（仅私聊）",
-                                "💾 YouTube မှ song ဆွဲချ [PM သာ]"),
-                # ── Playback control ──
-                ("pause",       "⏸ Pause the current track",
-                                "⏸ 暂停当前曲目",
-                                "⏸ လက်ရှိ track ကို ခဏရပ်ပါ"),
-                ("resume",      "▶️ Resume the paused track",
-                                "▶️ 恢复播放",
-                                "▶️ ပြန်ဖွင့်ပါ"),
-                ("skip",        "⏭ Skip to the next track",
-                                "⏭ 跳到下一首",
-                                "⏭ နောက် track သို့ ကျော်ပါ"),
-                ("end",         "⏹ Stop playback and leave voice chat",
-                                "⏹ 停止播放并退出语音聊天",
-                                "⏹ Stream ရပ်ပြီး voice chat မှ ထွက်ပါ"),
-                ("mute",        "🔇 Mute the voice chat",
-                                "🔇 静音语音聊天",
-                                "🔇 Voice chat ကို mute ပြုလုပ်ပါ"),
-                ("unmute",      "🔊 Unmute the voice chat",
-                                "🔊 取消静音",
-                                "🔊 Voice chat ကို unmute ပြုလုပ်ပါ"),
-                ("loop",        "🔁 Loop the current track",
-                                "🔁 循环播放当前曲目",
-                                "🔁 လက်ရှိ track ကို loop ပြုလုပ်ပါ"),
-                ("seek",        "⏩ Seek forward by N seconds",
-                                "⏩ 快进 N 秒",
-                                "⏩ N စက္ကန့် ရှေ့သို့ ရွှေ့ပါ"),
-                ("seekback",    "⏪ Seek backward by N seconds",
-                                "⏪ 后退 N 秒",
-                                "⏪ N စက္ကန့် နောက်သို့ ပြန်ရွှေ့ပါ"),
-                ("shuffle",     "🎲 Shuffle the queue",
-                                "🎲 随机播放队列",
-                                "🎲 Queue ကို shuffle ပြုလုပ်ပါ"),
-                ("queue",       "📑 Show the current queue",
-                                "📑 显示当前播放队列",
-                                "📑 လက်ရှိ queue ကို ပြသပါ"),
-                # ── Modes & settings ──
-                ("playmode",    "🎛️ Change play mode (direct / inline)",
-                                "🎛️ 更改播放模式（直接 / 内联）",
-                                "🎛️ Play mode ပြောင်းပါ [direct / inline]"),
-                ("settings",    "⚙️ Open the bot settings panel",
-                                "⚙️ 打开机器人设置面板",
-                                "⚙️ Bot ၏ settings panel ကို ဖွင့်ပါ"),
-                ("language",    "🌐 Change the bot language",
-                                "🌐 更改机器人语言",
-                                "🌐 Bot ၏ ဘာသာစကား ပြောင်းပါ"),
-                ("channelplay", "📡 Link this group to a channel",
-                                "📡 将此群组链接到频道",
-                                "📡 ဤ group ကို channel တစ်ခုနှင့် ချိတ်ဆက်ပါ"),
-                # ── Auth & admin ──
-                ("auth",        "🎩 Add a user to AUL (auth users)",
-                                "🎩 将用户添加到 AUL（授权用户名单）",
-                                "🎩 AUL ထဲသို့ user တစ်ဦး ထည့်ပါ"),
-                ("unauth",      "🗑 Remove a user from AUL",
-                                "🗑 从 AUL 中移除用户",
-                                "🗑 AUL မှ user တစ်ဦးကို ဖယ်ရှားပါ"),
-                ("authusers",   "📋 Show AUL",
-                                "📋 显示授权用户名单",
-                                "📋 AUL ကို ပြသပါ"),
-                ("admincache",  "🔄 Reload admin cache",
-                                "🔄 重新加载管理员缓存",
-                                "🔄 Admin cache ကို ပြန် sync ပါ"),
-                ("reload",      "🔄 Alias for /admincache",
-                                "🔄 /admincache 的别名",
-                                "🔄 /admincache ၏ alias"),
-                # ── Info ──
-                ("help",        "📜 Command reference",
-                                "📜 命令参考",
-                                "📜 Commands ၏ စာရင်း"),
-                ("start",       "🛸 Boot the bot",
-                                "🛸 启动机器人",
-                                "🛸 Bot ကို စတင်ပါ"),
-                ("ping",        "⚡ Latency / system telemetry",
-                                "⚡ 延迟 / 系统遥测",
-                                "⚡ Latency နှင့် system telemetry"),
-                ("lyrics",      "📖 Search song lyrics",
-                                "📖 搜索歌词",
-                                "📖 သီချင်း၏ lyrics ရှာပါ"),
-                ("playlist",    "💾 Your saved server-side playlist",
-                                "💾 您保存的服务器端播放列表",
-                                "💾 သင်၏ server-side playlist"),
-                ("gstats",      "📊 Global / personal stats",
-                                "📊 全局 / 个人统计",
-                                "📊 Global / Personal stats"),
+            # ── Command definitions ─────────────────────────────────────
+            # (cmd, en, zh, my)  — descriptions must be <256 chars.
+
+            # Commands shown in GROUP chats — keep short; only the ones
+            # people actually type while music is playing.
+            _GROUP_CMDS = [
+                ("play",       "🎵 Play a song by name or URL",
+                               "🎵 通过名称或链接播放歌曲",
+                               "🎵 သီချင်းကို ဖွင့်ပါ"),
+                ("vplay",      "🎥 Play a video by name or URL",
+                               "🎥 播放视频",
+                               "🎥 ဗီဒီယိုဖွင့်ပါ"),
+                ("playforce",  "⚡ Force-play (skip current, keep queue)",
+                               "⚡ 强制播放",
+                               "⚡ Force-play"),
+                ("pause",      "⏸ Pause",
+                               "⏸ 暂停",
+                               "⏸ ခဏရပ်ပါ"),
+                ("resume",     "▶️ Resume",
+                               "▶️ 继续",
+                               "▶️ ပြန်ဖွင့်ပါ"),
+                ("skip",       "⏭ Skip to next track",
+                               "⏭ 跳到下一首",
+                               "⏭ ကျော်ပါ"),
+                ("end",        "⏹ Stop and leave voice chat",
+                               "⏹ 停止并退出",
+                               "⏹ ရပ်ပြီး ထွက်ပါ"),
+                ("queue",      "📑 Show the queue",
+                               "📑 播放队列",
+                               "📑 Queue ကြည့်ပါ"),
+                ("shuffle",    "🎲 Shuffle the queue",
+                               "🎲 随机播放",
+                               "🎲 Shuffle"),
+                ("settings",   "⚙️ Group settings",
+                               "⚙️ 群组设置",
+                               "⚙️ Group settings"),
+                ("help",       "📜 Command reference",
+                               "📜 命令参考",
+                               "📜 Commands"),
             ]
+
+            # Commands shown in PRIVATE chats — everything that works in PM.
+            _PRIVATE_CMDS = [
+                ("start",     "🛸 Open the bot",
+                              "🛸 启动机器人",
+                              "🛸 Bot ကို ဖွင့်ပါ"),
+                ("help",      "📜 Command reference",
+                              "📜 命令参考",
+                              "📜 Commands"),
+                ("ping",      "⚡ Latency / system stats",
+                              "⚡ 延迟 / 系统状态",
+                              "⚡ Ping"),
+                ("stats",     "📊 Bot stats",
+                              "📊 机器人统计",
+                              "📊 Stats"),
+                ("gstats",    "📈 Global play stats",
+                              "📈 全局播放统计",
+                              "📈 Global stats"),
+                ("lyrics",    "📖 Search song lyrics",
+                              "📖 搜索歌词",
+                              "📖 Lyrics"),
+                ("song",      "💾 Download a song from YouTube",
+                              "💾 从 YouTube 下载歌曲",
+                              "💾 Song ဆွဲချ"),
+                ("playlist",  "💾 Your saved playlist",
+                              "💾 我的播放列表",
+                              "💾 Playlist"),
+            ]
+
+            # Extra commands shown ONLY in the owner's private chat.
+            _OWNER_PM_CMDS = _PRIVATE_CMDS + [
+                ("setstart",         "✏️ Set custom /start text",
+                                     "✏️ 设置自定义欢迎语",
+                                     "✏️ /start text သတ်မှတ်ပါ"),
+                ("setstartimg",      "🖼 Set custom /start image",
+                                     "🖼 设置自定义欢迎图片",
+                                     "🖼 /start image သတ်မှတ်ပါ"),
+                ("clearstart",       "🗑 Clear custom /start",
+                                     "🗑 清除自定义欢迎",
+                                     "🗑 Custom /start ဖျက်ပါ"),
+                ("viewstart",        "👁 Preview custom /start",
+                                     "👁 预览自定义欢迎",
+                                     "👁 /start preview"),
+                ("setsupportgroup",  "🛡️ Set support group link",
+                                     "🛡️ 设置支持群组链接",
+                                     "🛡️ Support group link"),
+                ("setsupportchannel","📡 Set support channel link",
+                                     "📡 设置支持频道链接",
+                                     "📡 Support channel link"),
+                ("clearsupport",     "🗑 Clear support link overrides",
+                                     "🗑 清除支持链接覆盖",
+                                     "🗑 Support links ဖျက်ပါ"),
+                ("viewsupport",      "👁 View active support links",
+                                     "👁 查看当前支持链接",
+                                     "👁 Support links ကြည့်ပါ"),
+                ("addsudo",          "⭐ Add a sudo user",
+                                     "⭐ 添加 sudo 用户",
+                                     "⭐ Sudo user ထည့်ပါ"),
+                ("delsudo",          "🗑 Remove a sudo user",
+                                     "🗑 移除 sudo 用户",
+                                     "🗑 Sudo user ဖယ်ပါ"),
+                ("broadcast",        "📢 Broadcast a message",
+                                     "📢 广播消息",
+                                     "📢 Broadcast"),
+                ("maintenance",      "🔧 Toggle maintenance mode",
+                                     "🔧 切换维护模式",
+                                     "🔧 Maintenance mode"),
+                ("reboot",           "🔄 Reboot the bot",
+                                     "🔄 重启机器人",
+                                     "🔄 Bot restart"),
+                ("update",           "⬆️ Update the bot",
+                                     "⬆️ 更新机器人",
+                                     "⬆️ Update"),
+                ("gban",             "🚫 Global-ban a user",
+                                     "🚫 全局封禁用户",
+                                     "🚫 Gban"),
+                ("ungban",           "✅ Remove global ban",
+                                     "✅ 解除全局封禁",
+                                     "✅ Ungban"),
+            ]
+
+            def _make(defs, idx):
+                return [BotCommand(c[0], c[idx]) for c in defs]
+
             try:
-                # tuple index 1=en (default/fallback), 2=zh, 3=my
                 for idx, lang in [(1, "en"), (2, "zh"), (3, "my")]:
-                    cmds = [BotCommand(c[0], c[idx]) for c in _CMDS]
-                    if lang == "en":
-                        # Default scope, no language_code — fallback for
-                        # everyone whose client language isn't zh/my.
-                        await self.set_bot_commands(cmds)
-                    else:
-                        await self.set_bot_commands(
-                            cmds, language_code=lang
-                        )
+                    lc = None if lang == "en" else lang
+                    kw = {} if lc is None else {"language_code": lc}
+
+                    # Groups: short command list
+                    await self.set_bot_commands(
+                        _make(_GROUP_CMDS, idx),
+                        scope=BotCommandScopeAllGroupChats(),
+                        **kw,
+                    )
+                    # Private: full general list
+                    await self.set_bot_commands(
+                        _make(_PRIVATE_CMDS, idx),
+                        scope=BotCommandScopeAllPrivateChats(),
+                        **kw,
+                    )
+                    # Default fallback (other contexts)
+                    await self.set_bot_commands(
+                        _make(_GROUP_CMDS, idx),
+                        scope=BotCommandScopeDefault(),
+                        **kw,
+                    )
+
+                # Owner PM: full list including admin/sudo commands.
+                # Use the first OWNER_ID; try each language.
+                if config.OWNER_ID:
+                    owner_id = config.OWNER_ID[0]
+                    for idx, lang in [(1, "en"), (2, "zh"), (3, "my")]:
+                        lc = None if lang == "en" else lang
+                        kw = {} if lc is None else {"language_code": lc}
+                        try:
+                            await self.set_bot_commands(
+                                _make(_OWNER_PM_CMDS, idx),
+                                scope=BotCommandScopeChat(chat_id=owner_id),
+                                **kw,
+                            )
+                        except Exception:
+                            pass  # owner may not have started the bot yet
+
                 LOGGER(__name__).info(
-                    "Bot command menu registered (en/zh/my)"
+                    "Bot command menu registered (group/private/owner scopes, en/zh/my)"
                 )
             except Exception as e:
                 LOGGER(__name__).warning(
