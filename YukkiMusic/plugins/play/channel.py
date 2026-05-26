@@ -8,7 +8,7 @@
 # All rights reserved.
 
 from pyrogram import filters
-from pyrogram.enums import ChatMemberStatus, ChatMembersFilter
+from pyrogram.enums import ChatMemberStatus, ChatMembersFilter, ChatType
 from pyrogram.types import Message
 
 from config import BANNED_USERS
@@ -55,7 +55,7 @@ async def playmode_(client, message: Message, _):
             chat = await app.get_chat(query)
         except:
             return await message.reply_text(_["cplay_4"])
-        if chat.type != "channel":
+        if chat.type != ChatType.CHANNEL:
             return await message.reply_text(_["cplay_5"])
         creatorusername = None
         creatorid = None
