@@ -11,6 +11,7 @@
 from typing import Union
 
 from pyrogram import filters, types
+from pyrogram.enums import ParseMode
 from pyrogram.types import InlineKeyboardMarkup, Message
 
 from config import BANNED_USERS
@@ -53,11 +54,15 @@ async def helper_private(
         if update.message.photo:
             await update.message.delete()
             await update.message.reply_text(
-                _["help_1"], reply_markup=keyboard
+                _["help_1"],
+                reply_markup=keyboard,
+                parse_mode=ParseMode.HTML,
             )
         else:
             await update.edit_message_text(
-                _["help_1"], reply_markup=keyboard
+                _["help_1"],
+                reply_markup=keyboard,
+                parse_mode=ParseMode.HTML,
             )
     else:
         chat_id = update.chat.id
@@ -70,7 +75,11 @@ async def helper_private(
         language = await get_lang(chat_id)
         _ = get_string(language)
         keyboard = help_pannel(_, is_sudo=(user_id in SUDOERS))
-        await update.reply_text(_["help_1"], reply_markup=keyboard)
+        await update.reply_text(
+            _["help_1"],
+            reply_markup=keyboard,
+            parse_mode=ParseMode.HTML,
+        )
 
 
 @app.on_message(

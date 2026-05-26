@@ -74,16 +74,16 @@ admin_34 : "💥 [SEEK_FAILED] 💥\nStream ကို seek ပြုလုပ်
 # Bot
 
 # Start
-start_1 : "🛸 **[NEXUS_ONLINE]** 🛸\n\n`{0}` တွင် ထည့်ပေးတဲ့အတွက် ကျေးဇူးတင်ပါသည်။\n⚡ `{1}` is fully operational.\n\nအကူအညီရယူရန် support group/channel သို့ ဆက်သွယ်ပါ။"
-start_2 : "👾 **[GREETINGS, OPERATOR]** 👾\n\nကျွန်ုပ်၏ codename သည် `{0}` ဖြစ်သည်။\n\n🛸 ကျွန်ုပ်သည် sci-fi streaming nexus တစ်ခုဖြစ်ပြီး Youtube, Spotify, Resso, AppleMusic, Soundcloud platforms များမှ music data ကို stream ပြုလုပ်ပေးပါသည်။\n\n✨ သင်၏ group များသို့ လွတ်လပ်စွာ ထည့်နိုင်ပါသည်။"
-start_3 : "🛸 **[WELCOME TO `{0}`]** 🛸\n\n🛡️ ကျွန်ုပ်အား admin permission မလိုအပ်ပါ ( တောင်းပါက မှအပ )။\n\n🤖 **Assistant Handle:** @{1}\n🆔 **Assistant ID:** `{2}`"
+start_1 : "<b>🛸 [NEXUS_ONLINE]</b>\n\n<i>{0}</i> တွင် ထည့်ပေးတဲ့အတွက် ကျေးဇူးတင်ပါသည်။\n\n<blockquote>⚡ <b>{1}</b> is fully operational.</blockquote>\n\nအကူအညီအတွက် <b>📨 Support</b> သို့မဟုတ် <b>📡 Channel</b> ကို နှိပ်ပါ။"
+start_2 : "<b>👾 [GREETINGS, OPERATOR]</b>\n\n<i>Codename: <u>{0}</u></i>\n\n<blockquote>🛸 Telegram voice chat အတွက် next-gen streaming nexus တစ်ခုဖြစ်သည်။ Fast • Clean • High-quality.</blockquote>\n\n<b>🎧 [SUPPORTED PLATFORMS]</b>\n🎵 YouTube  •  🎶 Spotify\n🍎 Apple Music  •  ☁️ SoundCloud\n📻 Resso  •  🔗 Direct links\n\n<b>⚡ [KEY MODULES]</b>\n• HD audio + video streams\n• Name search သို့ direct link\n• Group playlist, queue, force-play, shuffle\n• Multi-language: 🇬🇧 EN • 🇨🇳 中文 • 🇲🇲 မြန်မာ\n\n<b>🛸 [INITIATE]</b>\nအောက်က <b>«🔎 Commands Menu»</b> ကို နှိပ်ပါ။ သို့မဟုတ် Group သို့ one-tap ဖြင့် ထည့်ပါ။"
+start_3 : "<b>🛸 [WELCOME TO <i>{0}</i>]</b>\n\n<blockquote>🛡️ ကျွန်ုပ်အား <b>admin permission</b> မလိုအပ်ပါ (တောင်းပါက မှအပ)။</blockquote>\n\n🤖 <b>Assistant Handle:</b> @{1}\n🆔 <b>Assistant ID:</b> <code>{2}</code>"
 start_4 : "👑 **[OWNER_ARRIVAL]** 👑\n`{0}` ၏ Owner [`{1}`] သည် ဤ chat သို့ ဝင်ရောက်လာပါပြီ။"
 start_5 : "⭐ **[SUDO_ARRIVAL]** ⭐\n`{0}` ၏ Sudo User [`{1}`] သည် ဤ chat သို့ ဝင်ရောက်လာပါပြီ။"
 start_6 : "❗ **[SUPERGROUP_REQUIRED]** ❗\n\nသင်၏ **group** ကို **supergroup** အဖြစ် ပြောင်းပြီး ပြန်ထည့်ပါ။\n\n💡 **Supergroup ပြုလုပ်နည်း:**\n✅ Chat history ကို **visible** ဖြစ်အောင် တစ်ကြိမ်လုပ်ပါ။"
 start_7 : "🛑 **[CHAT_BLACKLISTED]** 🛑\n\nဤ chat ကို bot မှ blacklist ထဲ ထည့်ထားသည်။\nSudoUser တစ်ဦးထံ chat ကို whitelist ပြန်ထည့်ပေးရန် တောင်းပါ။\n→ [Sudolist ကြည့်ရန်]({0})"
 
 # Help
-help_1 : "📡 **[COMMAND_MATRIX]** 📡\n\nအောက်ရှိ buttons များကို နှိပ်၍ အသေးစိတ်ကြည့်ပါ။\nပြဿနာ ဖြစ်ပါက bot owner သို့မဟုတ် support chat တွင် မေးပါ။\n\n💡 Commands အားလုံးကို `/` ဖြင့် စတင်ပါ။"
+help_1 : "<b>📡 [COMMAND_MATRIX]</b>\n\n<i>အောက်ရှိ category buttons ကို နှိပ်၍ အသေးစိတ် ကြည့်ပါ။</i>\n\n<blockquote>ပြဿနာ ဖြစ်ပါက bot owner သို့မဟုတ် support chat တွင် မေးပါ။</blockquote>\n\n💡 Commands အားလုံးကို <code>/</code> ဖြင့် စတင်ပါ။"
 help_2 : "📨 [PM_REDIRECT] 📨\nကူညီရန် ကျွန်ုပ်ကို PM တွင် ဆက်သွယ်ပါ။"
 
 # Settings

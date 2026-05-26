@@ -74,16 +74,16 @@ admin_34 : "Failed to seek the current stream."
 # Bot 
 
 # Start
-start_1 : "Thanks for having me in {0}.\n{1} is alive.\n\nFor any assistance or help, checkout our support group and channel."
-start_2 : "Hello, My name is {0}.\n\nI'm a telegram streaming bot with some useful features. Supporting platforms like Youtube, Spotify, Resso, AppleMusic , Soundcloud etc.\n\nFeel free to add me to your groups."
-start_3 : "Welcome To {0}\n\nI don't need any **admin permission** to work ( until asked for ).\n\nAssistant Username:- @{1}\nAssistant ID:- {2}"
+start_1 : "<b>🎉 Thanks for having me in <i>{0}</i></b>\n\n<blockquote>⚡ <b>{1}</b> is online and fully operational.</blockquote>\n\nNeed help? Tap <b>📨 Support</b> or <b>📡 Channel</b> below."
+start_2 : "<b>👋 Hello — I'm <u>{0}</u></b>\n\n<i>A next-gen streaming bot built for Telegram voice chats. Fast, clean, high-quality.</i>\n\n<blockquote><b>🎧 Supported Platforms</b>\n🎵 YouTube  •  🎶 Spotify\n🍎 Apple Music  •  ☁️ SoundCloud\n📻 Resso  •  🔗 Direct links</blockquote>\n\n<b>⚡ What I Can Do</b>\n• Crystal-clear audio + HD video streams\n• Search by name or paste any link\n• Group playlists, queue, force-play, shuffle\n• Multi-language: 🇬🇧 EN  •  🇨🇳 中文  •  🇲🇲 မြန်မာ\n\n<b>🛸 Get Started</b>\nTap <b>«🔎 How to Use? Commands Menu»</b> below, or add me to your group with one tap."
+start_3 : "<b>🛸 Welcome to <i>{0}</i></b>\n\n<blockquote>I don't need any <b>admin permission</b> to work — until asked.</blockquote>\n\n🤖 <b>Assistant:</b> @{1}\n🆔 <b>Assistant ID:</b> <code>{2}</code>"
 start_4 : "{0}'s Owner[{1}] has just joined your chat."
 start_5 : "A member of {0}'s Sudo User[{1}] has just joined your chat."
 start_6 : "❗️ **Supergroup Needed** ❗️\n\nPlease convert your **group** to **supergroup** and then add me back.\n\n**How to make supergroup?**\n✅ Make your group's chat history **visible** once."
 start_7 : "**Blacklisted Chat**\n\nYou're chat has been blacklisted by the Bot. Please ask any SudoUser to whitelist chat first. Check [Sudolist from here]({0})"
 
 # Help
-help_1 : "Click on the buttons below for more information. If you're facing any problem in command you can contact my bot owner or ask in support chat.\n\nAll commands can be used with: /"
+help_1 : "<b>📡 Command Matrix</b>\n\n<i>Tap a category below to see its commands in detail.</i>\n\n<blockquote>Stuck on something? Ping the bot owner or ask in the support chat.</blockquote>\n\n💡 All commands start with <code>/</code>"
 help_2 : "Contact me in PM for help."
 
 # Settings

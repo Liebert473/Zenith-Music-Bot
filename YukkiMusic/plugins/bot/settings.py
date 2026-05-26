@@ -7,8 +7,10 @@
 #
 # All rights reserved.
 
+import html as _html
+
 from pyrogram import filters
-from pyrogram.enums import ChatType
+from pyrogram.enums import ChatType, ParseMode
 from pyrogram.errors import MessageNotModified
 from pyrogram.types import (CallbackQuery, InlineKeyboardButton,
                             InlineKeyboardMarkup, Message)
@@ -100,11 +102,14 @@ async def settings_back_markup(
             OWNER = None
         buttons = private_panel(_, app.username, OWNER)
         # Build caption from custom start or language default.
+        # Custom start text is plain (no HTML) so user-typed chars don't break parsing.
         custom = await get_custom_start()
         if custom and custom.get("text"):
             caption = custom["text"].replace("{bot}", MUSIC_BOT_NAME)
+            send_parse_mode = ParseMode.DISABLED
         else:
-            caption = _["start_2"].format(MUSIC_BOT_NAME)
+            caption = _["start_2"].format(_html.escape(MUSIC_BOT_NAME))
+            send_parse_mode = ParseMode.HTML
         photo = (custom or {}).get("photo") or _config.START_IMG_URL
         chat_id = CallbackQuery.message.chat.id
         # Delete the current text-only message so we can re-send with photo.
@@ -118,6 +123,7 @@ async def settings_back_markup(
                 await app.send_photo(
                     chat_id, photo=photo,
                     caption=caption, reply_markup=markup,
+                    parse_mode=send_parse_mode,
                 )
                 return
             except Exception:
@@ -126,6 +132,7 @@ async def settings_back_markup(
             chat_id, text=caption,
             reply_markup=markup,
             disable_web_page_preview=True,
+            parse_mode=send_parse_mode,
         )
     else:
         buttons = setting_markup(_)

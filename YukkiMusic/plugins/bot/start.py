@@ -8,6 +8,7 @@
 # All rights reserved.
 
 import asyncio
+import html as _html
 
 from pyrogram import filters
 from pyrogram.enums import ChatType, ParseMode
@@ -52,7 +53,9 @@ async def start_comm(client, message: Message, _):
                 _, is_sudo=(message.from_user.id in SUDOERS)
             )
             return await message.reply_text(
-                _["help_1"], reply_markup=keyboard
+                _["help_1"],
+                reply_markup=keyboard,
+                parse_mode=ParseMode.HTML,
             )
         if name[0:4] == "song":
             return await message.reply_text(_["song_2"])
@@ -197,11 +200,17 @@ async def start_comm(client, message: Message, _):
             OWNER = None
         out = private_panel(_, app.username, OWNER)
         # Owner-set custom start overrides language translation entirely.
+        # Custom start text is treated as plain text (no HTML) to avoid
+        # breaking on user-typed angle brackets / ampersands.
         custom = await get_custom_start()
         if custom and custom.get("text"):
             caption = custom["text"].replace("{bot}", config.MUSIC_BOT_NAME)
+            send_parse_mode = ParseMode.DISABLED
         else:
-            caption = _["start_2"].format(config.MUSIC_BOT_NAME)
+            caption = _["start_2"].format(
+                _html.escape(config.MUSIC_BOT_NAME)
+            )
+            send_parse_mode = ParseMode.HTML
         photo = (custom or {}).get("photo") or config.START_IMG_URL
         if photo:
             try:
@@ -209,18 +218,21 @@ async def start_comm(client, message: Message, _):
                     photo=photo,
                     caption=caption,
                     reply_markup=InlineKeyboardMarkup(out),
+                    parse_mode=send_parse_mode,
                 )
             except Exception:
                 await message.reply_text(
                     caption,
                     reply_markup=InlineKeyboardMarkup(out),
                     disable_web_page_preview=True,
+                    parse_mode=send_parse_mode,
                 )
         else:
             await message.reply_text(
                 caption,
                 reply_markup=InlineKeyboardMarkup(out),
                 disable_web_page_preview=True,
+                parse_mode=send_parse_mode,
             )
         if await is_on_off(config.LOG):
             sender_id = message.from_user.id
@@ -241,9 +253,11 @@ async def testbot(client, message: Message, _):
     out = start_pannel(_)
     return await message.reply_text(
         _["start_1"].format(
-            message.chat.title, config.MUSIC_BOT_NAME
+            _html.escape(message.chat.title or ""),
+            _html.escape(config.MUSIC_BOT_NAME),
         ),
         reply_markup=InlineKeyboardMarkup(out),
+        parse_mode=ParseMode.HTML,
     )
 
 
@@ -281,11 +295,12 @@ async def welcome(client, message: Message):
                 out = start_pannel(_)
                 await message.reply_text(
                     _["start_3"].format(
-                        config.MUSIC_BOT_NAME,
-                        userbot.username,
+                        _html.escape(config.MUSIC_BOT_NAME),
+                        _html.escape(userbot.username or ""),
                         userbot.id,
                     ),
                     reply_markup=InlineKeyboardMarkup(out),
+                    parse_mode=ParseMode.HTML,
                 )
             if member.id in config.OWNER_ID:
                 return await message.reply_text(
