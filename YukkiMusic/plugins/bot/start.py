@@ -208,23 +208,31 @@ async def start_comm(client, message: Message, _):
         except:
             OWNER = None
         rows = private_panel(_, app.username, OWNER)
-        # Owner-set custom start: plain text, no HTML enhancement.
-        # Default start_2: full HTML with animated emoji.
+        # Owner-set custom start is stored as HTML (entities preserved via
+        # replied.text.html in /setstart) so we always render with HTML mode.
+        # Photo: prefer owner-set file_id (copy-safe for this bot), else
+        # START_IMG_URL from config.
         custom = await get_custom_start()
         if custom and custom.get("text"):
             caption = custom["text"].replace("{bot}", config.MUSIC_BOT_NAME)
-            pm = "HTML" if "<" not in caption else None
             photo = (custom or {}).get("photo") or config.START_IMG_URL
             if photo:
-                await _ts.send_photo(
+                sent = await _ts.send_photo(
                     message.chat.id, photo, caption, rows,
-                    parse_mode=pm or "HTML",
+                    parse_mode="HTML",
                     reply_to=message.id,
                 )
+                if not sent:   # bad URL / expired file_id — fall back to text
+                    await _ts.send_message(
+                        message.chat.id, caption, rows,
+                        parse_mode="HTML", reply_to=message.id,
+                        disable_preview=False,
+                    )
             else:
                 await _ts.send_message(
                     message.chat.id, caption, rows,
                     parse_mode="HTML", reply_to=message.id,
+                    disable_preview=False,
                 )
         else:
             caption = enhance_text(

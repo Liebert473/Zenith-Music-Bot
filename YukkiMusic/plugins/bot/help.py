@@ -55,7 +55,7 @@ async def helper_private(
             await update.message.delete()
         except:
             pass
-        await _ts.send_message(chat_id, text, rows)
+        await _ts.send_message(chat_id, text, rows, disable_preview=True)
     else:
         chat_id = update.chat.id
         user_id = update.from_user.id
@@ -69,7 +69,7 @@ async def helper_private(
         rows = help_pannel(_, is_sudo=(user_id in SUDOERS))
         await _ts.send_message(
             chat_id, enhance_text(_["help_1"]), rows,
-            reply_to=update.id,
+            reply_to=update.id, disable_preview=True,
         )
 
 

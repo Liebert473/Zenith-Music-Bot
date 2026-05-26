@@ -114,9 +114,14 @@ async def send_message(
     *,
     parse_mode: str = "HTML",
     reply_to: int = None,
-    disable_preview: bool = True,
+    disable_preview: bool = False,
 ) -> Optional[int]:
-    """Send a text message with colored inline keyboard.  Returns message_id."""
+    """Send a text message with colored inline keyboard.  Returns message_id.
+
+    Link previews are ENABLED by default (disable_preview=False) so links in
+    /start custom text and other messages render their preview card.
+    Callers building dense UI panels (e.g. /help) can pass disable_preview=True.
+    """
     payload: dict = {
         "chat_id": chat_id,
         "text": text,
@@ -166,15 +171,21 @@ async def edit_message(
     rows: List[List[dict]],
     *,
     parse_mode: str = "HTML",
+    disable_preview: bool = True,
 ) -> bool:
-    """Edit a message's text and keyboard.  Returns success bool."""
+    """Edit a message's text and keyboard.  Returns success bool.
+
+    Defaults to disable_preview=True since edits typically happen on dense
+    UI panels (/help pagination, settings) where a preview card would
+    disrupt the layout.
+    """
     res = await _post("editMessageText", {
         "chat_id": chat_id,
         "message_id": message_id,
         "text": text,
         "parse_mode": parse_mode,
         "reply_markup": {"inline_keyboard": rows},
-        "disable_web_page_preview": True,
+        "disable_web_page_preview": disable_preview,
     })
     if not res.get("ok"):
         _LOG.warning("editMessageText error: %s", res.get("description"))

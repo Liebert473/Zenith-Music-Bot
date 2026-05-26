@@ -73,7 +73,7 @@ _HELP_1_ZH = """✅<b><u>管理员命令:</u></b>
 /authusers - 查看此群的授权名单。"""
 
 
-_HELP_1_MY = """✅<b><u>[🛡️ ADMIN COMMANDS] 🛡️</u></b>
+_HELP_1_MY = """✅<b><u>🛡️ Admin Commands</u></b>
 
 ⚡ <b>c</b> = channel play
 
@@ -89,15 +89,15 @@ _HELP_1_MY = """✅<b><u>[🛡️ ADMIN COMMANDS] 🛡️</u></b>
 /restart - 🌀 သင်၏ chat အတွက် bot ကို restart လုပ်ပါ
 
 
-✅<u><b>[🔢 SPECIFIC SKIP] 🔢</b></u>
+✅<u><b>🔢 Specific Skip</b></u>
 /skip / /cskip [Number e.g. 3]
     - Queue ထဲရှိ သီးခြား position သို့ ကျော်ပါ။ ဥပမာ <code>/skip 3</code> သည် queue ထဲ track #3 သို့ တိုက်ရိုက် ကျော်သည် [#1, #2 ကို ကျော်လွန်] ။
 
-✅<u><b>[🔁 LOOP_PROTOCOL] 🔁</b></u>
+✅<u><b>🔁 Loop Play</b></u>
 /loop / /cloop [enable/disable] / [1-10 အကြား ဂဏန်း]
     - လက်ရှိ track ကို 1-10 ကြိမ်အထိ loop ပြုလုပ်ပါမည် [default: 10]။
 
-✅<u><b>[🎩 AUTH USERS] 🎩</b></u>
+✅<u><b>🎩 Auth Users</b></u>
 Auth Users များသည် admin rights မပါဘဲ admin commands များ သုံးနိုင်ပါသည်။
 
 /auth [Username] - User တစ်ဦးကို group ၏ AUTH LIST ထဲ ထည့်ပါ။
@@ -152,7 +152,7 @@ _HELP_2_ZH = """✅<u><b>播放命令:</b></u>
 /play - 直接从服务器播放列表开始播放。"""
 
 
-_HELP_2_MY = """✅<u><b>[🎶 PLAY COMMANDS] 🎶</b></u>
+_HELP_2_MY = """✅<u><b>🎶 Play Commands</b></u>
 
 📡 Available = play , vplay , cplay
 ⚡ ForcePlay = playforce , vplayforce , cplayforce
@@ -168,7 +168,7 @@ _HELP_2_MY = """✅<u><b>[🎶 PLAY COMMANDS] 🎶</b></u>
 /channelplay [Channel username/id] / [Disable] - Group ကို channel တစ်ခုနှင့် ချိတ်ဆက်ပြီး channel ၏ voice chat တွင် music stream ပြုလုပ်ပါ။
 
 
-✅<b><u>[💾 SERVER PLAYLISTS] 💾</u></b>
+✅<b><u>💾 Server Playlists</u></b>
 /playlist - Server တွင် သင် save ထားသော playlist ကို ကြည့်ပါ။
 /deleteplaylist - Playlist ထဲမှ track တစ်ပုဒ်ကို ဖျက်ပါ။
 /play - Server ၏ saved playlist ကို play စတင်ပါ။"""
@@ -209,7 +209,7 @@ _HELP_3_ZH = """✅<u><b>机器人命令:</b></u>
 /queue 或 /cqueue - 查看当前播放队列。"""
 
 
-_HELP_3_MY = """✅<u><b>[🤖 BOT COMMANDS] 🤖</b></u>
+_HELP_3_MY = """✅<u><b>🤖 Bot Commands</b></u>
 
 /stats - 📊 Top 10 Tracks (Global), Top 10 Users, Top 10 Chats, Top 10 Played per chat စတဲ့ telemetry အပြည့်အစုံ။
 
@@ -227,7 +227,7 @@ _HELP_3_MY = """✅<u><b>[🤖 BOT COMMANDS] 🤖</b></u>
 
 
 # ── HELP_4: Extra Commands + Settings ───────────────────────────────────
-_HELP_4_EN = """✅<u><b>Extra  Commands:</b></u>
+_HELP_4_EN = """✅<u><b>Extra Commands:</b></u>
 /start - Start the Music Bot.
 /help  - Get Commands Helper Menu with detailed explanations of commands.
 /ping- Ping the Bot and check Ram, Cpu etc stats of Bot.
@@ -293,12 +293,12 @@ _HELP_4_ZH = """✅<u><b>额外命令:</b></u>
 3️⃣ <b>播放类型</b> [Everyone / Admins] - 若选「Admins」，只有管理员可在语音聊天中播放音乐。"""
 
 
-_HELP_4_MY = """✅<u><b>[⚡ EXTRA COMMANDS] ⚡</b></u>
+_HELP_4_MY = """✅<u><b>⚡ Extra Commands</b></u>
 /start - 🛸 Music Bot ကို စတင်ပါ။
 /help - 📜 Commands များ၏ အသေးစိတ်ဖော်ပြချက်ပါ helper menu ဖွင့်ပါ။
 /ping - ⚡ Ping + RAM, CPU စသော stats စစ်ပါ။
 
-✅<u><b>[⚙️ GROUP SETTINGS] ⚙️</b></u>
+✅<u><b>⚙️ Group Settings</b></u>
 /settings - Inline buttons ပါသော group settings panel ဖွင့်ပါ။
 
 🔗 <b>Settings အတွင်း Options:</b>
@@ -501,34 +501,34 @@ _HELP_5p2_ZH = """📄 <b>Sudo 命令 — 第 2 / 2 页</b>
 
 
 # ── PAGE 1: Burmese ──────────────────────────────────────────────────────
-_HELP_5p1_MY = """📄 <b>[SUDO COMMANDS :: PAGE 1 / 2]</b>
+_HELP_5p1_MY = """📄 <b>Sudo Commands · Page 1 / 2</b>
 🔐 = Owner သာ  |  ✅ = Sudo သုံးနိုင်
 
-🔰<b><u>[⭐ SUDO USERS :: 🔐 OWNER]</u></b>
+🔰<b><u>Sudo Users [🔐 Owner]</u></b>
 /addsudo [Username / Reply] — Sudo list ထဲ ထည့်ပါ။
 /delsudo [Username / Reply] — Sudo list မှ ဖယ်ပါ။
 /sudolist — Sudo users စာရင်း ကြည့်ပါ (public)။
 
-🛸<b><u>[/START CUSTOMIZATION :: 🔐 OWNER]</u></b>
+🛸<b><u>/start Customization [🔐 Owner]</u></b>
 /setstart [text] / reply — Welcome text သတ်မှတ်ပါ (<code>{bot}</code> = bot name)။
 /setstartimg — Photo reply / URL ဖြင့် welcome image သတ်မှတ်ပါ။
 /clearstart [text|image|all] — Custom /start ဖျက်ပါ [default: all]။
 /viewstart — Custom /start preview ကြည့်ပါ။
 
-🔗<b><u>[SUPPORT LINKS :: 🔐 OWNER]</u></b>
+🔗<b><u>Support Links [🔐 Owner]</u></b>
 /setsupportgroup / /setgroup [@user | t.me/...] — Support group link သတ်မှတ်ပါ။
 /setsupportchannel / /setchannel [@user | t.me/...] — Support channel link သတ်မှတ်ပါ။
 /clearsupport [group|channel|all] — Override ဖျက်ပြီး .env fallback [default: all]။
 /viewsupport — Active links ကြည့်ပါ (override vs .env)။
 
-🛃<b><u>[CONFIG :: 🔐 OWNER]</u></b>
+🛃<b><u>Config [🔐 Owner]</u></b>
 /vars — Config vars အားလုံး ကြည့်ပါ။
 /usage — Dyno usage ။
 /get_var — Config var ရယူပါ။
 /del_var — Config var ဖျက်ပါ။
 /set_var [Name] [Value] — Config var ထည့်/update ပါ။
 
-🤖<b><u>[BOT MANAGEMENT]</u></b>
+🤖<b><u>Bot Management</u></b>
 🔐 /reboot — Bot restart ပြုလုပ်ပါ။
 🔐 /update — Update ဆွဲပြီး restart ပါ။
 🔐 /get_log [lines] — Bot log ရယူပါ။
@@ -539,19 +539,19 @@ _HELP_5p1_MY = """📄 <b>[SUDO COMMANDS :: PAGE 1 / 2]</b>
 
 
 # ── PAGE 2: Burmese ──────────────────────────────────────────────────────
-_HELP_5p2_MY = """📄 <b>[SUDO COMMANDS :: PAGE 2 / 2]</b>
+_HELP_5p2_MY = """📄 <b>Sudo Commands · Page 2 / 2</b>
 
-📈<b><u>[STATS]</u></b>
+📈<b><u>Stats</u></b>
 /activevoice — Active voice chats ။
 /activevideo — Active video calls ။
 /stats — Bot stats စစ်ပါ။
 
-⚠️<b><u>[BLACKLIST CHAT]</u></b>
+⚠️<b><u>Blacklist Chat</u></b>
 /blacklistchat [CHAT_ID] — Chat ကို blacklist ထည့်ပါ။
 /whitelistchat [CHAT_ID] — Blacklist မှ ဖယ်ပါ။
 /blacklistedchat — Blacklisted chats ကြည့်ပါ။
 
-👤<b><u>[BLOCK / GBAN]</u></b>
+👤<b><u>Block / GBan</u></b>
 /block [User / Reply] — User ကို bot commands သုံးခွင့်မပြုပါ။
 /unblock [User / Reply] — Unblock ပြုလုပ်ပါ။
 /blockedusers — Blocked users ကြည့်ပါ။
@@ -559,19 +559,19 @@ _HELP_5p2_MY = """📄 <b>[SUDO COMMANDS :: PAGE 2 / 2]</b>
 /ungban [User / Reply] — Gban ဖြုတ်ပါ။
 /gbannedusers — Gbanned users ကြည့်ပါ။
 
-🎥<b><u>[VIDEOCALLS]</u></b>
+🎥<b><u>Video Calls</u></b>
 /set_video_limit [N] — Max video call chats [default: 3]။
 /videomode [download|m3u8] — Video delivery mode ပြောင်းပါ။
 
-⚡️<b><u>[PRIVATE BOT]</u></b>
+⚡️<b><u>Private Bot</u></b>
 /authorize [CHAT_ID] — Chat ကို bot သုံးခွင့်ပြုပါ။
 /unauthorize [CHAT_ID] — ခွင့်မပြုပါ။
 /authorized — Allowed chats ကြည့်ပါ။
 
-🌐<b><u>[BROADCAST]</u></b>
+🌐<b><u>Broadcast</u></b>
 Text / media (photo, GIF, video, doc, audio, sticker) ကို served chats အားလုံးသို့ ပို့ပါ။
 
-<b>[INPUT MODES]</b>
+<b>Input Modes</b>
 1. <code>/broadcast မင်္ဂလာပါ</code> — Text ။
 2. Message ကို reply + <code>/broadcast</code> — copy ပြုလုပ်ပါ (forward tag မပါ)။
 3. Media upload + caption တွင် <code>/broadcast text</code> — media + text ပို့ပါ။
