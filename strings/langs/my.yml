@@ -1,0 +1,472 @@
+name : "🛸 မြန်မာ ┃ CYBER NEXUS"
+
+# General Strings
+general_1 : "▰▱ [PROTOCOL_FAIL] ▱▰\n\nအသုံးပြုသူ၏ မက်ဆေ့ဂျ်ကို reply ပြုပါ၊ သို့မဟုတ် username/user_id ထည့်ပါ။"
+general_2 : "⚠️ [ERROR_CODE: 0x01] ⚠️\nညွှန်ကြားချက် မှားယွင်းနေပါသည်။"
+general_3 : "💥 **[SYSTEM ANOMALY DETECTED]** 💥\n\n🧬 Exception Class:- `{0}`\n\n_System retrying nexus link..._"
+general_4 : "🛡️ [PHANTOM_ADMIN_DETECTED] 🛡️\nသင်သည် anonymous admin အဖြစ် ဝင်ရောက်နေပါသည်။\n→ Admin Rights မှ User Account သို့ ပြန်ပြောင်းပါ။"
+general_5 : "🔐 [ACCESS_DENIED] 🔐\nဤလုပ်ဆောင်ချက် အတွက် **manage voice chat** ခွင့်ပြုချက်ပါသော Admin ဖြစ်ရန် လိုအပ်ပါသည်။"
+general_6 : "📡 [NO_SIGNAL] 📡\nVoice Chat ထဲတွင် ဘော့ မလှုပ်ရှားနေပါ။"
+
+# Classes - Telegram.py
+tg_1 : "🔥 **[NEXUS OVERLOAD]** 🔥\n\nဆာဗာသည် download queue ဖြင့် ပြည့်နှက်နေပါသည်။\n\n⏳ **Retry After:** `{0}` (__estimated time__)"
+tg_2 : "❌ [TG_DOWNLOAD_FAILURE] ❌\nTelegram cluster မှ media data ဆွဲမတင်နိုင်ပါ။"
+
+# Core - Call.py
+call_1 : "🛡️ **[ADMIN_PRIVILEGE_REQUIRED]** 🛡️\n\nသင်၏ channel ထဲသို့ assistant nexus ကို စတင်ဆက်သွယ်ရန် **Admin** အခွင့်အရေး လိုအပ်ပါသည်။"
+call_2 : "🚫 **[ASSISTANT_BLOCKED]** 🚫\n\nသင်၏ group/channel တွင် assistant ကို ban ထားပါသည်။ ပြန်ဖွင့်ပေးပါ။\n\n🤖 **Assistant Handle:** @{0}\n🆔 **Assistant ID:** `{1}`"
+call_3 : "💥 **[INVITATION_FAULT]** 💥\n\nAssistant ကို ဖိတ်ခေါ်ရာတွင် ပြဿနာတစ်ခု ဖြစ်ပွားနေပါသည်။\n\n📜 **Reason:** `{0}`"
+call_4 : "🔗 [INVITE_LINK_RIGHT_REQUIRED] 🔗\n\nGroup ထဲသို့ assistant ထည့်နိုင်ရန် **Invite Users Via Link** ခွင့်ပြုချက် လိုအပ်ပါသည်။"
+call_5 : "🛸 **[ASSISTANT INBOUND]** 🛸\n\n5 စက္ကန့်အတွင်း bridge ဖွဲ့ပါမည်... Standby."
+call_6 : "✅ **[NEXUS LINK ESTABLISHED]** ✅\nAssistant `{0}` ဝင်ရောက်ပြီး။\n\n🎶 Music protocol စတင်နေပါသည်..."
+call_7 : "⚡ **[HAZARDOUS_PERMISSION_DETECTED]** ⚡\n\n**BAN USERS** ခွင့်အရေးကို ဘော့မှ ဖယ်ရှားပေးပါ။"
+call_8 : "⚡ **[HAZARDOUS_PERMISSION_DETECTED]** ⚡\n\n**ADD NEW ADMINS** ခွင့်အရေးကို ဘော့မှ ဖယ်ရှားပေးပါ။"
+call_9 : "💥 **[STREAM_SWITCH_FAILURE]** 💥\nTrack ပြောင်းရန် /skip ကို ပြန်အသုံးပြုပါ။"
+call_10 : "🌀 [DOWNLOADING_NEXT_TRACK] 🌀\nPlaylist ၏ နောက်တစ်ပုဒ်ကို ဆွဲချနေသည်..."
+call_11 : "📡 [CHANNEL_RESOLUTION_FAILED] 📡\n@{0} ကို channel[ID: `{1}`] တွင် ထည့်ပေးပါ။\n\nဘော့သည် channel ၏ data ကို ဖမ်းမိနိုင်ပါ။"
+
+# PLUGINS - Auth.py
+auth_1 : "🚨 [AUL_LIMIT_REACHED] 🚨\nAuthorised Users List (AUL) ထဲတွင် အများဆုံး **20 ဦး** သာ ထည့်နိုင်ပါသည်။"
+auth_2 : "✅ **[AUL_ADD_SUCCESS]** ✅\nGroup ၏ Authorised Users List ထဲသို့ ထည့်ပြီးပါပြီ။"
+auth_3 : "⚡ [DUPLICATE_ENTRY] ⚡\nAUL ထဲတွင် ရှိနေပြီးသား ဖြစ်ပါသည်။"
+auth_4 : "🗑 **[AUL_REMOVED]** 🗑\nGroup ၏ AUL မှ ဖယ်ရှားပြီးပါပြီ။"
+auth_5 : "❌ [NOT_IN_AUL] ❌\nTarget user သည် Authorised User မဟုတ်ပါ။"
+auth_6 : "🌀 [FETCHING_AUL...] 🌀\nAuthorised Users စာရင်းကို ဖမ်းနေသည်... Standby."
+auth_7 : "🎩 **[Authorised Users List // AUL]:**\n━━━━━━━━━━━━━━━━━━━━\n\n"
+auth_8 : "┗ Added By:-"
+
+# PLUGINS - Admins
+admin_1 : "⏸ [ALREADY_PAUSED] ⏸\nGrid ပေါ်ရှိ music သည် pause ဖြစ်နေပါပြီ။"
+admin_2 : "⏸ **[VOICECHAT::PAUSED]** by `{}` ⚡"
+admin_3 : "▶️ [ALREADY_PLAYING] ▶️\nMusic stream သည် ပြန်လည် လည်ပတ်နေပါပြီ။"
+admin_4 : "▶️ **[VOICECHAT::RESUMED]** by `{}` ⚡"
+admin_5 : "🔇 [ALREADY_MUTED] 🔇\nAudio channel သည် mute ဖြစ်နေပြီးပါပြီ။"
+admin_6 : "🔇 **[VOICECHAT::MUTED]** by `{}` ⚡"
+admin_7 : "🔊 [ALREADY_UNMUTED] 🔊\nAudio channel သည် unmute ဖြစ်နေပြီးပါပြီ။"
+admin_8 : "🔊 **[VOICECHAT::UNMUTED]** by `{}` ⚡"
+admin_9 : "⏹ **[VOICECHAT::TERMINATED]** by `{}` ⚡"
+admin_10 : "⏭ **[VOICECHAT::SKIPPED]** by `{}` ⚡\n\n📭 Queue တွင် နောက်ထပ် track မရှိတော့ပါ။"
+admin_11 : "💥 **[STREAM_SHIFT_FAILED]** 💥\n`{0}` သို့ ပြောင်းနေစဉ် ပြဿနာဖြစ်ပါသည်။\n→ /skip ပြန်ပြုလုပ်ပါ။"
+admin_12 : "🔁 [LOOP_LOCK_ACTIVE] 🔁\nLoop play ဖွင့်ထားသောကြောင့် သီးခြား track တစ်ပုဒ်သို့ skip မရပါ။\n→ `/loop disable` ဖြင့် ပိတ်ပါ။"
+admin_13 : "🔢 [INVALID_INDEX] 🔢\nသီးခြား track အတွက် ဂဏန်း (1, 2, 4...) သာ ထည့်ပါ။"
+admin_14 : "📑 [QUEUE_UNDERFLOW] 📑\nသီးခြား track သို့ skip ရန် queue ထဲတွင် အနည်းဆုံး track 2 ပုဒ် လိုအပ်ပါသည်။\n→ /queue ဖြင့် စစ်ပါ။"
+admin_15 : "⚠️ [INDEX_OUT_OF_RANGE] ⚠️\nပေးထားသော ဂဏန်းသည် queue length ထက် ကြီးနေပါသည်။\n→ 1 မှ {0} အတွင်း ရွေးပါ။"
+admin_16 : "💥 [TRACK_SKIP_FAILED] 💥\nသီးခြား track သို့ skip မရပါ။\n→ /queue ဖြင့် ကျန်ရှိသော list ကို စစ်ပါ။"
+admin_17 : "⏳ `{0}`.. Standby please."
+admin_18 : "🚨 **[ADMIN_REGISTRY_MISSING]** 🚨\n\nAdmin list ကို မတွေ့ပါ။\n→ `/admincache` သို့မဟုတ် `/reload` ဖြင့် ပြန် sync ပါ။"
+admin_19 : "🔐 **[INSUFFICIENT_PRIVILEGE]** 🔐\nဤလုပ်ဆောင်ချက်အတွက် **manage voice chat** ခွင့်ပြုချက်ပါသော admin ဖြစ်ရန် လိုအပ်သည်။\nAdmin ဖြစ်ပါက `/admincache` ဖြင့် refresh ပါ။"
+admin_20 : "✅ **[ADMIN_CACHE::RELOADED]** ✅\nAdmin registry ကို ပြန် sync ပြုလုပ်ပြီး။"
+admin_21 : "📭 [EMPTY_QUEUE] 📭\nShuffle ပြုလုပ်ရန် queue ထဲ track မရှိပါ။"
+admin_22 : "💥 [SHUFFLE_FAILED] 💥\nQueue ကို shuffle မလုပ်နိုင်ပါ။\n→ /queue ဖြင့် စစ်ပါ။"
+admin_23 : "🎲 **[QUEUE::SHUFFLED]** by `{0}` ⚡\n\n📑 Shuffled list ကို /queue ဖြင့် ကြည့်ပါ။"
+admin_24 : "📖 **[LOOP_USAGE]**\n`/loop [enable/disable]` သို့မဟုတ် `[1-10 အကြား ဂဏန်း]`\n\n💡 **Example:** `/loop 5`"
+admin_25 : "🔁 **[LOOP_PROTOCOL_ACTIVE]** ⚡\n`{0}` က **{1}** ကြိမ်အတွက် loop ဖွင့်ထားသည်။\nVoice chat တွင် လက်ရှိ track ကို **{1}** ကြိမ် ထပ်ဖွင့်ပါမည်။"
+admin_26 : "🔢 [INVALID_LOOP_VALUE] 🔢\nLoop play အတွက် 1-10 အကြား ဂဏန်းသာ ထည့်ပါ။"
+admin_27 : "🔁 [LOOP_PROTOCOL_TERMINATED] 🔁\nLoop play ကို ပိတ်ပြီးပါပြီ။"
+admin_28 : "📖 **[SEEK_USAGE]**\n`/seek` သို့မဟုတ် `/seekback [စက္ကန့်ပြ Duration]`"
+admin_29 : "🔢 [INVALID_DURATION] 🔢\nSeek အတွက် 10-20-30 လို ဂဏန်း seconds သာ ထည့်ပါ။"
+admin_30 : "🚫 [SEEK_BLOCKED] 🚫\nLive stream ကို seek မရပါ။ Skip သို့မဟုတ် stop သာ ပြုလုပ်နိုင်သည်။"
+admin_31 : "⚠️ [SEEK_DURATION_EXCEEDED] ⚠️\nပေးထားသော duration သည် ကြီးနေပါသည်။ နိမ့်သော duration ဖြင့် ပြန်ကြိုးစားပါ။\nSeek ပြီးနောက် အနည်းဆုံး 10 စက္ကန့် ကျန်ရှိရပါမည်။\n\n⏱ **Played:** `{0}` mins / `{1}` mins"
+admin_32 : "🌀 [SEEKING_STREAM...] 🌀\nStream ကို seek ပြုလုပ်နေသည်... Standby."
+admin_33 : "✅ **[SEEK_COMPLETE]** ✅\nStream ကို `{0}` Mins သို့ ပြောင်းပြီးပါပြီ။"
+admin_34 : "💥 [SEEK_FAILED] 💥\nStream ကို seek ပြုလုပ်ရာတွင် ပျက်ကွက်ပါသည်။"
+
+# Bot
+
+# Start
+start_1 : "🛸 **[NEXUS_ONLINE]** 🛸\n\n`{0}` တွင် ထည့်ပေးတဲ့အတွက် ကျေးဇူးတင်ပါသည်။\n⚡ `{1}` is fully operational.\n\nအကူအညီရယူရန် support group/channel သို့ ဆက်သွယ်ပါ။"
+start_2 : "👾 **[GREETINGS, OPERATOR]** 👾\n\nကျွန်ုပ်၏ codename သည် `{0}` ဖြစ်သည်။\n\n🛸 ကျွန်ုပ်သည် sci-fi streaming nexus တစ်ခုဖြစ်ပြီး Youtube, Spotify, Resso, AppleMusic, Soundcloud platforms များမှ music data ကို stream ပြုလုပ်ပေးပါသည်။\n\n✨ သင်၏ group များသို့ လွတ်လပ်စွာ ထည့်နိုင်ပါသည်။"
+start_3 : "🛸 **[WELCOME TO `{0}`]** 🛸\n\n🛡️ ကျွန်ုပ်အား admin permission မလိုအပ်ပါ ( တောင်းပါက မှအပ )။\n\n🤖 **Assistant Handle:** @{1}\n🆔 **Assistant ID:** `{2}`"
+start_4 : "👑 **[OWNER_ARRIVAL]** 👑\n`{0}` ၏ Owner [`{1}`] သည် ဤ chat သို့ ဝင်ရောက်လာပါပြီ။"
+start_5 : "⭐ **[SUDO_ARRIVAL]** ⭐\n`{0}` ၏ Sudo User [`{1}`] သည် ဤ chat သို့ ဝင်ရောက်လာပါပြီ။"
+start_6 : "❗ **[SUPERGROUP_REQUIRED]** ❗\n\nသင်၏ **group** ကို **supergroup** အဖြစ် ပြောင်းပြီး ပြန်ထည့်ပါ။\n\n💡 **Supergroup ပြုလုပ်နည်း:**\n✅ Chat history ကို **visible** ဖြစ်အောင် တစ်ကြိမ်လုပ်ပါ။"
+start_7 : "🛑 **[CHAT_BLACKLISTED]** 🛑\n\nဤ chat ကို bot မှ blacklist ထဲ ထည့်ထားသည်။\nSudoUser တစ်ဦးထံ chat ကို whitelist ပြန်ထည့်ပေးရန် တောင်းပါ။\n→ [Sudolist ကြည့်ရန်]({0})"
+
+# Help
+help_1 : "📡 **[COMMAND_MATRIX]** 📡\n\nအောက်ရှိ buttons များကို နှိပ်၍ အသေးစိတ်ကြည့်ပါ။\nပြဿနာ ဖြစ်ပါက bot owner သို့မဟုတ် support chat တွင် မေးပါ။\n\n💡 Commands အားလုံးကို `/` ဖြင့် စတင်ပါ။"
+help_2 : "📨 [PM_REDIRECT] 📨\nကူညီရန် ကျွန်ုပ်ကို PM တွင် ဆက်သွယ်ပါ။"
+
+# Settings
+setting_1 : "⚙️ **[NEXUS CONTROL // SETTINGS]** ⚙️\n━━━━━━━━━━━━━━━━━━━━━━\n\n🛸 **Group:** `{0}`\n🆔 **Group ID:** `{1}`\n\n💡 အောက်ရှိ control buttons များမှ ပြုပြင်လိုသည်ကို ရွေးပါ။"
+setting_3 : "❓ **[MODE_INFO]** ❓\n\n1️⃣ **Direct:** Search queries ကို တိုက်ရိုက် play ပါ။ Video stream အတွက် `-v` ထည့်ပါ။\n\n2️⃣ **Inline:** Video သို့မဟုတ် audio ရွေးချယ်ရန် Inline Markup Buttons ပြန်ပေးပါသည်။"
+setting_4 : "❓ **[PLAY_TYPE_INFO]** ❓\n\n👥 **Everyone:** Group ထဲတွင် ရှိသူ မည်သူမဆို admin commands (skip, pause, resume...) သုံးနိုင်သည်။\n\n🙍 **Admin Only:** Admins နှင့် authorized users များသာ admin commands သုံးနိုင်သည်။"
+setting_5 : "🚫 [NO_AUTH_USERS] 🚫\nAuthorized Users မရှိပါ။\n\n✨ `/auth` ဖြင့် non-admin များကို admin commands သုံးခွင့်ပေးနိုင်ပြီး `/unauth` ဖြင့် ဖျက်နိုင်သည်။"
+setting_9 : "❓ **[CLEAN_MODE_INFO]** ❓\n\nဖွင့်ထားသောအခါ Bot သည် message များကို `{0}` အကြာတွင် ဖျက်ပစ်ပြီး chat ကို သန့်ရှင်းပါသည်။"
+setting_10 : "❓ **[PLAY_LOCATION_INFO]** ❓\n\n1️⃣ **Group:** Command ပေးသော group တွင် music play ပါ။\n\n2️⃣ **Channel:** ဆန္ဒရှိသော channel တွင် music play ပါ။ `/channelplay` ဖြင့် channel id သတ်မှတ်ပါ။"
+setting_11 : "❓ **[ACCESS_INFO]** ❓\n\n1️⃣ **Everyone:** Group ထဲတွင် ရှိသူ မည်သူမဆို music play နိုင်သည်။\n\n2️⃣ **Admin Only:** Admins များသာ music play နိုင်သည်။"
+setting_12 : "❌ [NO_CHANNEL_ID] ❌\nChannel mode အတွက် channel id မသတ်မှတ်ရသေးပါ။\n→ `/channelplay` ဖြင့် သတ်မှတ်ပါ။"
+setting_13 : "🚫 [ACTIVE_CALL_LOCK] 🚫\nActive group call အတွင်း play mode မပြောင်းနိုင်ပါ။\n→ `/stop` ဖြင့် voice chat ကို ပိတ်ပြီးမှ ပြောင်းပါ။"
+setting_14 : "❓ **[COMMAND_CLEAN_INFO]** ❓\n\nဖွင့်ထားသောအခါ Bot သည် executed commands (/play, /pause, /shuffle, /stop...) ကို ချက်ချင်း ဖျက်ပစ်ပါသည်။\n\n⚠️ ဤလုပ်ဆောင်ချက်အတွက် Bot သည် **delete messages** admin right လိုအပ်သည်။"
+setting_15 : "💥 [PEER_RESOLUTION_FAILED] 💥\nChannel ထဲ bot ထည့်ပြီး admin အဖြစ်ပြုလုပ်ထားကြောင်း သေချာပါစေ။\n→ `/channelplay` ဖြင့် ပြန်သတ်မှတ်ပါ။"
+setting_16 : "❓ **[SUGGESTION_INFO]** ❓\n\nဖွင့်ထားသောအခါ Bot သည် 1-2 နာရီ တစ်ကြိမ် bot commands နှင့်ပတ်သက်သော tips များ (သုံးနည်း၊ commands များ စသည်ဖြင့်) randomly ပြသပါမည်။"
+
+
+set_cb_1 : "🎚️ [LOADING::AUDIO_QUALITY_PANEL...]"
+set_cb_2 : "🎥 [LOADING::VIDEO_QUALITY_PANEL...]"
+set_cb_3 : "🎩 [LOADING::AUTH_USERS_PANEL...]"
+set_cb_4 : "▶️ [LOADING::PLAY_MODE_PANEL...]"
+set_cb_5 : "🔄 [LOADING::CLEAN_MODE_PANEL...]"
+set_cb_6 : "⚡ [APPLYING_CHANGES...]"
+set_cb_7 : "📋 [FETCHING_AUTH_LIST...] STANDBY."
+set_cb_8 : "🌀 [REVERTING...] "
+
+# Misc
+ustats_1 : "📊 [NO_USER_TELEMETRY] 📊\nUser Stats မရှိပါ။"
+ustats_2 : "👾 **[USER_DATA::SYNCED]** 👾\nသင်သည် ယခုထိ **{0}** tracks ကို **{1}** ကြိမ် play ပြုလုပ်ထားသည်။\n\n🔢 **Top {2} ပြောက်ပျောက်:**\n━━━━━━━━━━━━━━━━━\n\n"
+
+gstats_1 : "🌌 [SYNCING::GLOBAL_TELEMETRY...] 🌌\nကြာချိန် နည်းနည်းကြာနိုင်သည်... "
+gstats_2 : "📊 [NO_TELEMETRY] 📊\nStats မရှိပါ။"
+gstats_3 : "🌌 [FETCHING::GLOBAL_TOP_10_`{0}`] 🌌\nကြာချိန် နည်းနည်းကြာနိုင်သည်..."
+gstats_4 : "🌐 **[BOT TELEMETRY OVERVIEW]** 🌐\n━━━━━━━━━━━━━━━━━━━━\n\n📊 **Total Queries:** `{0}`\n\n🤖 `{1}` သည် ယခုထိ **{2}** tracks ကို **{3}** ကြိမ် play ပြုလုပ်ထားသည်။\n\n🔢 **Top {4} Tracks:**\n"
+gstats_5 : "🌟 **Top {0} Chats of `{1}`:**\n━━━━━━━━━━━━━━━━━\n\n"
+gstats_6 : "🌟 **Top {0} Users of `{1}`:**\n━━━━━━━━━━━━━━━━━\n\n"
+gstats_7 : "🏘 **[GROUP_TELEMETRY]** 🏘\nဤ group သည် ယခုထိ **{0}** tracks ကို **{1}** ကြိမ် play ပြုလုပ်ထားသည်။\n\n🔢 **Group ၏ Top {2} Tracks:**\n━━━━━━━━━━━━━━━━━\n\n"
+gstats_8 : "🌌 [FETCHING::BOT_STATS...] 🌌\nကြာချိန် နည်းနည်းကြာနိုင်သည်..."
+gstats_9 : "🌐 **[GLOBAL TOP 10 // NEXUS STATS]** 🌐\n\nစစ်ဆေးလိုသော stats အမျိုးအစားကို အောက်ရှိ buttons မှ ရွေးပါ။"
+gstats_10 : "🌐 **[Global Stats of `{0}`]** 🌐\n\nစစ်ဆေးလိုသော stats အမျိုးအစားကို အောက်ရှိ buttons မှ ရွေးပါ။"
+gstats_11 : "📊 **[General Stats of `{0}`]** 📊\nစစ်ဆေးလိုသော stats အမျိုးအစားကို အောက်ရှိ buttons မှ ရွေးပါ။\n\n🔢 Top tracks, chats, users အပြည့်အစုံကို `/gstats` ဖြင့် စစ်ပါ။"
+
+
+# Play
+
+#Play Callback
+playcb_1 : "🚫 [ACCESS_BLOCKED] 🚫\nဒါက သင်ဟာ မဟုတ်ပါဘူး! ကိုယ်ပိုင် track ရှာပါ။"
+playcb_2 : "⏭ [NEXT_RESULT...] ⏭"
+
+# Channel Play
+cplay_1 : "📡 **[CHANNEL_PLAY_PROTOCOL]** 📡\n\nဤ chat [`{0}`] မှ မည်သည့် channel သို့မဆို သို့မဟုတ် linked channel သို့ music play နိုင်သည်။\n\n🔗 **Linked Channel:**\n`/{1} linked`\n\n📡 **Other Channel:**\n`/{1} [Channel ID]`"
+cplay_2 : "❌ [NO_LINKED_CHANNEL] ❌\nဤ chat တွင် linked channel မရှိပါ။"
+cplay_3 : "✅ **[CHANNEL_LINKED]** ✅\nChannel သတ်မှတ်ပြီး: `{0}`\n\n🆔 **Channel ID:** `{1}`"
+cplay_4 : "💥 **[CHANNEL_FETCH_FAILED]** 💥\nChannel ထဲ bot ထည့်ပြီး admin အဖြစ်ပြုလုပ်ထားကြောင်း သေချာပါစေ။\n→ `/channelplay` ဖြင့် ပြန်သတ်မှတ်ပါ။"
+cplay_5 : "📡 [CHANNELS_ONLY] 📡\nChannels များသာ supported ဖြစ်ပါသည်။"
+cplay_6 : "👑 [OWNERSHIP_REQUIRED] 👑\nChannel [`{0}`] ကို group နှင့် ချိတ်ဆက်ရန် **Owner** ဖြစ်ရမည်။\n👤 **Channel ၏ Owner:** @{1}\n\nသို့မဟုတ် group ကို channel သို့ link လုပ်ပြီး `/channelplay linked` ဖြင့် စမ်းပါ။"
+
+#Play
+play_1 : "🌀 **[QUERY::PROCESSING]** 🌀\nStandby please..."
+play_2 : "📡 **[CHANNEL_PLAY_MODE_ACTIVE]** 📡\n\n🌀 Query processing...\n🔗 **Linked Channel:** `{0}`"
+play_3 : "💥 **[QUERY_PROCESS_FAILED]** 💥\nRequest ကို လုပ်ဆောင်မရပါ။"
+play_4 : "🔐 **[ADMIN_ONLY_PLAY]** 🔐\nAdmins နှင့် Auth Users များသာ ဤ group တွင် music play နိုင်သည်။\n→ `/playmode` ဖြင့် mode ပြောင်းပါ။ Admin ဖြစ်ပါက `/admincache` ဖြင့် refresh ပါ။"
+play_5 : "📁 [FILE_SIZE_EXCEEDED] 📁\nAudio file ကို လုပ်ဆောင်မရပါ။\n\n⚠️ Audio file size သည် **100 MB** အောက် ဖြစ်ရမည်။"
+play_6 : "⏱ **[DURATION_LIMIT_EXCEEDED]** ⏱\n\n✅ **Allowed:** `{0}` minute(s)\n⚠️ **Received:** `{1}` hour(s)"
+play_7 : "🚫 **[VIDEO_CALL_LIMIT_REACHED]** 🚫\nCPU overload ကြောင့် video call ကန့်သတ်ထားသည်။\nတခြား chat များက video call အသုံးပြုနေသည်။\n→ Audio သို့ ပြောင်းပါ၊ သို့မဟုတ် ခဏနေပြန်ကြိုးစားပါ။"
+play_8 : "❌ [INVALID_FORMAT] ❌\n\n📁 **Supported Formats:** `{0}`"
+play_9 : "📁 [FILE_TOO_LARGE] 📁\nVideo File Size သည် **1 GiB** အောက် ဖြစ်ရမည်။"
+play_10 : "🎶 **[YOUTUBE_PLAYLIST_PROTOCOL]** 🎶\n\nPlaylist အပြည့်ကို မည်သည့် mode ဖြင့် play မည်ကို ရွေးပါ။"
+play_11 : "📎 **Title:** `{0}`\n\n⏳ **Duration:** `{1}` Mins"
+play_12 : "🎵 **[SPOTIFY_PROTOCOL_ACTIVE]** 🎵\n\n👤 Requested By: `{0}`"
+play_13 : "🍎 **[APPLE_PLAYLIST_PROTOCOL]** 🍎\n\n👤 Requested By: `{0}`"
+play_14 : "❌ **[URL_VERIFICATION_FAILED]** ❌\nဤ URL သည် Youtube, AppleMusic, Spotify, Resso, Soundcloud platforms များနှင့် မကိုက်ညီပါ။\n\n💡 M3u8 သို့မဟုတ် Remote Links အတွက် `/stream` ကို သုံးပါ။"
+play_15 : "📡 **[LIVE_STREAM_DETECTED]** 📡\n\nသင်၏ link သည် live stream ဖြစ်နေသည်ကို ဖမ်းမိပါသည်။\nLive stream play မလား?"
+play_16 : "💥 [TRACK_FETCH_FAILED] 💥\nTrack details ဆွဲမတင်နိုင်ပါ။ တခြား track စမ်းပါ။"
+play_17 : "❌ [SPOTIFY_QUERY_UNSUPPORTED] ❌\nဤ Spotify query အမျိုးအစားကို play မလုပ်နိုင်ပါ။\nSpotify tracks, albums, artists, playlists များသာ play နိုင်သည်။"
+play_18 : "📡 **[NO_ACTIVE_VOICE_CHAT]** 📡\nForce play ပြုလုပ်ရန် group တွင် active voice chat လိုအပ်သည်။\n\n⚡ **Force Play** သည် လက်ရှိ track ကို ရပ်ပြီး ရှာထားသော track ကို ချက်ချင်း play ပါသည် ( queue မပျောက်ပါ )။"
+
+
+#Playlist
+playlist_1 : "📖 **[PLAY_USAGE]**\n`/play [Music Name or Youtube Link or Reply to Audio]`\n\n💾 Server Playlist ကို play လိုပါက အောက်ရှိ button ကို နှိပ်ပါ။"
+playlist_2 : "🌀 [FETCHING::YOUR_PLAYLIST...] 🌀"
+playlist_3 : "📁 [EMPTY_PLAYLIST] 📁\nServer တွင် သင်၏ playlist မရှိပါ။"
+playlist_4 : "💾 **[PLAYLIST_FETCHED]** 💾\n━━━━━━━━━━━━━━━━━\n\n"
+playlist_5 : "    ⏱ Duration: `{0}` Mins"
+playlist_6 : "📨 Playlist ဖျက်ရန် ကျွန်ုပ်ကို PM ပို့ပါ။"
+playlist_7 : "💾 **[Tracks Inside Playlist: `{0}`]**\n\nTrack တစ်ပုဒ်ချင်း ဖျက်ရန် buttons များ နှိပ်ပါ။\n\n🗑 Playlist အပြည့်ဖျက်ရန် **Del Whole Playlist** ကို နှိပ်ပါ။"
+playlist_8 : "⚡ [DUPLICATE_TRACK] ⚡\nဤ track သည် playlist ထဲတွင် ရှိနေပြီးပါပြီ။"
+playlist_9 : "🚫 [PLAYLIST_LIMIT_REACHED] 🚫\nPlaylist တွင် အများဆုံး `{0}` musics သာ ထည့်နိုင်ပါသည်။"
+playlist_10 : "✅ **[PLAYLIST::TRACK_ADDED]** ✅\n\n`{0}`\nသင်၏ playlist ထဲသို့ ထည့်ပြီးပါပြီ။"
+playlist_11 : "🗑 **[TRACK_DELETED]** 🗑\nTrack ကို ဖျက်ပြီးပါပြီ။"
+playlist_12 : "💥 [TRACK_DELETE_FAILED] 💥\nTrack ဖျက်မရပါ။"
+playlist_13 : "🗑 **[PLAYLIST::WIPED]** 🗑\nServer မှ playlist အပြည့်ကို ဖျက်ပြီးပါပြီ။"
+playlist_14 : "⚠️ **[CONFIRM_FULL_WIPE]** ⚠️\nPlaylist အပြည့်ကို ဖျက်မှာ သေချာလား?\n\n⚡ ပြန်ပြန်လည်ရယူ၍ မရတော့ပါ။"
+playlist_15 : "[💾 Full Playlist ကြည့်ရန်]({0})"
+playlist_16 : "📑 [Queued Playlist]"
+playlist_17 : "🔢 Queued Position:"
+playlist_18 : "[📑 Full Queued Playlist ကြည့်ရန်]({0})\n\n🔢 **Last Queued Position:** `{1}`"
+
+#Playmode
+playmode_1 : "▶️ **[SELECT_PLAY_MODE]** ▶️\nGroup [`{0}`] တွင် query play ပုံကို ရွေးပါ။"
+playmode_2 : "✅ **[SETTINGS_UPDATED]** ✅\n`{0}` က settings ပြောင်းသိမ်းပြီးပါပြီ။"
+
+#Stream
+str_1 : "📡 [STREAM_REQUEST] 📡\nM3u8 Links သို့မဟုတ် Index Links ပေးပါ။"
+str_2 : "✅ **[STREAM_VERIFIED]** ✅\nLink ကို လုပ်ဆောင်နေသည်... Standby."
+str_3 : "❌ [LIVE_FORMAT_NOT_FOUND] ❌\nYoutube live streams play မလုပ်နိုင်ပါ။"
+
+#TopPlay
+tracks_1 : "🌀 **[PROCESSING::`{0}` TOP 10 PLAYLIST]** 🌀\nကြာချိန် 3-4 မိနစ်ခန့် ကြာနိုင်သည်... Standby.\n\n👤 **Requested By:** `{1}`\n\n📊 Top 10 tracks ကို `/gstats` ဖြင့် ကြည့်ပါ။"
+tracks_2 : "❌ **[NO_TOP_10_PLAYLIST]** ❌\n**{0} Top 10 Playlist** သည် bot ၏ servers တွင် မရှိပါ။\n→ တခြား playlist စမ်းပါ။"
+
+# TOOLS
+
+#Lyrics
+lyrics_1 : "📖 **[LYRICS_USAGE]**\n`/lyrics [Music Name]`"
+lyrics_2 : "🌀 [SEARCHING::LYRICS...] 🌀"
+lyrics_3 : "❌ [LYRICS_FETCH_FAILED] 😭\n\n💡 **Searched For:** `{0}`"
+lyrics_4 : "🚀 အောက်ရှိ button ကို နှိပ်၍ lyrics ကို ရယူပါ ( spam ဖြစ်ခြင်းမှ ကာကွယ်ရန် )။"
+
+#Ping
+ping_1 : "⚡ **PONG!!!** ⚡"
+ping_2 : "🛸 **[`{0}` // SYSTEM TELEMETRY]** 🛸\n━━━━━━━━━━━━━━━━━━━━\n\n⚡ **Ping:** `{1}` ms\n⏱ **Uptime:** `{2}`\n💾 **Storage Used:** `{3}`\n🧬 **CPU Load:** `{4}`\n🔋 **Ram Consumption:** `{5}`\n📡 **Py-Tgcalls Ping:** `{6}` ms"
+
+
+# Song
+song_1 : "🔐 [PRIVATE_CHAT_ONLY] 🔐\nYoutube မှ Music/Video download ကို private chat တွင်သာ ပြုလုပ်နိုင်သည်။\n→ ကျွန်ုပ်ကို private chat တွင် စတင်ပါ။"
+song_2 : "📖 **[SONG_USAGE]**\n`/song [Music Name]` or `[Youtube Link]`"
+song_3 : "📡 [LIVE_LINK_DETECTED] 📡\nLive Youtube videos များကို download မလုပ်နိုင်ပါ။"
+song_4 : "🔗 **Title:** `{0}`\n\n💾 Download အမျိုးအစားကို ရွေးပါ။"
+song_5 : "❌ [INVALID_YOUTUBE_LINK] ❌"
+song_6 : "🌀 [FETCHING::FORMATS...] 🌀\nStandby please..."
+song_7 : "💥 [FORMAT_FETCH_FAILED] 💥\nVideo အတွက် available formats ဆွဲမတင်နိုင်ပါ။\nတခြား track စမ်းပါ။"
+song_8 : "💾 **[DOWNLOAD_STARTED]** 💾\nDownload speed နှေးနိုင်ပါသည်... Standby."
+song_9 : "❌ **[YT_DOWNLOAD_FAILED]** ❌\n\n📜 **Reason:** `{0}`"
+song_10 : "💥 [UPLOAD_FAILED] 💥\nTelegram ဆာဗာသို့ upload မရပါ။"
+song_11 : "📤 **[UPLOAD_STARTED]** 📤\nUpload speed နှေးနိုင်ပါသည်... Standby."
+
+# Tools - Queue
+queue_1 : "🌀 [FETCHING::QUEUE...] 🌀"
+queue_2 : "📭 [EMPTY_QUEUE] 📭\nTracks မရှိပါ။"
+queue_3 : "<u>📑 **[QUEUED TRACKS]:**</u>  [Full Queue ကြည့်ရန်]({0})"
+queue_4 : "⏳ **[ADDED_TO_QUEUE::POSITION_#{0}]** ⏳\n\n💡 **Title:** `{1}`\n⏱ **Duration:** `{2}`\n👤 **Added By:** `{3}`"
+queue_5 : "📑 Queue တွင် track တစ်ပုဒ်တည်းသာ ရှိသည်။ နောက်ထပ် ထည့်ပါ။"
+
+# All Streaming Lines
+stream_1 : "📡 **[STREAMING::INITIATED]** 📡\n━━━━━━━━━━━━━━━━━\n\n👤 **Requested By:** `{0}`\n🔦 **Track Info:** [Here]({1})"
+stream_2 : "📡 **[STREAMING::URL_PROTOCOL]** 📡\n━━━━━━━━━━━━━━━━━\n\n👤 **Requested By:** `{0}`"
+stream_3 : "📡 **[STREAMING::ACTIVE]** 📡\n━━━━━━━━━━━━━━━━━\n\n🏷 **Title:** `{0}`\n⏱ **Duration:** `{1}`\n👤 **Requested By:** `{2}`"
+stream_4 : "📡 **[STREAMING::ACTIVE]** 📡\n━━━━━━━━━━━━━━━━━\n\n🏷 **Title:** [{0}]({1})\n⏱ **Duration:** `{2}`\n👤 **Requested By:** `{3}`"
+
+# Inline Buttons
+
+#General Buttons
+CLOSE_BUTTON  : "✖ Terminate"
+CLOSEMENU_BUTTON  : "✖ Close Menu"
+BACK_BUTTON : "◀ Back"
+UNBAN_BUTTON : "🛡️ Unban Assistant"
+
+#Lyrics
+L_B_1 : "📖 Open Lyrics"
+
+# Start
+S_B_1 : "📜 Commands"
+S_B_2 : "⚙️ Settings"
+S_B_3 : "📡 Support"
+S_B_4 : "📡 Channel"
+S_B_5 : "✚ Add to Group"
+S_B_6 : "🔗 Source"
+S_B_7 : "👤 Operator"
+S_B_8 : "🛸 How to Use?"
+
+#Help
+H_B_1 : "🛡️ Admin Cmds"
+H_B_2 : "🎶 Play Cmds"
+H_B_3 : "🤖 Bot Cmds"
+H_B_4 : "⚡ Extra Cmds"
+H_B_5 : "✖ Close Menu"
+H_B_6 : "⭐ Sudo Cmds"
+
+#PlayMode
+PM_B_1 : "▶️ Direct"
+PM_B_2 : "🎛️ Inline"
+PM_B_3 : "📡 Channel"
+
+#Play
+P_B_1 : "🎵 Audio"
+P_B_2 : "🎥 Video"
+P_B_3 : "📡 Live Stream"
+P_B_4 : "💾 Playlist"
+
+#Playlist
+PL_B_1 : "🚀 Play Playlist"
+PL_B_2 : "✚ Playlists"
+PL_B_3 : "🎛️ CPanel"
+PL_B_4 : "▶️ Play Mode"
+PL_B_5 : "🗑 Del Whole Playlist"
+PL_B_6 : "↗ Delete Playlist"
+PL_B_7 : "⚠️ Yes, terminate it"
+PL_B_8 : "🔢 Play Top 10"
+PL_B_9 : "🌐 Global Top 10"
+PL_B_10 : "🏘 Group's Top 10"
+PL_B_11 : "👤 Personal Top 10"
+
+#Settings
+ST_B_1 : "🎚️ Audio"
+ST_B_2 : "🎥 Video"
+ST_B_3 : "🎩 Auth Users"
+ST_B_4 : "🛸 Dashboard"
+ST_B_5 : "▶️ Play Mode"
+ST_B_6 : "🌐 Language"
+ST_B_7 : "🔄 Clean Mode"
+ST_B_8 : "{0} Low Quality Audio"
+ST_B_9 : "{0} Medium Quality Audio"
+ST_B_10 : "{0} High Quality Audio"
+ST_B_11 : "{0} Low Quality Video"
+ST_B_12 : "{0} Medium Quality Video"
+ST_B_13 : "{0} High Quality Video"
+ST_B_14 : "✅ Enabled"
+ST_B_15 : "❌ Disabled"
+ST_B_16 : "👤 Admins"
+ST_B_17 : "👥 Everyone"
+ST_B_18 : "📋 Auth Users List"
+ST_B_19 : "🔎 Search Mode"
+ST_B_20 : "✅ Direct"
+ST_B_21 : "✅ Inline"
+ST_B_22 : "🛡️ Admin Cmds"
+ST_B_23 : "🏘 Group"
+ST_B_24 : "📡 Channel"
+ST_B_25 : "🫂 Play Type"
+ST_B_26 : "🗑 Command Clean"
+ST_B_27 : "💡 Suggestion Mode"
+
+#Song
+SG_B_1 : "📨 Open PM"
+SG_B_2 : "🎵 Audio"
+SG_B_3 : "🎥 Video"
+
+#Stats
+SA_B_1 : "📡 Top 10 Chat"
+SA_B_2 : "🔢 Top 10 Tracks"
+SA_B_3 : "👥 Top 10 Users"
+SA_B_4 : "🏷 Top 10 Here"
+SA_B_5 : "💡 Overall Stats"
+SA_B_6 : "👤 User Stats"
+SA_B_7 : "🌐 Global Top 10"
+SA_B_8 : "🤖 Bot Stats"
+
+#Queue
+QU_B_1 : "📑 Queued List"
+QU_B_2 : "Played {0} / {1} Mins"
+
+# Sudo Users
+
+#Sudo
+sudo_1 : "⚡ `{0}` သည် sudo user ဖြစ်နေပြီးပါပြီ။"
+sudo_2 : "✅ **`{0}`** ကို Sudo Users ထဲ ထည့်ပြီးပါပြီ။"
+sudo_3 : "❌ Bot ၏ Sudo အဖွဲ့မဟုတ်ပါ။"
+sudo_4 : "🗑 Bot ၏ Sudo User မှ ဖယ်ရှားပြီးပါပြီ။"
+sudo_5 : "👑 <u>**Owners:**</u>\n"
+sudo_6 : "\n⭐ <u>**Sudo Users:**</u>\n"
+sudo_7 : "📭 Sudo Users မရှိပါ။"
+
+#Block
+block_1 : "⚡ `{0}` ကို bot မှ block လုပ်ထားပြီးပါပြီ။"
+block_2 : "🚫 **`{0}`** ကို Bot ၏ Block List ထဲ ထည့်ပြီးပါပြီ။\n\nUser သည် ဘော့ကို မည်သည့်ပုံစံနှင့်မှ မသုံးနိုင်တော့ပါ။\n→ `/blockedusers` ဖြင့် စစ်ပါ။"
+block_3 : "✅ User သည် block ထဲတွင် မရှိပါ။ "
+block_4 : "🔓 Block List မှ ဖယ်ရှားပြီး။ User သည် bot ကို သုံးနိုင်ပါပြီ။"
+block_5 : "📭 Blocked Users မရှိပါ။"
+block_6 : "🌀 [FETCHING::BLOCK_LIST...] 🌀"
+block_7 : "🚫 **Blocked Users:**\n━━━━━━━━━━━\n\n"
+
+#Blacklist Chats
+black_1 : "📖 **Usage:** `/blacklistchat [CHAT_ID]`"
+black_2 : "⚡ Chat ကို blacklist ထဲ ထည့်ထားပြီးပါပြီ။"
+black_3 : "🛑 Chat ကို blacklist ထဲ ထည့်ပြီးပါပြီ။"
+black_4 : "📖 **Usage:** `/whitelistchat [CHAT_ID]`"
+black_5 : "⚡ Chat သည် whitelist ထဲတွင် ရှိနေပြီးပါပြီ။"
+black_6 : "✅ Chat ကို whitelist ထဲ ပြန်ထည့်ပြီးပါပြီ။"
+black_7 : "🛑 **Blacklisted Chats:**\n━━━━━━━━━━━\n\n"
+black_8 : "📭 Blacklisted Chats မရှိပါ။"
+
+#videolimit
+vid_1 : "📖 **Usage:** `/set_video_limit [Number of chats allowed]` or `[Disable]`"
+vid_2 : "🔢 Limit သတ်မှတ်ရန် ဂဏန်းသာ ထည့်ပါ။"
+vid_3 : "⚡ Video Calls Maximum Limit ကို `{0}` Chats အဖြစ် သတ်မှတ်ပြီး။"
+vid_4 : "🚫 Video Calls Disabled."
+
+#maintenance
+maint_1 : "📖 **Usage:** `/maintenance [enable|disable]`"
+maint_2 : "🛠️ **[MAINTENANCE_MODE::ACTIVE]** 🛠️"
+maint_3 : "✅ **[MAINTENANCE_MODE::INACTIVE]** ✅"
+
+#log
+log_1 : "📖 **Usage:** `/logger [enable|disable]`"
+log_2 : "📡 **[LOGGING::ENABLED]** 📡"
+log_3 : "📡 **[LOGGING::DISABLED]** 📡"
+
+#videomode
+vidmode_1 : "📖 **Usage:** `/videomode [download|m3u8]`"
+vidmode_2 : "💾 Video Play Mode: **Downloader**. Tracks များကို download ပြုလုပ်မည်။"
+vidmode_3 : "📡 Video Play Mode: **M3U8**. Tracks များကို live play မည်။"
+
+#broadcast
+broad_1 : "📡 **[BROADCAST::COMPLETE]**\n`{0}` Chats တွင် `{1}` Pins ဖြင့် ဘော့မှ broadcast ပြုလုပ်ပြီး။"
+broad_2 : "📡 [ASSISTANT_BROADCAST::STARTED] 📡"
+broad_3 : "📡 **[Assistant Broadcast]:**\n━━━━━━━━━━━━━━━\n\n"
+broad_4 : "Assistant `{0}` Broadcasted in `{1}` chats\n"
+broad_5 : "📖 **Usage:** `/broadcast [MESSAGE]` or `[Reply to a Message]`"
+broad_6 : "📝 Broadcast text တစ်စုံတစ်ရာ ပေးပါ။"
+broad_7 : "📡 **[BROADCAST::USERS]**\n`{0}` Users သို့ broadcast ပြုလုပ်ပြီး။"
+
+#Heroku
+heroku_1 : "⚙️ Heroku API Key နှင့် App name ကို heroku တွင် မှန်ကန်စွာ ထည့်ထားကြောင်း သေချာပါစေ။"
+heroku_2 : "📡 Heroku Apps ၏ logs များသာ ရယူနိုင်သည်။"
+heroku_3 : "📖 **Usage:** `/get_var [Var Name]`"
+heroku_4 : "❌ ထိုလို var မရှိပါ။"
+heroku_5 : "📁 `.env` file မရှိပါ။"
+heroku_6 : "📖 **Usage:** `/del_var [Var Name]`"
+heroku_7 : "🗑 `{0}` Deleted."
+heroku_8 : "📖 **Usage:** `/set_var [Var Name] [Var Value]`"
+heroku_9 : "✅ `{0}` ကို update ပြုလုပ်ပြီး။"
+heroku_10 : "✅ `{0}` ကို ထည့်ပြီး။"
+heroku_11 : "⚙️ Heroku Apps အတွက်သာ။"
+heroku_12 : "🌀 Heroku Usage စစ်နေသည်... Standby."
+heroku_13 : "🌀 Updates ရှာဖွေနေသည်..."
+heroku_14 : "💥 Git Command Error."
+heroku_15 : "❌ Invalid Git Repository."
+
+#Private bot mode
+pbot_1 : "📖 **Usage:** `/authorize [CHAT_ID]`"
+pbot_2 :  "📖 **Usage:** `/unauthorize [CHAT_ID]`"
+pbot_3 : "✅ Authorized list ထဲသို့ chat ထည့်ပြီး။"
+pbot_4 : "🗑 Authorized list မှ chat ဖယ်ရှားပြီး။"
+pbot_5 : "⚡ Chat သည် authorized list ထဲတွင် ရှိနေပြီး။"
+pbot_6 : "❌ Authorized list ထဲတွင် ထိုလို chat မရှိပါ။"
+pbot_7 : "❌ chat_id ကို verify မလုပ်နိုင်ပါ။\n\nဂဏန်းနှင့် ပုံစံမှန် ဖြစ်ကြောင်း သေချာပါစေ။ Username/links မသုံးပါနှင့်။"
+pbot_8 : "🌀 Authorized chats စစ်နေသည်... Standby."
+pbot_9 : "📡 **<b>Fetched Chats:</b>**\n━━━━━━━━━━━━━━━\n\n"
+pbot_10 : "🔐 Private Chat"
+pbot_11 : "📭 Authorized chats မရှိပါ။"
+pbot_12 : "❌ Private Bot Mode disabled.\n\n→ **PRIVATE_BOT_MODE** = **True** ဟု သတ်မှတ်ပါ။"
+pbot_13 : "\n📡 **<b>Unfetched Chats:</b>**\n━━━━━━━━━━━━━━━\n\n"
+
+
+#Gbanned
+gban_1 : "🤔 ကိုယ်ဟာကို gban လုပ်ချင်တာလား?"
+gban_2 : "🤖 ကိုယ်ဟာကို block လုပ်ရမှာလား? Lol"
+gban_3 : "⭐ Sudo user ကို block ချင်တာလား?"
+gban_4 : "⚡ `{0}` သည် bot မှ **gbanned** ဖြစ်နေပြီးပါပြီ။"
+gban_5 : "🚫 **[INITIATING_GBAN_PROTOCOL]** 🚫\n\nTarget: `{0}`\n⏱ Expected Time: `{1}`"
+gban_6 : "🚫 **[GBAN::COMPLETE]** 🚫\n`{0}` ကို `{1}` chats တွင် ban လုပ်ပြီး။"
+gban_7 : "✅ `{0}` သည် bot မှ gban မဖြစ်ပါ။"
+gban_8 : "🔓 **[REVERTING_GBAN]** 🔓\n\nTarget: `{0}`\n⏱ Expected Time: `{1}`"
+gban_9 : "🔓 **[UNGBAN::COMPLETE]** 🔓\n`{0}` ကို `{1}` chats တွင် ban ဖြုတ်ပြီး။"
+gban_10 : "📭 Gbanned Users မရှိပါ။"
+gban_11 : "🌀 Gbanned users list ဆွဲနေသည်... Standby."
+
+#Suggestions
+sug_0 : "❓ **[KNOW THIS?]** ❓\n\n✨ "
+sug_1 : "💡 Music ကို **search modes** နှစ်မျိုးဖြင့် play နိုင်သည် ( Direct Mode နှင့် Inline Mode )။\n→ `/playmode` ဖြင့် mode ပြောင်းပါ။"
+sug_2 : "💡 Music ကို **play types** နှစ်မျိုးဖြင့် play နိုင်သည် ( Everyone Mode နှင့် Admins Mode )။\n→ `/playmode` ဖြင့် mode ပြောင်းပါ။"
+sug_3 : "📡 **Channels** တွင်လည်း music play နိုင်သည်။\n→ `/channelplay` ဖြင့် channel_id သတ်မှတ်ပြီး `/cplay` ဖြင့် play ပါ။"
+sug_4 : "🎩 Non-Admins များသည် admin commands သုံးနိုင်ပါသည် ( **AUTH USERS LIST** ထဲ ထည့်လျှင် )။\n→ `/auth` ဖြင့် ထည့်ပါ၊ `/unauth` ဖြင့် ဖျက်ပါ၊ `/authusers` ဖြင့် စစ်ပါ။"
+sug_5 : "🔄 Bot တွင် **Clean Mode** feature ပါသည်။\nBot ၏ messages များကို 5 မိနစ်အကြာတွင် ဖျက်ပစ်ပြီး chat ကို သန့်ရှင်းပါသည်။\n→ `/settings` ဖြင့် enable/disable [__default: enabled__]"
+sug_6 : "🎵 **Spotify** tracks နှင့် playlists များကို play နိုင်သည်။\n→ `/play [Spotify Link]`"
+sug_7 : "🍎 **Apple Music** tracks နှင့် playlists များကို play နိုင်သည်။\n→ `/play [Apple Link]`"
+sug_8 : "🎶 **Resso Music** tracks နှင့် playlists များကို play နိုင်သည်။\n→ `/play [Resso Link]`"
+sug_9 : "☁️ **Sound Cloud** tracks နှင့် playlists များကို play နိုင်သည်။\n→ `/play [SoundCloud Link]`"
+sug_10 : "🎥 Voice chat တွင် **Videos** play နိုင်သည်။\n→ `/vplay [Video Name]` or `/play -v [Video Name]`"
+sug_11 : "🎚️ Voice chat ၏ **Audio Quality** ကို Low, Medium, High အဖြစ် ပြောင်းနိုင်သည်။\n→ `/settings`"
+sug_12 : "🎥 Voice chat ၏ **Video Quality** ကို Low, Medium, High အဖြစ် ပြောင်းနိုင်သည်။\n→ `/settings`"
+sug_13 : "📊 သင်၏ **Statistics** ( Top 10 Played Tracks ) ကို စစ်နိုင်သည်။\n→ `/gstats`"
+sug_14 : "🏘 **Group's Stats** ( Top 10 Played Tracks ) ကို စစ်နိုင်သည်။\n→ `/gstats`"
+sug_15 : "🌐 Bot ၏ **Global Stats** ( top 10 users, chats, tracks ) ကို စစ်နိုင်သည်။\n→ `/gstats`"
+sug_16 : "🔇 Voice chat ပေါ်တွင် music ကို mute လုပ်နိုင်သည်။\n→ `/mute`"
+sug_17 : "🔇 Voice chat ပေါ်တွင် music ကို mute/unmute လုပ်နိုင်သည်။\n→ `/mute` and `/unmute`"
+sug_18 : "📖 Musics ၏ lyrics များကိုလည်း ရှာနိုင်သည်။\n→ `/lyrics [Music Name]`"
+sug_19 : "💾 Youtube မှ music သို့မဟုတ် video ကို download လုပ်နိုင်သည်။\n→ `/song [Music Name]`"
+sug_20 : "📜 Bot လက်ခံသော commands များ စာရင်းကို ရယူနိုင်သည်။\n→ `/help`"
+sug_21 : "💾 Bot တွင် server-sided playlist option ပါသည်။\nMusic များ playlist ထဲ ထည့်ပြီး `/play` ဖြင့် အားလုံး တစ်ပြိုင်နက် play နိုင်သည်။"
+sug_22 : "🎲 Queue ထဲရှိ musics များကို shuffle နိုင်ပါပြီ။\n→ `/shuffle`"
+sug_23 : "📑 Musics ၏ queue ကို စစ်နိုင်သည်။\n→ `/queue`"
+sug_24 : "⭐ Bot ကို manage လုပ်သော owner နှင့် sudo users များကို စစ်နိုင်သည်။\n→ `/sudolist`"
+sug_25 : "🗑 Bot တွင် **Commands Delete Mode** feature ပါသည်။ Executed commands များကို auto delete ပြုလုပ်သည်။\n→ `/settings` ဖြင့် enable/disable [__default: enabled__]"
+sug_26 : "🌐 Bot ၏ language ကို သင်ပိုနားလည်သော language သို့ ပြောင်းနိုင်သည်။\n→ `/language`"
+sug_27 : "⚡ Bot တွင် **Force Play** feature ပါသည်။\nVoice chat ပေါ်ရှိ track ကို ရပ်ပြီး ရှာထားသော track ကို ချက်ချင်း play ပါသည် ( queue မပျောက်ပါ )။\n→ `/playforce`"
