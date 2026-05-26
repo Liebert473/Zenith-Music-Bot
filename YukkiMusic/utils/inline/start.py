@@ -87,6 +87,13 @@ def start_pannel(_):
             buttons.append([
                 InlineKeyboardButton(text=_["S_B_3"], url=f"{gr}")
             ])
+    # Advertiser-facing reach stats button
+    buttons.append([
+        InlineKeyboardButton(
+            text=_["ADV_BUTTON"],
+            callback_data="advertise_stats",
+        )
+    ])
     return buttons
 
 
@@ -139,6 +146,12 @@ def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
             buttons.append([
                 InlineKeyboardButton(text=_["S_B_7"], user_id=OWNER)
             ])
+    buttons.append([
+        InlineKeyboardButton(
+            text=_["ADV_BUTTON"],
+            callback_data="advertise_stats",
+        )
+    ])
     buttons.append(
         [InlineKeyboardButton(text=_["ST_B_6"], callback_data="LG")]
     )

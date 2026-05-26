@@ -114,6 +114,9 @@ class YukkiBot(Client):
                 ("help",       "📜 Command reference",
                                "📜 命令参考",
                                "📜 Commands"),
+                ("advertise",  "📊 Bot reach stats",
+                               "📊 机器人覆盖统计",
+                               "📊 Bot reach stats"),
             ]
 
             # Commands shown in PRIVATE chats — everything that works in PM.
@@ -142,6 +145,9 @@ class YukkiBot(Client):
                 ("playlist",  "💾 Your saved playlist",
                               "💾 我的播放列表",
                               "💾 Playlist"),
+                ("advertise", "📊 Bot reach stats (for advertisers)",
+                              "📊 机器人覆盖统计（广告商专用）",
+                              "📊 Bot reach stats [advertisers]"),
             ]
 
             # Extra commands shown ONLY in the owner's private chat.

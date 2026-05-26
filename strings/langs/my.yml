@@ -470,3 +470,5 @@ sug_24 : "⭐ Bot ကို manage လုပ်သော owner နှင့် s
 sug_25 : "🗑 Bot တွင် **Commands Delete Mode** feature ပါသည်။ Executed commands များကို auto delete ပြုလုပ်သည်။\n→ `/settings` ဖြင့် enable/disable [__default: enabled__]"
 sug_26 : "🌐 Bot ၏ language ကို သင်ပိုနားလည်သော language သို့ ပြောင်းနိုင်သည်။\n→ `/language`"
 sug_27 : "⚡ Bot တွင် **Force Play** feature ပါသည်။\nVoice chat ပေါ်ရှိ track ကို ရပ်ပြီး ရှာထားသော track ကို ချက်ချင်း play ပါသည် ( queue မပျောက်ပါ )။\n→ `/playforce`"
+
+ADV_BUTTON : "📊 Reach Stats"
