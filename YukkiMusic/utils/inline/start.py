@@ -9,15 +9,11 @@
 
 from typing import Union
 
-from pyrogram.types import InlineKeyboardButton
-
 from config import GITHUB_REPO, SUPPORT_CHANNEL, SUPPORT_GROUP
 from YukkiMusic import app
+from YukkiMusic.utils.tg_send import PRIMARY, SUCCESS, DANGER, btn
 
-
-# Module-level cache for owner-overridden support links. Populated at
-# bot startup by load_owner_links_cache() and live-mutated by the
-# /setsupport... owner commands. Falls back to env config when empty.
+# ── Owner-override support-link cache ────────────────────────────────────────
 _owner_links_cache = {
     "support_group": None,
     "support_channel": None,
@@ -25,8 +21,6 @@ _owner_links_cache = {
 
 
 def update_owner_links_cache(*, support_group=None, support_channel=None):
-    """Live cache update; called by owner /setsupport* commands and
-    by the async loader at startup."""
     if support_group is not None:
         _owner_links_cache["support_group"] = support_group or None
     if support_channel is not None:
@@ -34,13 +28,10 @@ def update_owner_links_cache(*, support_group=None, support_channel=None):
 
 
 def _resolve(key: str, env_default):
-    """Owner override wins; env config is the fallback."""
     return _owner_links_cache.get(key) or env_default
 
 
 async def load_owner_links_cache():
-    """Pull current overrides from MongoDB into the in-process cache.
-    Call once at startup after the database is reachable."""
     from YukkiMusic.utils.database import get_owner_links
     try:
         doc = await get_owner_links()
@@ -58,101 +49,91 @@ def _support_channel():
     return _resolve("support_channel", SUPPORT_CHANNEL)
 
 
+# ── Button builders ───────────────────────────────────────────────────────────
+# All builders return List[List[dict]] (colored row format).
+# • Pass directly to tg_send.send_message / tg_send.send_photo for HTTP API.
+# • Wrap with tg_send.to_markup(rows) for pyrogram InlineKeyboardMarkup.
+
+
 def start_pannel(_):
-    buttons = [
+    """Group /start panel — compact command+settings row + support links."""
+    rows = [
         [
-            InlineKeyboardButton(
-                text=_["S_B_1"],
-                url=f"https://t.me/{app.username}?start=help",
-            ),
-            InlineKeyboardButton(
-                text=_["S_B_2"], callback_data="settings_helper"
-            ),
+            btn(_["S_B_1"], url=f"https://t.me/{app.username}?start=help",
+                style=SUCCESS, icon_emoji="🎵"),
+            btn(_["S_B_2"], callback_data="settings_helper",
+                style=PRIMARY, icon_emoji="⚡"),
         ],
     ]
     ch, gr = _support_channel(), _support_group()
     if ch and gr:
-        buttons.append(
-            [
-                InlineKeyboardButton(text=_["S_B_4"], url=f"{ch}"),
-                InlineKeyboardButton(text=_["S_B_3"], url=f"{gr}"),
-            ]
-        )
+        rows.append([
+            btn(_["S_B_4"], url=ch, style=PRIMARY, icon_emoji="📡"),
+            btn(_["S_B_3"], url=gr, style=PRIMARY, icon_emoji="📨"),
+        ])
     else:
         if ch:
-            buttons.append([
-                InlineKeyboardButton(text=_["S_B_4"], url=f"{ch}")
-            ])
+            rows.append([btn(_["S_B_4"], url=ch, style=PRIMARY, icon_emoji="📡")])
         if gr:
-            buttons.append([
-                InlineKeyboardButton(text=_["S_B_3"], url=f"{gr}")
-            ])
-    # Advertiser-facing reach stats button
-    buttons.append([
-        InlineKeyboardButton(
-            text=_["ADV_BUTTON"],
-            callback_data="advertise_stats",
-        )
+            rows.append([btn(_["S_B_3"], url=gr, style=PRIMARY, icon_emoji="📨")])
+    rows.append([
+        btn(_["ADV_BUTTON"], callback_data="advertise_stats",
+            style=SUCCESS, icon_emoji="⭐"),
     ])
-    return buttons
+    return rows
 
 
 def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
-    buttons = [
-        [
-            InlineKeyboardButton(
-                text=_["S_B_8"], callback_data="settings_back_helper"
-            )
-        ]
+    """Private /start panel — full feature set."""
+    rows = [
+        [btn(_["S_B_8"], callback_data="settings_back_helper",
+             style=SUCCESS, icon_emoji="🎵")],
     ]
     ch, gr = _support_channel(), _support_group()
     if ch and gr:
-        buttons.append(
-            [
-                InlineKeyboardButton(text=_["S_B_4"], url=f"{ch}"),
-                InlineKeyboardButton(text=_["S_B_3"], url=f"{gr}"),
-            ]
-        )
+        rows.append([
+            btn(_["S_B_4"], url=ch, style=PRIMARY, icon_emoji="📡"),
+            btn(_["S_B_3"], url=gr, style=PRIMARY, icon_emoji="📨"),
+        ])
     else:
         if ch:
-            buttons.append([
-                InlineKeyboardButton(text=_["S_B_4"], url=f"{ch}")
-            ])
+            rows.append([btn(_["S_B_4"], url=ch, style=PRIMARY, icon_emoji="📡")])
         if gr:
-            buttons.append([
-                InlineKeyboardButton(text=_["S_B_3"], url=f"{gr}")
-            ])
-    buttons.append(
-        [
-            InlineKeyboardButton(
-                text=_["S_B_5"],
-                url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
-            )
-        ]
-    )
+            rows.append([btn(_["S_B_3"], url=gr, style=PRIMARY, icon_emoji="📨")])
+
+    rows.append([
+        btn(_["S_B_5"],
+            url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
+            style=SUCCESS, icon_emoji="🛸"),
+    ])
+
     if GITHUB_REPO and OWNER:
-        buttons.append(
-            [
-                InlineKeyboardButton(text=_["S_B_7"], user_id=OWNER),
-                InlineKeyboardButton(text=_["S_B_6"], url=f"{GITHUB_REPO}"),
-            ]
-        )
+        rows.append([
+            btn(_["S_B_7"], user_id=OWNER, style=DANGER, icon_emoji="👑"),
+            btn(_["S_B_6"], url=GITHUB_REPO, style=PRIMARY, icon_emoji="💎"),
+        ])
     else:
         if GITHUB_REPO:
-            buttons.append([
-                InlineKeyboardButton(text=_["S_B_6"], url=f"{GITHUB_REPO}")
-            ])
+            rows.append([btn(_["S_B_6"], url=GITHUB_REPO,
+                             style=PRIMARY, icon_emoji="💎")])
         if OWNER:
-            buttons.append([
-                InlineKeyboardButton(text=_["S_B_7"], user_id=OWNER)
-            ])
-    buttons.append([
-        InlineKeyboardButton(
-            text=_["ADV_BUTTON"],
-            callback_data="advertise_stats",
-        )
+            rows.append([btn(_["S_B_7"], user_id=OWNER,
+                             style=DANGER, icon_emoji="👑")])
+
+    rows.append([
+        btn(_["ADV_BUTTON"], callback_data="advertise_stats",
+            style=SUCCESS, icon_emoji="⭐"),
     ])
-    buttons.append(
-        [InlineKeyboardButton(text=_["ST_B_6"], callback_data="LG")]
-    )
-    return buttons
+    rows.append([
+        btn(_["ST_B_6"], callback_data="LG", style=PRIMARY),
+    ])
+    return rows
+
+
+def private_help_panel(_):
+    """Group /help redirect — single URL button pointing to bot PM."""
+    return [
+        [btn(_["S_B_1"],
+             url=f"https://t.me/{app.username}?start=help",
+             style=SUCCESS, icon_emoji="🎵")],
+    ]

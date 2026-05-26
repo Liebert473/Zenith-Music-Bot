@@ -12,6 +12,8 @@ import html as _html
 
 from pyrogram import filters
 from pyrogram.enums import ChatType, ParseMode
+from YukkiMusic.utils.custom_emoji import enhance_text
+from YukkiMusic.utils import tg_send as _ts
 from pyrogram.types import (InlineKeyboardButton,
                             InlineKeyboardMarkup, Message)
 from youtubesearchpython.__future__ import VideosSearch
@@ -49,13 +51,12 @@ async def start_comm(client, message: Message, _):
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
         if name[0:4] == "help":
-            keyboard = help_pannel(
-                _, is_sudo=(message.from_user.id in SUDOERS)
-            )
-            return await message.reply_text(
-                _["help_1"],
-                reply_markup=keyboard,
-                parse_mode=ParseMode.HTML,
+            rows = help_pannel(_, is_sudo=(message.from_user.id in SUDOERS))
+            return await _ts.send_message(
+                message.chat.id,
+                enhance_text(_["help_1"]),
+                rows,
+                reply_to=message.id,
             )
         if name[0:4] == "song":
             return await message.reply_text(_["song_2"])
@@ -198,42 +199,45 @@ async def start_comm(client, message: Message, _):
             OWNER = OWNER_ID[0]
         except:
             OWNER = None
-        out = private_panel(_, app.username, OWNER)
-        # Owner-set custom start overrides language translation entirely.
-        # Custom start text is treated as plain text (no HTML) to avoid
-        # breaking on user-typed angle brackets / ampersands.
+        rows = private_panel(_, app.username, OWNER)
+        # Owner-set custom start: plain text, no HTML enhancement.
+        # Default start_2: full HTML with animated emoji.
         custom = await get_custom_start()
         if custom and custom.get("text"):
             caption = custom["text"].replace("{bot}", config.MUSIC_BOT_NAME)
-            send_parse_mode = ParseMode.DISABLED
-        else:
-            caption = _["start_2"].format(
-                _html.escape(config.MUSIC_BOT_NAME)
-            )
-            send_parse_mode = ParseMode.HTML
-        photo = (custom or {}).get("photo") or config.START_IMG_URL
-        if photo:
-            try:
-                await message.reply_photo(
-                    photo=photo,
-                    caption=caption,
-                    reply_markup=InlineKeyboardMarkup(out),
-                    parse_mode=send_parse_mode,
+            pm = "HTML" if "<" not in caption else None
+            photo = (custom or {}).get("photo") or config.START_IMG_URL
+            if photo:
+                await _ts.send_photo(
+                    message.chat.id, photo, caption, rows,
+                    parse_mode=pm or "HTML",
+                    reply_to=message.id,
                 )
-            except Exception:
-                await message.reply_text(
-                    caption,
-                    reply_markup=InlineKeyboardMarkup(out),
-                    disable_web_page_preview=True,
-                    parse_mode=send_parse_mode,
+            else:
+                await _ts.send_message(
+                    message.chat.id, caption, rows,
+                    parse_mode="HTML", reply_to=message.id,
                 )
         else:
-            await message.reply_text(
-                caption,
-                reply_markup=InlineKeyboardMarkup(out),
-                disable_web_page_preview=True,
-                parse_mode=send_parse_mode,
+            caption = enhance_text(
+                _["start_2"].format(_html.escape(config.MUSIC_BOT_NAME))
             )
+            photo = config.START_IMG_URL
+            if photo:
+                sent = await _ts.send_photo(
+                    message.chat.id, photo, caption, rows,
+                    reply_to=message.id,
+                )
+                if not sent:   # photo failed (bad URL etc.) — fall back to text
+                    await _ts.send_message(
+                        message.chat.id, caption, rows,
+                        reply_to=message.id,
+                    )
+            else:
+                await _ts.send_message(
+                    message.chat.id, caption, rows,
+                    reply_to=message.id,
+                )
         if await is_on_off(config.LOG):
             sender_id = message.from_user.id
             sender_name = message.from_user.first_name
@@ -250,13 +254,13 @@ async def start_comm(client, message: Message, _):
 )
 @LanguageStart
 async def testbot(client, message: Message, _):
-    out = start_pannel(_)
+    rows = start_pannel(_)
     return await message.reply_text(
-        _["start_1"].format(
+        enhance_text(_["start_1"].format(
             _html.escape(message.chat.title or ""),
             _html.escape(config.MUSIC_BOT_NAME),
-        ),
-        reply_markup=InlineKeyboardMarkup(out),
+        )),
+        reply_markup=_ts.to_markup(rows),
         parse_mode=ParseMode.HTML,
     )
 
@@ -294,12 +298,12 @@ async def welcome(client, message: Message):
                 userbot = await get_assistant(message.chat.id)
                 out = start_pannel(_)
                 await message.reply_text(
-                    _["start_3"].format(
+                    enhance_text(_["start_3"].format(
                         _html.escape(config.MUSIC_BOT_NAME),
                         _html.escape(userbot.username or ""),
                         userbot.id,
-                    ),
-                    reply_markup=InlineKeyboardMarkup(out),
+                    )),
+                    reply_markup=_ts.to_markup(out),
                     parse_mode=ParseMode.HTML,
                 )
             if member.id in config.OWNER_ID:

@@ -44,6 +44,12 @@ class YukkiBot(Client):
             LOGGER(__name__).info(f"Bot: cached {count} dialogs")
         except Exception as e:
             LOGGER(__name__).warning(f"Bot dialog warmup failed: {e}")
+        # Fetch animated custom emoji IDs for <tg-emoji> tags and button icons.
+        try:
+            from YukkiMusic.utils.custom_emoji import init_custom_emoji
+            await init_custom_emoji(self)
+        except Exception as e:
+            LOGGER(__name__).warning(f"Custom emoji init failed: {e}")
         try:
             await self.send_message(
                 config.LOG_GROUP_ID, "Bot Started"

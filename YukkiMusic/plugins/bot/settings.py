@@ -12,6 +12,8 @@ import html as _html
 from pyrogram import filters
 from pyrogram.enums import ChatType, ParseMode
 from pyrogram.errors import MessageNotModified
+from YukkiMusic.utils import tg_send as _ts
+from YukkiMusic.utils.custom_emoji import enhance_text
 from pyrogram.types import (CallbackQuery, InlineKeyboardButton,
                             InlineKeyboardMarkup, Message)
 
@@ -100,40 +102,26 @@ async def settings_back_markup(
             OWNER = OWNER_ID[0]
         except:
             OWNER = None
-        buttons = private_panel(_, app.username, OWNER)
-        # Build caption from custom start or language default.
-        # Custom start text is plain (no HTML) so user-typed chars don't break parsing.
+        rows = private_panel(_, app.username, OWNER)
+        # Custom start: plain; default start_2: animated HTML.
         custom = await get_custom_start()
         if custom and custom.get("text"):
             caption = custom["text"].replace("{bot}", MUSIC_BOT_NAME)
-            send_parse_mode = ParseMode.DISABLED
         else:
-            caption = _["start_2"].format(_html.escape(MUSIC_BOT_NAME))
-            send_parse_mode = ParseMode.HTML
+            caption = enhance_text(
+                _["start_2"].format(_html.escape(MUSIC_BOT_NAME))
+            )
         photo = (custom or {}).get("photo") or _config.START_IMG_URL
         chat_id = CallbackQuery.message.chat.id
-        # Delete the current text-only message so we can re-send with photo.
         try:
             await CallbackQuery.message.delete()
         except Exception:
             pass
-        markup = InlineKeyboardMarkup(buttons)
         if photo:
-            try:
-                await app.send_photo(
-                    chat_id, photo=photo,
-                    caption=caption, reply_markup=markup,
-                    parse_mode=send_parse_mode,
-                )
+            sent = await _ts.send_photo(chat_id, photo, caption, rows)
+            if sent:
                 return
-            except Exception:
-                pass  # fall through to text
-        await app.send_message(
-            chat_id, text=caption,
-            reply_markup=markup,
-            disable_web_page_preview=True,
-            parse_mode=send_parse_mode,
-        )
+        await _ts.send_message(chat_id, caption, rows)
     else:
         buttons = setting_markup(_)
         return await CallbackQuery.edit_message_reply_markup(
