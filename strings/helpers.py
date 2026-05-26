@@ -394,16 +394,25 @@ Override the Support Group and Support Channel buttons that appear on the /start
 /authorized - Check all allowed chats of your bot.
 
 🌐**<u>BROADCAST FUNCTION:</u>**
-/broadcast [Message or Reply to a Message] - Broadcast any message to Bot's Served Chats.
+Broadcast text **or media** (photo, GIF, video, document, audio, sticker) to every served chat.
 
-<u>options for broadcast:</u>
-**-pin** : This will pin your message
-**-pinloud** : This will pin your message with loud notification
-**-user** : This will broadcast your message to the users who have started your bot.
-**-assistant** : This will broadcast your message from assistant account of your bot.
-**-nobot** : This will force your bot to not broadcast message
+**Three input modes:**
+1. `/broadcast Hello everyone` — plain text.
+2. **Reply** to any message (with or without media) with `/broadcast`.
+3. **Upload media** (photo / GIF / video / etc.) and put `/broadcast <caption>` in the *caption* — the media is broadcast with the cleaned caption.
 
-**Example:** `/broadcast -user -assistant -pin Hello Testing`
+<u>Flags (can appear anywhere in the text or caption):</u>
+**-pin** : Pin the message silently in each chat.
+**-pinloud** : Pin with loud notification.
+**-user** : Also DM every user who has started the bot.
+**-assistant** : Also broadcast through assistant accounts.
+**-nobot** : Skip the bot's own served-chat sweep.
+**-forward** : Use `forward_messages` (shows "Forwarded from"). **Default is `copy_message`** — clean look with no forward header, recommended for advertising / promotional sends.
+
+**Examples:**
+• `/broadcast -user -assistant -pin Hello Testing` — text everywhere, pinned silently.
+• Upload a promo image with caption `/broadcast -user Check out our new bot!` — image + caption is delivered cleanly to every chat and user.
+• Reply to a video message with `/broadcast -pinloud` — video is copied (no forward tag) and pinned loudly.
 
 """
 
@@ -475,16 +484,25 @@ _HELP_5_ZH = """🔰**<u>添加 / 移除 Sudo 用户:</u>**
 /authorized - 查看已允许的聊天列表。
 
 🌐**<u>广播功能:</u>**
-/broadcast [消息 或 回复消息] - 向机器人服务过的所有聊天广播一条消息。
+向机器人服务过的所有聊天广播 **文字或媒体**（图片、GIF、视频、文档、音频、贴纸）。
 
-<u>广播选项:</u>
-**-pin** : 置顶消息
+**三种输入方式:**
+1. `/broadcast 你好大家` — 纯文字广播。
+2. **回复**任意消息（带或不带媒体）并加上 `/broadcast`。
+3. **直接上传媒体**（图片 / GIF / 视频 等）并在「caption」里写 `/broadcast <你的文字>` — 媒体会连同清理后的文字一起广播。
+
+<u>选项（可以出现在文字或 caption 的任何位置）:</u>
+**-pin** : 静默置顶消息
 **-pinloud** : 带强提示的置顶
-**-user** : 将消息广播给所有启动过机器人的用户
+**-user** : 同时给所有启动过机器人的用户发私信
 **-assistant** : 用助手账号广播
-**-nobot** : 强制机器人不广播（仅助手广播）
+**-nobot** : 跳过机器人自身的服务群广播
+**-forward** : 使用 `forward_messages`（显示「转发自」）。**默认是 `copy_message`** — 干净的外观，无转发标签，适合广告/推广场景。
 
-**示例:** `/broadcast -user -assistant -pin Hello Testing`
+**示例:**
+• `/broadcast -user -assistant -pin Hello Testing` — 文字广播到所有地方，静默置顶。
+• 上传一张推广图，caption 写 `/broadcast -user 来看看我们的新机器人!` — 图片 + caption 干净地送达每个群和每个用户。
+• 回复一条视频消息并发 `/broadcast -pinloud` — 视频被复制（无转发标签），并带提示置顶。
 
 """
 
@@ -556,16 +574,25 @@ Private chat တွင် ပြသသော /start welcome ကို Owner သ�
 /authorized - Allowed chats အားလုံး စစ်ပါ။
 
 🌐**<u>[BROADCAST FUNCTION] 🌐</u>**
-/broadcast [Message / Reply to a Message] - Bot ၏ Served Chats အားလုံးသို့ message ပို့ပါ။
+**Text** သို့မဟုတ် **media** (photo, GIF, video, document, audio, sticker) ကို bot ၏ served chats အားလုံးသို့ broadcast ပါ။
 
-<u>Broadcast options:</u>
-**-pin** : Message ကို pin ထိုးပါ။
+**[INPUT_MODES :: 3]**
+1. `/broadcast မင်္ဂလာပါ` — text broadcast ။
+2. Message တစ်ခုကို **reply** လုပ်ပြီး `/broadcast` — media ပါသည် ဖြစ်စေ မပါသည် ဖြစ်စေ ။
+3. Media (photo / GIF / video / etc.) ကို တင်ပြီး caption တွင် `/broadcast <သင်၏ caption>` ထည့်ပါ — media + cleaned caption ကို broadcast ပါမည်။
+
+<u>[FLAGS :: text/caption အတွင်း မည်သည့်နေရာတွင်ဖြစ်စေ ထည့်နိုင်]</u>
+**-pin** : Silent pin ထိုးပါ။
 **-pinloud** : Loud notification ဖြင့် pin ထိုးပါ။
-**-user** : Bot ကို စတင်ဖူးသော users များသို့ broadcast ပါ။
-**-assistant** : Assistant account မှ broadcast ပါ။
-**-nobot** : Bot မှ မ broadcast ။
+**-user** : Bot စတင်ဖူးသော users အားလုံးသို့ DM ပါ။
+**-assistant** : Assistant accounts မှလည်း broadcast ပါ။
+**-nobot** : Bot ၏ served chats sweep ကို skip ပါ။
+**-forward** : `forward_messages` သုံးပါ ("Forwarded from" header ပြသမည်)။ **Default = `copy_message`** [forward header မပါ — advertisement / promotion အတွက် သင့်တော်]။
 
-**Example:** `/broadcast -user -assistant -pin Hello Testing`
+**Examples:**
+• `/broadcast -user -assistant -pin Hello Testing` — text ကို everywhere ပို့ပြီး silent pin ။
+• Promo image တင်ပြီး caption: `/broadcast -user ကျွန်ုပ်တို့၏ bot အသစ်ကို ကြည့်ပါ!` — image + caption ကို clean ပုံစံဖြင့် ပို့ပါမည်။
+• Video တစ်ခုကို reply လုပ်ပြီး `/broadcast -pinloud` — video ကို copy ပြုလုပ်ပြီး (forward tag မပါ) loud pin ထိုးပါမည်။
 
 """
 

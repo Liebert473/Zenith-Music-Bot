@@ -67,133 +67,203 @@ async def clean_mode(client, update, users, chats):
     await set_queries(1)
 
 
+# Broadcast flag order matters: longest first so e.g. "-pinloud" is removed
+# before "-pin" (which is a substring of it).
+_BROADCAST_FLAGS = (
+    "-pinloud", "-forward", "-assistant",
+    "-nobot", "-user", "-pin",
+)
+
+
+def _strip_broadcast_flags(s: str) -> str:
+    """Remove all known broadcast flags from a text/caption."""
+    if not s:
+        return ""
+    for flag in _BROADCAST_FLAGS:
+        s = s.replace(flag, "")
+    return " ".join(s.split()).strip()
+
+
+def _flood_seconds(e: FloodWait) -> int:
+    """pyrogram 2.x uses .value; v1 used .x. Be defensive."""
+    return int(getattr(e, "value", getattr(e, "x", 0)) or 0)
+
+
+def _has_media(m) -> bool:
+    return bool(
+        m.photo or m.video or m.animation or m.document
+        or m.audio or m.voice or m.sticker or m.video_note
+    )
+
+
 @app.on_message(filters.command(BROADCAST_COMMAND) & SUDOERS)
 @language
 async def braodcast_message(client, message, _):
+    """
+    Broadcast a message to all served chats / users.
+
+    Three input modes:
+      1. Reply to any message  →  bot copies that message to every chat.
+      2. Upload media (photo, GIF, video, document, etc.) with /broadcast
+         in the caption  →  bot copies the media (and cleaned caption) out.
+      3. Plain text:  /broadcast Hello everyone  →  bot sends text.
+
+    Flags (any order, anywhere in the text/caption):
+      -nobot     skip the bot's own served chats
+      -user      also DM every served user
+      -assistant also broadcast through assistant accounts
+      -pin       silent-pin in each chat
+      -pinloud   pin with notification
+      -forward   use forward_messages (shows "Forwarded from") instead
+                 of the default copy_message (clean look — recommended
+                 for advertising / promotional sends)
+    """
     global IS_BROADCASTING
-    if message.reply_to_message:
-        x = message.reply_to_message.id
-        y = message.chat.id
+
+    raw = message.text or message.caption or ""
+    has_media = _has_media(message)
+    has_reply = message.reply_to_message is not None
+
+    # ── Resolve source of the broadcast content ──────────────────────────
+    src_chat = None
+    src_msg_id = None
+    custom_caption = None  # only for media-with-command
+    text_only = None       # only for plain-text mode
+
+    if has_reply:
+        src_chat = message.chat.id
+        src_msg_id = message.reply_to_message.id
+    elif has_media:
+        # Media uploaded with /broadcast in caption
+        src_chat = message.chat.id
+        src_msg_id = message.id
+        cleaned = _strip_broadcast_flags(message.caption or "")
+        # Drop the leading "/broadcast" command token
+        for cmd in BROADCAST_COMMAND:
+            tok = f"/{cmd.lower()}"
+            if cleaned.lower().startswith(tok):
+                cleaned = cleaned[len(tok):].strip()
+                break
+        custom_caption = cleaned or None
     else:
+        # Plain text
         if len(message.command) < 2:
             return await message.reply_text(_["broad_5"])
-        query = message.text.split(None, 1)[1]
-        if "-pin" in query:
-            query = query.replace("-pin", "")
-        if "-nobot" in query:
-            query = query.replace("-nobot", "")
-        if "-pinloud" in query:
-            query = query.replace("-pinloud", "")
-        if "-assistant" in query:
-            query = query.replace("-assistant", "")
-        if "-user" in query:
-            query = query.replace("-user", "")
-        if query == "":
+        text_only = _strip_broadcast_flags(
+            message.text.split(None, 1)[1]
+        )
+        if not text_only:
             return await message.reply_text(_["broad_6"])
+
+    # ── Parse flags from raw text or caption ─────────────────────────────
+    use_forward   = "-forward" in raw
+    use_pinloud   = "-pinloud" in raw
+    # `-pin` is a substring of `-pinloud`; ignore it if pinloud is present.
+    use_pin       = ("-pin" in raw) and not use_pinloud
+    to_users      = "-user" in raw
+    no_bot        = "-nobot" in raw
+    use_assistant = "-assistant" in raw
+
+    async def _send(client_, target_chat_id):
+        """Send the resolved broadcast content via the given client."""
+        if src_msg_id is None:
+            return await client_.send_message(target_chat_id, text=text_only)
+        if use_forward:
+            return await client_.forward_messages(
+                target_chat_id, src_chat, src_msg_id
+            )
+        # Default: copy_message → no "forwarded from" header.
+        if custom_caption is not None:
+            return await client_.copy_message(
+                target_chat_id, src_chat, src_msg_id,
+                caption=custom_caption,
+            )
+        return await client_.copy_message(
+            target_chat_id, src_chat, src_msg_id
+        )
 
     IS_BROADCASTING = True
 
-    # Bot broadcast inside chats
-    if "-nobot" not in message.text:
+    # ── Broadcast inside chats (default) ─────────────────────────────────
+    if not no_bot:
         sent = 0
         pin = 0
-        chats = []
         schats = await get_served_chats()
-        for chat in schats:
-            chats.append(int(chat["chat_id"]))
+        chats = [int(c["chat_id"]) for c in schats]
         for i in chats:
             if i == -1001733534088:
                 continue
             try:
-                m = (
-                    await app.forward_messages(i, y, x)
-                    if message.reply_to_message
-                    else await app.send_message(i, text=query)
-                )
-                if "-pin" in message.text:
+                m = await _send(app, i)
+                if use_pin or use_pinloud:
                     try:
-                        await m.pin(disable_notification=True)
+                        await m.pin(disable_notification=not use_pinloud)
                         pin += 1
                     except Exception:
-                        continue
-                elif "-pinloud" in message.text:
-                    try:
-                        await m.pin(disable_notification=False)
-                        pin += 1
-                    except Exception:
-                        continue
+                        pass
                 sent += 1
             except FloodWait as e:
-                flood_time = int(e.x)
-                if flood_time > 200:
+                wait = _flood_seconds(e)
+                if wait > 200:
                     continue
-                await asyncio.sleep(flood_time)
+                await asyncio.sleep(wait)
             except Exception:
                 continue
         try:
             await message.reply_text(_["broad_1"].format(sent, pin))
-        except:
+        except Exception:
             pass
 
-    # Bot broadcasting to users
-    if "-user" in message.text:
+    # ── Direct-message every served user ────────────────────────────────
+    if to_users:
         susr = 0
-        served_users = []
         susers = await get_served_users()
-        for user in susers:
-            served_users.append(int(user["user_id"]))
+        served_users = [int(u["user_id"]) for u in susers]
         for i in served_users:
             try:
-                m = (
-                    await app.forward_messages(i, y, x)
-                    if message.reply_to_message
-                    else await app.send_message(i, text=query)
-                )
+                await _send(app, i)
                 susr += 1
             except FloodWait as e:
-                flood_time = int(e.x)
-                if flood_time > 200:
+                wait = _flood_seconds(e)
+                if wait > 200:
                     continue
-                await asyncio.sleep(flood_time)
+                await asyncio.sleep(wait)
             except Exception:
                 pass
         try:
             await message.reply_text(_["broad_7"].format(susr))
-        except:
+        except Exception:
             pass
 
-    # Bot broadcasting by assistant
-    if "-assistant" in message.text:
+    # ── Broadcast through assistant userbots ────────────────────────────
+    if use_assistant:
         aw = await message.reply_text(_["broad_2"])
         text = _["broad_3"]
         from YukkiMusic.core.userbot import assistants
 
         for num in assistants:
             sent = 0
-            client = await get_client(num)
-            async for dialog in client.iter_dialogs():
+            ub = await get_client(num)
+            async for dialog in ub.iter_dialogs():
                 if dialog.chat.id == -1001733534088:
                     continue
                 try:
-                    await client.forward_messages(
-                        dialog.chat.id, y, x
-                    ) if message.reply_to_message else await client.send_message(
-                        dialog.chat.id, text=query
-                    )
+                    await _send(ub, dialog.chat.id)
                     sent += 1
                 except FloodWait as e:
-                    flood_time = int(e.x)
-                    if flood_time > 200:
+                    wait = _flood_seconds(e)
+                    if wait > 200:
                         continue
-                    await asyncio.sleep(flood_time)
+                    await asyncio.sleep(wait)
                 except Exception as e:
                     print(e)
                     continue
             text += _["broad_4"].format(num, sent)
         try:
             await aw.edit_text(text)
-        except:
+        except Exception:
             pass
+
     IS_BROADCASTING = False
 
 
