@@ -14,14 +14,14 @@ from pyrogram import filters
 import config
 from strings import get_command
 from YukkiMusic import app
-from YukkiMusic.misc import SUDOERS
+_OWNER = filters.user(config.OWNER_ID)
 from YukkiMusic.utils.database.memorydatabase import get_video_limit
 from YukkiMusic.utils.formatters import convert_bytes
 
 VARS_COMMAND = get_command("VARS_COMMAND")
 
 
-@app.on_message(filters.command(VARS_COMMAND) & SUDOERS)
+@app.on_message(filters.command(VARS_COMMAND) & _OWNER)
 async def varsFunc(client, message):
     mystic = await message.reply_text(
         "Please wait.. Getting your config"

@@ -328,41 +328,40 @@ _HELP_4_MY = """✅<u>**[⚡ EXTRA COMMANDS] ⚡**</u>
 
 # ── HELP_5: Sudo / Owner Commands — PAGE 1 (user/start/support/bot mgmt) ──
 _HELP_5p1_EN = """📄 **Sudo Commands — Page 1 / 2**
+🔐 = Owner only  |  ✅ = Sudo accessible
 
-🔰**<u>ADD & REMOVE SUDO USERS:</u>**
+🔰**<u>SUDO USERS [🔐 Owner]:</u>**
 /addsudo [Username or Reply] — Add to sudo list.
 /delsudo [Username or Reply] — Remove from sudo list.
+/sudolist — View all sudo users. (public)
 
-🛸**<u>OWNER /START CUSTOMIZATION:</u>**
-/start welcome in private chat is owner-editable and bypasses the language system (all users see the same message).
+🛸**<u>START CUSTOMIZATION [🔐 Owner]:</u>**
+/setstart [text] or reply — Set welcome text. `{bot}` = bot name.
+/setstartimg — Reply to photo or provide [url] to set welcome image.
+/clearstart [text|image|all] — Clear custom start. Default: `all`.
+/viewstart — Preview current /start.
 
-/setstart [text] or reply to a message — Set welcome text. Use `{bot}` for the bot name.
-/setstartimg — Reply to a photo to set it as the welcome image, or /setstartimg [url].
-/clearstart [text|image|all] — Clear custom text, image, or both. Default: `all`.
-/viewstart — Preview current custom /start.
+🔗**<u>SUPPORT LINKS [🔐 Owner]:</u>**
+/setsupportgroup or /setgroup [@user | t.me/...] — Set support group link.
+/setsupportchannel or /setchannel [@user | t.me/...] — Set support channel link.
+/clearsupport [group|channel|all] — Clear override. Default: `all`.
+/viewsupport — Show active links (override vs .env).
 
-🔗**<u>SUPPORT LINKS (runtime override):</u>**
-Override the Support Group / Channel buttons on /start without restarting.
-
-/setsupportgroup or /setgroup [@user | https://t.me/...] — Set support group link.
-/setsupportchannel or /setchannel [@user | https://t.me/...] — Set support channel link.
-/clearsupport [group|channel|all] — Clear override, fall back to `.env`. Default: `all`.
-/viewsupport — Show active links (override vs .env defaults).
-
-🛃**<u>HEROKU / CONFIG:</u>**
+🛃**<u>CONFIG [🔐 Owner]:</u>**
+/vars — View all current config vars.
 /usage — Dyno usage.
-/get_var — Get a config var.
+/get_var — Read a config var.
 /del_var — Delete a config var.
-/set_var [Name] [Value] — Set or update a config var.
+/set_var [Name] [Value] — Set/update a config var.
 
 🤖**<u>BOT MANAGEMENT:</u>**
-/reboot — Reboot the bot.
-/update — Update the bot.
-/speedtest — Check server speed.
-/maintenance [enable|disable] — Toggle maintenance mode.
-/logger [enable|disable] — Log queries to logger group.
-/get_log [lines] — Fetch bot log (Heroku or VPS).
-/autoend [enable|disable] — Auto-end stream after 3 min if nobody listening."""
+🔐 /reboot — Reboot the bot.
+🔐 /update — Pull updates and restart.
+🔐 /get_log [lines] — Fetch bot log.
+🔐 /maintenance [enable|disable] — Toggle maintenance mode.
+✅ /speedtest — Server speed check.
+✅ /logger [enable|disable] — Log queries to logger group.
+✅ /autoend [enable|disable] — Auto-end stream after 3 min idle."""
 
 
 # ── HELP_5: Sudo / Owner Commands — PAGE 2 (moderation / broadcast) ────
@@ -400,52 +399,56 @@ Sends text **or media** (photo, GIF, video, doc, audio, sticker) to all served c
 
 **Input modes:**
 1. `/broadcast Hello` — plain text.
-2. Reply to any message + `/broadcast` — copies that message (no forward tag).
-3. Upload media with `/broadcast caption` — media + caption sent cleanly.
+2. Reply to any message + `/broadcast` — copies it (no "Forwarded from").
+3. Upload media + caption `/broadcast text` — sends media cleanly.
 
-**Flags:** `-pin` `-pinloud` `-user` `-assistant` `-nobot` `-forward`
-• `-forward` — use forward_messages (shows "Forwarded from"). Default is `copy_message`.
+**Flags:**
+`-pin` — Silent-pin in each chat.
+`-pinloud` — Pin with notification; overrides `-pin`.
+`-user` — Also DM every served user.
+`-nobot` — Skip served chats (pair with `-user` / `-assistant`).
+`-assistant` — Also send via assistant userbot accounts.
+`-forward` — Show "Forwarded from". Default: `copy_message` (no header).
 
-**Example:** `/broadcast -user -pin` + reply to a promo image."""
+**Example:** reply to a promo image + `/broadcast -user -pin`
 
 
 # ── PAGE 1: Chinese ─────────────────────────────────────────────────────
 _HELP_5p1_ZH = """📄 **Sudo 命令 — 第 1 / 2 页**
+🔐 = 仅主人  |  ✅ = Sudo 可用
 
-🔰**<u>添加 / 移除 Sudo 用户:</u>**
+🔰**<u>Sudo 用户 [🔐 主人]:</u>**
 /addsudo [用户名 或 回复] — 加入 sudo 名单。
 /delsudo [用户名 或 回复] — 移出 sudo 名单。
+/sudolist — 查看 sudo 用户列表。（公开）
 
-🛸**<u>主人专属 — /start 自定义:</u>**
-私聊 /start 欢迎语可由主人编辑，不受语言系统影响。
+🛸**<u>/start 自定义 [🔐 主人]:</u>**
+/setstart [文本] 或 回复消息 — 设置欢迎文本，`{bot}` = 机器人名字。
+/setstartimg — 回复图片或提供 [url] 设为欢迎图。
+/clearstart [text|image|all] — 清除自定义。默认 `all`。
+/viewstart — 预览当前 /start。
 
-/setstart [文本] 或 回复消息 — 设置欢迎文本，`{bot}` 替换为机器人名字。
-/setstartimg — 回复图片设为欢迎图，或 /setstartimg [url]。
-/clearstart [text|image|all] — 清除自定义内容。默认 `all`。
-/viewstart — 预览当前 /start 配置。
+🔗**<u>支持链接 [🔐 主人]:</u>**
+/setsupportgroup 或 /setgroup [@用户名 | t.me/...] — 设置支持群组。
+/setsupportchannel 或 /setchannel [@用户名 | t.me/...] — 设置支持频道。
+/clearsupport [group|channel|all] — 清除覆盖。默认 `all`。
+/viewsupport — 显示当前生效链接。
 
-🔗**<u>支持链接（运行时覆盖）:</u>**
-无需重启即可更改 /start 键盘上的支持群组 / 频道按钮。
-
-/setsupportgroup 或 /setgroup [@用户名 | https://t.me/...] — 设置支持群组链接。
-/setsupportchannel 或 /setchannel [@用户名 | https://t.me/...] — 设置支持频道链接。
-/clearsupport [group|channel|all] — 清除覆盖，回退到 `.env`。默认 `all`。
-/viewsupport — 显示当前生效的链接。
-
-🛃**<u>Heroku / 配置:</u>**
+🛃**<u>配置 [🔐 主人]:</u>**
+/vars — 查看所有配置变量。
 /usage — Dyno 使用量。
-/get_var — 获取配置变量。
+/get_var — 读取配置变量。
 /del_var — 删除配置变量。
-/set_var [名称] [值] — 设置或更新配置变量。
+/set_var [名称] [值] — 设置 / 更新配置变量。
 
 🤖**<u>机器人管理:</u>**
-/reboot — 重启机器人。
-/update — 更新机器人。
-/speedtest — 服务器测速。
-/maintenance [enable|disable] — 维护模式开关。
-/logger [enable|disable] — 是否记录查询到日志群。
-/get_log [行数] — 获取机器人日志。
-/autoend [enable|disable] — 无人收听 3 分钟后自动结束语音流。"""
+🔐 /reboot — 重启机器人。
+🔐 /update — 拉取更新并重启。
+🔐 /get_log [行数] — 获取日志。
+🔐 /maintenance [enable|disable] — 维护模式开关。
+✅ /speedtest — 服务器测速。
+✅ /logger [enable|disable] — 查询日志记录。
+✅ /autoend [enable|disable] — 无人收听 3 分钟自动结束。"""
 
 
 # ── PAGE 2: Chinese ─────────────────────────────────────────────────────
@@ -481,54 +484,58 @@ _HELP_5p2_ZH = """📄 **Sudo 命令 — 第 2 / 2 页**
 🌐**<u>广播:</u>**
 发送 **文字或媒体**（图片 / GIF / 视频 / 文档 / 音频 / 贴纸）到所有服务群。
 
-**三种输入方式:**
+**输入方式:**
 1. `/broadcast 你好` — 纯文字。
-2. 回复任意消息 + `/broadcast` — 复制该消息（无转发标签）。
-3. 上传媒体，caption 写 `/broadcast 文字` — 干净地发送媒体+文字。
+2. 回复任意消息 + `/broadcast` — 复制（无转发标签）。
+3. 上传媒体 + caption 写 `/broadcast 文字` — 干净发送。
 
-**标志:** `-pin` `-pinloud` `-user` `-assistant` `-nobot` `-forward`
-• `-forward` 显示「转发自」，默认为 `copy_message`（无标签）。
+**标志:**
+`-pin` — 在各群静默置顶。
+`-pinloud` — 有通知置顶；覆盖 `-pin`。
+`-user` — 同时私信所有已启动用户。
+`-nobot` — 跳过服务群（配合 `-user` / `-assistant`）。
+`-assistant` — 同时通过助手账号发送。
+`-forward` — 显示「转发自」。默认：`copy_message`（无标签）。
 
 **示例:** 回复推广图 + `/broadcast -user -pin`"""
 
 
 # ── PAGE 1: Burmese ──────────────────────────────────────────────────────
 _HELP_5p1_MY = """📄 **[SUDO COMMANDS :: PAGE 1 / 2]**
+🔐 = Owner သာ  |  ✅ = Sudo သုံးနိုင်
 
-🔰**<u>[⭐ SUDO USERS]</u>**
+🔰**<u>[⭐ SUDO USERS :: 🔐 OWNER]</u>**
 /addsudo [Username / Reply] — Sudo list ထဲ ထည့်ပါ။
 /delsudo [Username / Reply] — Sudo list မှ ဖယ်ပါ။
+/sudolist — Sudo users စာရင်း ကြည့်ပါ (public)။
 
-🛸**<u>[OWNER /START CUSTOMIZATION]</u>**
-Private chat /start welcome ကို Owner ပြောင်းနိုင်သည်။ Language system ကို bypass ပြုလုပ်သည်။
-
+🛸**<u>[/START CUSTOMIZATION :: 🔐 OWNER]</u>**
 /setstart [text] / reply — Welcome text သတ်မှတ်ပါ (`{bot}` = bot name)။
 /setstartimg — Photo reply / URL ဖြင့် welcome image သတ်မှတ်ပါ။
 /clearstart [text|image|all] — Custom /start ဖျက်ပါ [default: all]။
 /viewstart — Custom /start preview ကြည့်ပါ။
 
-🔗**<u>[SUPPORT LINKS :: RUNTIME]</u>**
-Bot restart မလုပ်ဘဲ /start keyboard ၏ support buttons ပြောင်းနိုင်သည်။
-
+🔗**<u>[SUPPORT LINKS :: 🔐 OWNER]</u>**
 /setsupportgroup / /setgroup [@user | t.me/...] — Support group link သတ်မှတ်ပါ။
 /setsupportchannel / /setchannel [@user | t.me/...] — Support channel link သတ်မှတ်ပါ။
 /clearsupport [group|channel|all] — Override ဖျက်ပြီး .env fallback [default: all]။
 /viewsupport — Active links ကြည့်ပါ (override vs .env)။
 
-🛃**<u>[HEROKU / CONFIG]</u>**
+🛃**<u>[CONFIG :: 🔐 OWNER]</u>**
+/vars — Config vars အားလုံး ကြည့်ပါ။
 /usage — Dyno usage ။
 /get_var — Config var ရယူပါ။
 /del_var — Config var ဖျက်ပါ။
 /set_var [Name] [Value] — Config var ထည့်/update ပါ။
 
 🤖**<u>[BOT MANAGEMENT]</u>**
-/reboot — Bot restart ပြုလုပ်ပါ။
-/update — Bot update ပြုလုပ်ပါ။
-/speedtest — Server speed စစ်ပါ။
-/maintenance [enable|disable] — Maintenance mode ။
-/logger [enable|disable] — Query logging ။
-/get_log [lines] — Bot log ရယူပါ။
-/autoend [enable|disable] — 3 မိနစ် နားမထောင်ပါက auto stream end ။"""
+🔐 /reboot — Bot restart ပြုလုပ်ပါ။
+🔐 /update — Update ဆွဲပြီး restart ပါ။
+🔐 /get_log [lines] — Bot log ရယူပါ။
+🔐 /maintenance [enable|disable] — Maintenance mode ။
+✅ /speedtest — Server speed စစ်ပါ။
+✅ /logger [enable|disable] — Query logging ။
+✅ /autoend [enable|disable] — 3 မိနစ် idle ဆိုပါက auto stream end ။"""
 
 
 # ── PAGE 2: Burmese ──────────────────────────────────────────────────────
@@ -569,8 +576,13 @@ Text / media (photo, GIF, video, doc, audio, sticker) ကို served chats အ
 2. Message ကို reply + `/broadcast` — copy ပြုလုပ်ပါ (forward tag မပါ)။
 3. Media upload + caption တွင် `/broadcast text` — media + text ပို့ပါ။
 
-**Flags:** `-pin` `-pinloud` `-user` `-assistant` `-nobot` `-forward`
-• `-forward` = "Forwarded from" ပြသမည်། Default = `copy_message`[tag မပါ]။
+**Flags:**
+`-pin` — Served chats တစ်ခုစီတွင် silent-pin ပြုလုပ်ပါ။
+`-pinloud` — Notification ပါ pin; `-pin` ကို override ပြုလုပ်သည်။
+`-user` — Served users အားလုံးကို DM ပါ ပို့ပါ။
+`-nobot` — Served chats ကို ကျော်ပါ (`-user` / `-assistant` နှင့် တွဲသုံးပါ)။
+`-assistant` — Assistant userbot accounts ဖြင့်လည်း ပို့ပါ။
+`-forward` — "Forwarded from" ပြသသည်။ Default: `copy_message` (tag မပါ)။
 
 **Example:** Promo image ကို reply + `/broadcast -user -pin`"""
 
