@@ -11,12 +11,20 @@ import asyncio
 import html as _html
 
 from pyrogram import filters
-from pyrogram.enums import ChatType, ParseMode
-from YukkiMusic.utils.custom_emoji import enhance_text
-from YukkiMusic.utils import tg_send as _ts
-from pyrogram.types import (InlineKeyboardButton,
+from pyrogram.enums import ChatMemberStatus, ChatType, ParseMode
+from pyrogram.errors import (
+    ChatAdminRequired,
+    FloodWait,
+    UserAlreadyParticipant,
+    UserBannedInChannel,
+    UserNotParticipant,
+    UserPrivacyRestricted,
+)
+from pyrogram.types import (ChatPrivileges, InlineKeyboardButton,
                             InlineKeyboardMarkup, Message)
 from youtubesearchpython.__future__ import VideosSearch
+from YukkiMusic.utils.custom_emoji import enhance_text
+from YukkiMusic.utils import tg_send as _ts
 
 import config
 from config import BANNED_USERS
@@ -267,6 +275,213 @@ async def testbot(client, message: Message, _):
 
 welcome_group = 2
 
+# ── Required bot permissions for music streaming ─────────────────────────────
+_REQUIRED_BOT_PERMS = {
+    "can_manage_video_chats": "Manage Voice/Video Chats",
+    "can_delete_messages":    "Delete Messages",
+    "can_invite_users":       "Add Members",
+}
+
+
+async def _setup_new_chat(chat_id: int, chat_title: str) -> None:
+    """
+    Background task run once when the bot joins a new supergroup.
+
+    Steps
+    ─────
+    1. Check whether the bot has the necessary admin permissions and send
+       a one-time action-required message if anything is missing.
+    2. Resolve the assigned assistant account, verify it is not banned,
+       and join it to the chat (via username or invite link).
+    3. Promote the assistant with Manage Voice/Video Chats so it can
+       stream audio/video.
+    4. Log the full outcome (success or every failure) to LOG_GROUP_ID.
+    """
+    await asyncio.sleep(2)          # let the welcome message land first
+
+    log     = config.LOG_GROUP_ID
+    title   = _html.escape(chat_title or str(chat_id))
+
+    # ── helper: safe log ──────────────────────────────────────────────────
+    async def _log(text: str) -> None:
+        if not log:
+            return
+        try:
+            await app.send_message(log, text, parse_mode=ParseMode.HTML)
+        except Exception:
+            pass
+
+    async def _chat_msg(text: str) -> None:
+        try:
+            await app.send_message(chat_id, text, parse_mode=ParseMode.HTML)
+        except Exception:
+            pass
+
+    # ── 1. Bot permission audit ───────────────────────────────────────────
+    missing_perms: list[str] = []
+    try:
+        me     = await app.get_chat_member(chat_id, app.id)
+        privs  = me.privileges         # None when not admin
+        if privs is None:
+            missing_perms = list(_REQUIRED_BOT_PERMS.values())
+        else:
+            for attr, label in _REQUIRED_BOT_PERMS.items():
+                if not getattr(privs, attr, False):
+                    missing_perms.append(label)
+    except Exception:
+        missing_perms = list(_REQUIRED_BOT_PERMS.values())
+
+    if missing_perms:
+        lines = "\n".join(f"  • {p}" for p in missing_perms)
+        await _chat_msg(
+            f"⚠️ <b>Action Required</b>\n\n"
+            f"Please promote me as admin with the following permissions:\n"
+            f"{lines}\n\n"
+            f"<i>Without these, voice/video streaming may not work properly.</i>"
+        )
+
+    # ── 2. Resolve assistant ──────────────────────────────────────────────
+    try:
+        userbot  = await get_assistant(chat_id)
+    except Exception as exc:
+        await _log(
+            f"❌ <b>Assistant Resolve Error</b>\n"
+            f"<b>Chat:</b> {title} (<code>{chat_id}</code>)\n"
+            f"<b>Error:</b> <code>{_html.escape(str(exc))}</code>"
+        )
+        return
+
+    asst_id   = getattr(userbot, "id",       None)
+    asst_name = getattr(userbot, "name",     "assistant")
+    asst_user = getattr(userbot, "username", None)
+    asst_ref  = f"@{asst_user}" if asst_user else asst_name
+
+    # ── 3. Check assistant membership ────────────────────────────────────
+    already_in = False
+    try:
+        member = await app.get_chat_member(chat_id, asst_id)
+        if member.status == ChatMemberStatus.BANNED:
+            await _chat_msg(
+                f"⚠️ <b>Assistant Banned</b>\n\n"
+                f"The assistant {asst_ref} is <b>banned</b> in this group.\n"
+                f"Please unban them to enable voice/video streaming."
+            )
+            await _log(
+                f"🚫 <b>Assistant Banned</b>\n"
+                f"<b>Chat:</b> {title} (<code>{chat_id}</code>)\n"
+                f"<b>Assistant:</b> {asst_ref} (<code>{asst_id}</code>)"
+            )
+            return
+        if member.status not in (ChatMemberStatus.LEFT,):
+            already_in = True
+    except UserNotParticipant:
+        already_in = False
+    except Exception:
+        already_in = False
+
+    # ── 4. Invite assistant if not present ────────────────────────────────
+    if not already_in:
+        try:
+            chat = await app.get_chat(chat_id)
+            if chat.username:
+                try:
+                    await userbot.join_chat(chat.username)
+                except UserAlreadyParticipant:
+                    pass
+            else:
+                # private group — need invite link
+                invitelink = getattr(chat, "invite_link", None)
+                if not invitelink:
+                    try:
+                        invitelink = await app.export_chat_invite_link(chat_id)
+                    except ChatAdminRequired:
+                        await _chat_msg(
+                            f"⚠️ <b>Cannot Auto-Invite Assistant</b>\n\n"
+                            f"I need the <b>Add Members</b> permission to invite {asst_ref}.\n"
+                            f"Please add them manually and grant <b>Manage Voice Chats</b>."
+                        )
+                        return
+                    except Exception as exc:
+                        await _log(
+                            f"❌ <b>Invite Link Error</b>\n"
+                            f"<b>Chat:</b> {title} (<code>{chat_id}</code>)\n"
+                            f"<b>Error:</b> <code>{_html.escape(str(exc))}</code>"
+                        )
+                        return
+                if invitelink.startswith("https://t.me/+"):
+                    invitelink = invitelink.replace(
+                        "https://t.me/+", "https://t.me/joinchat/"
+                    )
+                try:
+                    await userbot.join_chat(invitelink)
+                except UserAlreadyParticipant:
+                    pass
+
+        except FloodWait as exc:
+            await asyncio.sleep(exc.value)
+
+        except UserPrivacyRestricted:
+            await _chat_msg(
+                f"⚠️ <b>Privacy Restricted</b>\n\n"
+                f"Can't auto-invite {asst_ref} due to their privacy settings.\n"
+                f"Please add them manually and grant <b>Manage Voice Chats</b>."
+            )
+            await _log(
+                f"⚠️ <b>Privacy Restricted</b>\n"
+                f"<b>Chat:</b> {title} (<code>{chat_id}</code>)\n"
+                f"<b>Assistant:</b> {asst_ref} — privacy restricted, manual add required."
+            )
+            return
+
+        except UserBannedInChannel:
+            await _chat_msg(
+                f"⚠️ <b>Assistant Banned</b>\n\n"
+                f"{asst_ref} is banned in this group.\n"
+                f"Please unban them to enable streaming."
+            )
+            await _log(
+                f"🚫 <b>Assistant Banned on Join</b>\n"
+                f"<b>Chat:</b> {title} (<code>{chat_id}</code>)\n"
+                f"<b>Assistant:</b> {asst_ref} (<code>{asst_id}</code>)"
+            )
+            return
+
+        except Exception as exc:
+            await _log(
+                f"❌ <b>Assistant Join Error</b>\n"
+                f"<b>Chat:</b> {title} (<code>{chat_id}</code>)\n"
+                f"<b>Assistant:</b> {asst_ref}\n"
+                f"<b>Error:</b> <code>{_html.escape(str(exc))}</code>"
+            )
+            return
+
+    # ── 5. Promote assistant with voice-chat permission ───────────────────
+    promote_ok = False
+    try:
+        await app.promote_chat_member(
+            chat_id,
+            asst_id,
+            privileges=ChatPrivileges(can_manage_video_chats=True),
+        )
+        promote_ok = True
+    except ChatAdminRequired:
+        await _chat_msg(
+            f"⚠️ Please promote {asst_ref} as admin with "
+            f"<b>Manage Voice Chats</b> permission to enable streaming."
+        )
+    except Exception:
+        pass    # silent — manually promoted chats still work
+
+    # ── 6. Log success ────────────────────────────────────────────────────
+    promote_status = "joined & promoted ✅" if promote_ok else "joined (promote manually ⚠️)"
+    await _log(
+        f"✅ <b>New Chat Setup</b>\n"
+        f"<b>Chat:</b> {title} (<code>{chat_id}</code>)\n"
+        f"<b>Assistant:</b> {asst_ref} (<code>{asst_id}</code>) — {promote_status}\n"
+        f"<b>Bot perms missing:</b> {len(missing_perms)} "
+        f"({', '.join(missing_perms) if missing_perms else 'none'})"
+    )
+
 
 @app.on_message(filters.new_chat_members, group=welcome_group)
 async def welcome(client, message: Message):
@@ -305,6 +520,10 @@ async def welcome(client, message: Message):
                     )),
                     reply_markup=_ts.to_markup(out),
                     parse_mode=ParseMode.HTML,
+                )
+                # One-time setup: permissions check + assistant invite/promote + logging
+                asyncio.create_task(
+                    _setup_new_chat(chat_id, message.chat.title or "")
                 )
             if member.id in config.OWNER_ID:
                 return await message.reply_text(
