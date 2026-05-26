@@ -410,7 +410,7 @@ Sends text **or media** (photo, GIF, video, doc, audio, sticker) to all served c
 `-assistant` — Also send via assistant userbot accounts.
 `-forward` — Show "Forwarded from". Default: `copy_message` (no header).
 
-**Example:** reply to a promo image + `/broadcast -user -pin`
+**Example:** reply to a promo image + `/broadcast -user -pin`"""
 
 
 # ── PAGE 1: Chinese ─────────────────────────────────────────────────────
