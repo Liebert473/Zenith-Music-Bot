@@ -74,23 +74,48 @@ class YukkiBot(Client):
             sys.exit()
         if config.SET_CMDS == str(True):
             try:
-                await self.set_bot_commands(
-                    [
-                        BotCommand("ping", "Check that bot is alive or dead"),
-                        BotCommand("play", "Starts playing the requested song"),
-                        BotCommand("skip", "Moves to the next track in queue"),
-                        BotCommand("pause", "Pause the current playing song"),
-                        BotCommand("resume", "Resume the paused song"),
-                        BotCommand("end", "Clear the queue and leave voice chat"),
-                        BotCommand("shuffle", "Randomly shuffles the queued playlist."),
-                        BotCommand("playmode", "Allows you to change the default playmode for your chat"),
-                        BotCommand("settings", "Open the settings of the music bot for your chat.")
-                        ]
-                    )
-            except:
-                pass
-        else:
-            pass
+                await self.set_bot_commands([
+                    # ── Core playback ──
+                    BotCommand("play",      "🎵 Play a song by name or URL"),
+                    BotCommand("vplay",     "🎥 Play a video by name or URL"),
+                    BotCommand("playforce", "⚡ Force-play (skip current, keep queue)"),
+                    BotCommand("song",      "💾 Download a song from YouTube (PM only)"),
+                    # ── Playback control ──
+                    BotCommand("pause",     "⏸ Pause the current track"),
+                    BotCommand("resume",    "▶️ Resume the paused track"),
+                    BotCommand("skip",      "⏭ Skip to the next track"),
+                    BotCommand("end",       "⏹ Stop playback and leave voice chat"),
+                    BotCommand("mute",      "🔇 Mute the voice chat"),
+                    BotCommand("unmute",    "🔊 Unmute the voice chat"),
+                    BotCommand("loop",      "🔁 Loop the current track"),
+                    BotCommand("seek",      "⏩ Seek forward by N seconds"),
+                    BotCommand("seekback",  "⏪ Seek backward by N seconds"),
+                    BotCommand("shuffle",   "🎲 Shuffle the queue"),
+                    BotCommand("queue",     "📑 Show the current queue"),
+                    # ── Modes & settings ──
+                    BotCommand("playmode",  "🎛️ Change play mode (direct / inline)"),
+                    BotCommand("settings",  "⚙️ Open the bot settings panel"),
+                    BotCommand("language",  "🌐 Change the bot language"),
+                    BotCommand("channelplay", "📡 Link this group to a channel"),
+                    # ── Auth & admin ──
+                    BotCommand("auth",      "🎩 Add a user to AUL (auth users)"),
+                    BotCommand("unauth",    "🗑 Remove a user from AUL"),
+                    BotCommand("authusers", "📋 Show AUL"),
+                    BotCommand("admincache","🔄 Reload admin cache"),
+                    BotCommand("reload",    "🔄 Alias for /admincache"),
+                    # ── Info ──
+                    BotCommand("help",      "📜 Command reference"),
+                    BotCommand("start",     "🛸 Boot the bot"),
+                    BotCommand("ping",      "⚡ Latency / system telemetry"),
+                    BotCommand("lyrics",    "📖 Search song lyrics"),
+                    BotCommand("playlist",  "💾 Your saved server-side playlist"),
+                    BotCommand("gstats",    "📊 Global / personal stats"),
+                ])
+                LOGGER(__name__).info("Bot command menu registered")
+            except Exception as e:
+                LOGGER(__name__).warning(
+                    f"Failed to register bot command menu: {e}"
+                )
         try:
             a = await self.get_chat_member(config.LOG_GROUP_ID, self.id)
             if a.status not in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER):
