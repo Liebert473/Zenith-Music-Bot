@@ -57,16 +57,17 @@ async def playmode_(client, message: Message, _):
             return await message.reply_text(_["cplay_4"])
         if chat.type != "channel":
             return await message.reply_text(_["cplay_5"])
+        creatorusername = None
+        creatorid = None
         try:
-            admins = await app.get_chat_members(
+            async for users in app.get_chat_members(
                 chat.id, filter=ChatMembersFilter.ADMINISTRATORS
-            )
+            ):
+                if users.status == ChatMemberStatus.OWNER:
+                    creatorusername = users.user.username
+                    creatorid = users.user.id
         except:
             return await message.reply_text(_["cplay_4"])
-        for users in admins:
-            if users.status == ChatMemberStatus.OWNER:
-                creatorusername = users.user.username
-                creatorid = users.user.id
         if creatorid != message.from_user.id:
             return await message.reply_text(
                 _["cplay_6"].format(chat.title, creatorusername)

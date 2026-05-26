@@ -543,17 +543,18 @@ class Call(PyTgCalls):
                     db[chat_id][0]["markup"] = "stream"
 
     async def ping(self):
+        # py-tgcalls 2.x: .ping is a plain float property, not awaitable.
         pings = []
         if config.STRING1:
-            pings.append(await self.one.ping)
+            pings.append(self.one.ping)
         if config.STRING2:
-            pings.append(await self.two.ping)
+            pings.append(self.two.ping)
         if config.STRING3:
-            pings.append(await self.three.ping)
+            pings.append(self.three.ping)
         if config.STRING4:
-            pings.append(await self.four.ping)
+            pings.append(self.four.ping)
         if config.STRING5:
-            pings.append(await self.five.ping)
+            pings.append(self.five.ping)
         return str(round(sum(pings) / len(pings), 3))
 
     async def start(self):
