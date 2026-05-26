@@ -15,6 +15,49 @@ from config import GITHUB_REPO, SUPPORT_CHANNEL, SUPPORT_GROUP
 from YukkiMusic import app
 
 
+# Module-level cache for owner-overridden support links. Populated at
+# bot startup by load_owner_links_cache() and live-mutated by the
+# /setsupport... owner commands. Falls back to env config when empty.
+_owner_links_cache = {
+    "support_group": None,
+    "support_channel": None,
+}
+
+
+def update_owner_links_cache(*, support_group=None, support_channel=None):
+    """Live cache update; called by owner /setsupport* commands and
+    by the async loader at startup."""
+    if support_group is not None:
+        _owner_links_cache["support_group"] = support_group or None
+    if support_channel is not None:
+        _owner_links_cache["support_channel"] = support_channel or None
+
+
+def _resolve(key: str, env_default):
+    """Owner override wins; env config is the fallback."""
+    return _owner_links_cache.get(key) or env_default
+
+
+async def load_owner_links_cache():
+    """Pull current overrides from MongoDB into the in-process cache.
+    Call once at startup after the database is reachable."""
+    from YukkiMusic.utils.database import get_owner_links
+    try:
+        doc = await get_owner_links()
+    except Exception:
+        return
+    _owner_links_cache["support_group"] = doc.get("support_group")
+    _owner_links_cache["support_channel"] = doc.get("support_channel")
+
+
+def _support_group():
+    return _resolve("support_group", SUPPORT_GROUP)
+
+
+def _support_channel():
+    return _resolve("support_channel", SUPPORT_CHANNEL)
+
+
 def start_pannel(_):
     buttons = [
         [
@@ -27,34 +70,23 @@ def start_pannel(_):
             ),
         ],
     ]
-    if SUPPORT_CHANNEL and SUPPORT_GROUP:
+    ch, gr = _support_channel(), _support_group()
+    if ch and gr:
         buttons.append(
             [
-                InlineKeyboardButton(
-                    text=_["S_B_4"], url=f"{SUPPORT_CHANNEL}"
-                ),
-                InlineKeyboardButton(
-                    text=_["S_B_3"], url=f"{SUPPORT_GROUP}"
-                ),
+                InlineKeyboardButton(text=_["S_B_4"], url=f"{ch}"),
+                InlineKeyboardButton(text=_["S_B_3"], url=f"{gr}"),
             ]
         )
     else:
-        if SUPPORT_CHANNEL:
-            buttons.append(
-                [
-                    InlineKeyboardButton(
-                        text=_["S_B_4"], url=f"{SUPPORT_CHANNEL}"
-                    )
-                ]
-            )
-        if SUPPORT_GROUP:
-            buttons.append(
-                [
-                    InlineKeyboardButton(
-                        text=_["S_B_3"], url=f"{SUPPORT_GROUP}"
-                    )
-                ]
-            )
+        if ch:
+            buttons.append([
+                InlineKeyboardButton(text=_["S_B_4"], url=f"{ch}")
+            ])
+        if gr:
+            buttons.append([
+                InlineKeyboardButton(text=_["S_B_3"], url=f"{gr}")
+            ])
     return buttons
 
 
@@ -66,34 +98,23 @@ def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
             )
         ]
     ]
-    if SUPPORT_CHANNEL and SUPPORT_GROUP:
+    ch, gr = _support_channel(), _support_group()
+    if ch and gr:
         buttons.append(
             [
-                InlineKeyboardButton(
-                    text=_["S_B_4"], url=f"{SUPPORT_CHANNEL}"
-                ),
-                InlineKeyboardButton(
-                    text=_["S_B_3"], url=f"{SUPPORT_GROUP}"
-                ),
+                InlineKeyboardButton(text=_["S_B_4"], url=f"{ch}"),
+                InlineKeyboardButton(text=_["S_B_3"], url=f"{gr}"),
             ]
         )
     else:
-        if SUPPORT_CHANNEL:
-            buttons.append(
-                [
-                    InlineKeyboardButton(
-                        text=_["S_B_4"], url=f"{SUPPORT_CHANNEL}"
-                    )
-                ]
-            )
-        if SUPPORT_GROUP:
-            buttons.append(
-                [
-                    InlineKeyboardButton(
-                        text=_["S_B_3"], url=f"{SUPPORT_GROUP}"
-                    )
-                ]
-            )
+        if ch:
+            buttons.append([
+                InlineKeyboardButton(text=_["S_B_4"], url=f"{ch}")
+            ])
+        if gr:
+            buttons.append([
+                InlineKeyboardButton(text=_["S_B_3"], url=f"{gr}")
+            ])
     buttons.append(
         [
             InlineKeyboardButton(
@@ -106,28 +127,18 @@ def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
         buttons.append(
             [
                 InlineKeyboardButton(text=_["S_B_7"], user_id=OWNER),
-                InlineKeyboardButton(
-                    text=_["S_B_6"], url=f"{GITHUB_REPO}"
-                ),
+                InlineKeyboardButton(text=_["S_B_6"], url=f"{GITHUB_REPO}"),
             ]
         )
     else:
         if GITHUB_REPO:
-            buttons.append(
-                [
-                    InlineKeyboardButton(
-                        text=_["S_B_6"], url=f"{GITHUB_REPO}"
-                    ),
-                ]
-            )
+            buttons.append([
+                InlineKeyboardButton(text=_["S_B_6"], url=f"{GITHUB_REPO}")
+            ])
         if OWNER:
-            buttons.append(
-                [
-                    InlineKeyboardButton(
-                        text=_["S_B_7"], user_id=OWNER
-                    ),
-                ]
-            )
+            buttons.append([
+                InlineKeyboardButton(text=_["S_B_7"], user_id=OWNER)
+            ])
     buttons.append(
         [InlineKeyboardButton(text=_["ST_B_6"], callback_data="LG")]
     )

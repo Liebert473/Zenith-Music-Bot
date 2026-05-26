@@ -339,6 +339,14 @@ The /start welcome shown in private chats is owner-editable and bypasses the lan
 /clearstart [text|image|all] - Clear the custom text, image, or both. Defaults to `all`.
 /viewstart - Preview the currently-configured custom /start.
 
+🔗**<u>SUPPORT LINKS (runtime override):</u>**
+Override the Support Group and Support Channel buttons that appear on the /start inline keyboard — no need to restart the bot.
+
+/setsupportgroup or /setgroup [@username | https://t.me/...] - Set the Support Group link (public @username, t.me URL, or invite link).
+/setsupportchannel or /setchannel [@username | https://t.me/...] - Set the Support Channel link.
+/clearsupport [group|channel|all] - Clear the override and fall back to the `.env` config value. Defaults to `all`.
+/viewsupport - Show the currently active support links (override + .env defaults side-by-side).
+
 🛃**<u>HEROKU:</u>**
 /usage - Dyno Usage.
 
@@ -412,6 +420,14 @@ _HELP_5_ZH = """🔰**<u>添加 / 移除 Sudo 用户:</u>**
 /clearstart [text|image|all] - 清除自定义文本、图片或全部。默认 `all`。
 /viewstart - 预览当前自定义 /start 配置。
 
+🔗**<u>支持链接（运行时覆盖）:</u>**
+覆盖 /start 内联键盘上的「支持群组」和「支持频道」按钮 — 无需重启机器人。
+
+/setsupportgroup 或 /setgroup [@用户名 | https://t.me/...] - 设置支持群组链接（公开 @username、t.me URL 或邀请链接均可）。
+/setsupportchannel 或 /setchannel [@用户名 | https://t.me/...] - 设置支持频道链接。
+/clearsupport [group|channel|all] - 清除覆盖，回退到 `.env` 配置值。默认 `all`。
+/viewsupport - 显示当前生效的支持链接（覆盖值 + .env 默认值对比）。
+
 🛃**<u>HEROKU:</u>**
 /usage - Dyno 使用情况。
 
@@ -484,6 +500,14 @@ Private chat တွင် ပြသသော /start welcome ကို Owner သ�
 /setstartimg - Photo တစ်ပုံကို reply လုပ်ပြီး welcome image အဖြစ် သတ်မှတ်ပါ။ သို့မဟုတ် /setstartimg [https://url.jpg] ဖြင့် URL ပေးပါ။
 /clearstart [text|image|all] - Custom text/image/all ကို ဖျက်ပါ။ Default = `all`။
 /viewstart - လက်ရှိ custom /start config ကို preview ပြသပါ။
+
+🔗**<u>[SUPPORT LINKS :: RUNTIME OVERRIDE] 🔗</u>**
+/start keyboard ပေါ်ရှိ Support Group နှင့် Support Channel buttons များကို bot restart မလုပ်ဘဲ runtime တွင် တိုက်ရိုက် ပြောင်းလဲနိုင်ပါသည်။
+
+/setsupportgroup / /setgroup [@username | https://t.me/...] - Support Group link သတ်မှတ်ပါ (public @username, t.me URL, invite link ဖြစ်နိုင်ပါသည်)။
+/setsupportchannel / /setchannel [@username | https://t.me/...] - Support Channel link သတ်မှတ်ပါ။
+/clearsupport [group|channel|all] - Override ဖျက်ပြီး `.env` config value သို့ fallback ပြန်ပါ [default: all]။
+/viewsupport - လက်ရှိ active support links ကို ပြသပါ (override + .env defaults နှိုင်းယှဉ်)။
 
 🛃**<u>[HEROKU] 🛃</u>**
 /usage - Dyno Usage ။

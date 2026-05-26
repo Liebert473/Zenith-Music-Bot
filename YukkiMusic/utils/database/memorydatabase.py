@@ -24,6 +24,47 @@ onoffdb = mongodb.onoffper
 suggdb = mongodb.suggestion
 autoenddb = mongodb.autoend
 customstartdb = mongodb.customstart
+ownerlinksdb = mongodb.ownerlinks
+
+
+# Owner-set support group / channel URLs (override config defaults)
+async def get_owner_links() -> dict:
+    doc = await ownerlinksdb.find_one({"_id": "links"})
+    return doc or {}
+
+
+async def set_support_group(url: str):
+    await ownerlinksdb.update_one(
+        {"_id": "links"},
+        {"$set": {"support_group": url}},
+        upsert=True,
+    )
+
+
+async def set_support_channel(url: str):
+    await ownerlinksdb.update_one(
+        {"_id": "links"},
+        {"$set": {"support_channel": url}},
+        upsert=True,
+    )
+
+
+async def clear_support_group():
+    await ownerlinksdb.update_one(
+        {"_id": "links"},
+        {"$unset": {"support_group": ""}},
+    )
+
+
+async def clear_support_channel():
+    await ownerlinksdb.update_one(
+        {"_id": "links"},
+        {"$unset": {"support_channel": ""}},
+    )
+
+
+async def clear_owner_links():
+    await ownerlinksdb.delete_one({"_id": "links"})
 
 
 # Custom /start message (owner-set, language-independent)

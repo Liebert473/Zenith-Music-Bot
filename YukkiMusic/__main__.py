@@ -53,6 +53,15 @@ async def init():
     except:
         pass
     await app.start()
+    # Pull owner-set support group/channel overrides into the in-process
+    # cache so the sync button-builders in inline/start.py see them.
+    try:
+        from YukkiMusic.utils.inline.start import load_owner_links_cache
+        await load_owner_links_cache()
+    except Exception as _exc:
+        LOGGER("YukkiMusic").warning(
+            f"Owner-links cache failed to load: {_exc}"
+        )
     for all_module in ALL_MODULES:
         importlib.import_module("YukkiMusic.plugins" + all_module)
     LOGGER("Yukkimusic.plugins").info(
