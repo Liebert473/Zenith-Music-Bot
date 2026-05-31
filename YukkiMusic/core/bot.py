@@ -59,47 +59,27 @@ class YukkiBot(Client):
         get_me = await self.get_me()
         self.username = get_me.username
         self.id = get_me.id
-        # Warm the peer cache so numeric chat_ids (LOG_GROUP_ID and any
-        # served groups) resolve without ValueError on first /play.
+        # Warm the peer cache: bots can't use get_dialogs(), so we
+        # resolve the log group directly via get_chat() which caches
+        # the peer in the SQLite session file.
         try:
-            count = 0
-            async for _d in self.get_dialogs(limit=500):
-                count += 1
-            LOGGER(__name__).info(f"Bot: cached {count} dialogs")
+            await self.get_chat(config.LOG_GROUP_ID)
+            LOGGER(__name__).info(
+                f"Log group ({config.LOG_GROUP_ID}) resolved and cached."
+            )
         except Exception as e:
-            LOGGER(__name__).warning(f"Bot dialog warmup failed: {e}")
-        # Custom emoji IDs are now user-maintained in custom_emoji._IDS —
-        # no runtime API lookup needed.
+            LOGGER(__name__).warning(f"Log group warmup: {e}")
+
         try:
             await self.send_message(
                 config.LOG_GROUP_ID, "Bot Started"
             )
-        except ValueError as e:
-            if "Peer id invalid" in str(e):
-                # pyrogram 2.x: peer not yet in session cache.
-                # This happens on the first run with a fresh session.
-                # The bot will cache the log group once it receives the
-                # first update from it. After the first successful start
-                # the session file is persisted and this won't recur.
-                LOGGER(__name__).warning(
-                    f"Log group ({config.LOG_GROUP_ID}) not yet in session "
-                    "cache. If your bot IS in the log group, this will "
-                    "resolve itself on the next restart. Continuing..."
-                )
-            else:
-                LOGGER(__name__).error(
-                    "Bot has failed to access the log Group. Make sure "
-                    "that you have added your bot to your log channel and "
-                    "promoted as admin!"
-                )
-                sys.exit()
-        except Exception:
+        except Exception as e:
             LOGGER(__name__).error(
-                "Bot has failed to access the log Group. Make sure that "
-                "you have added your bot to your log channel and promoted "
-                "as admin!"
+                f"Bot has failed to send to log group "
+                f"({config.LOG_GROUP_ID}): {e}\n"
+                "Make sure the bot is a member of the log group."
             )
-            sys.exit()
         if config.SET_CMDS == str(True):
             # ── Command definitions ─────────────────────────────────────
             # (cmd, en, zh, my)  — descriptions must be <256 chars.
