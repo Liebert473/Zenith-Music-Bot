@@ -26,25 +26,36 @@ Style constants:  PRIMARY  SUCCESS  DANGER
 from __future__ import annotations
 
 import logging
+import re
 from typing import Dict, List, Optional
 
 # ── Pyrogram → Bot API HTML normalisation ────────────────────────────────────
-# pyrogram 2.0.106 serialises MessageEntityCustomEmoji as:
-#   <emoji emoji-id="DOC_ID">char</emoji>
-# The HTTP Bot API parse_mode=HTML requires:
+# pyrogram 2.0.x serialises MessageEntityCustomEmoji in at least two forms:
+#
+#   <emoji emoji-id="DOC_ID">char</emoji>   (older builds)
+#   <emoji id="DOC_ID">char</emoji>         (2.0.106 — note: no "emoji-" prefix!)
+#
+# The HTTP Bot API parse_mode=HTML requires exactly:
 #   <tg-emoji emoji-id="DOC_ID">char</tg-emoji>
-# All text/caption passed to the HTTP helpers is normalised at entry so
-# callers never have to think about this.
+#
+# Use a regex that captures the numeric document ID regardless of which
+# attribute name pyrogram chose.  Single/double quotes and bare integers
+# are all accepted defensively.
+#
+# The function is a no-op when the text contains no "<emoji" at all, so
+# there is zero overhead on ordinary messages.
+
+_EMOJI_RE = re.compile(
+    r'<emoji\s+(?:emoji-)?id=["\']?(\d+)["\']?\s*>'
+)
 
 def _fix_tg_emoji(text: str) -> str:
-    """Convert pyrogram's <emoji emoji-id="…"> tags to Bot API <tg-emoji> form."""
-    if not text or "<emoji " not in text:
+    """Normalise all pyrogram <emoji …> variants to Bot API <tg-emoji emoji-id="…">."""
+    if not text or "<emoji" not in text:
         return text
-    return (
-        text
-        .replace("<emoji emoji-id=", "<tg-emoji emoji-id=")
-        .replace("</emoji>",          "</tg-emoji>")
-    )
+    text = _EMOJI_RE.sub(r'<tg-emoji emoji-id="\1">', text)
+    text = text.replace("</emoji>", "</tg-emoji>")
+    return text
 # ─────────────────────────────────────────────────────────────────────────────
 
 import aiohttp
@@ -153,7 +164,11 @@ async def send_message(
     res = await _post("sendMessage", payload)
     if res.get("ok"):
         return res["result"]["message_id"]
-    _LOG.warning("sendMessage error: %s", res.get("description"))
+    _LOG.warning(
+        "sendMessage error: %s | text[:120]: %s",
+        res.get("description"),
+        payload.get("text", "")[:120],
+    )
     return None
 
 
@@ -179,7 +194,11 @@ async def send_photo(
     res = await _post("sendPhoto", payload)
     if res.get("ok"):
         return res["result"]["message_id"]
-    _LOG.warning("sendPhoto error: %s", res.get("description"))
+    _LOG.warning(
+        "sendPhoto error: %s | caption[:120]: %s",
+        res.get("description"),
+        payload.get("caption", "")[:120],
+    )
     return None
 
 

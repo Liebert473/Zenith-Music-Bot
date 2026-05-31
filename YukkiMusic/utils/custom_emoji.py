@@ -1,16 +1,24 @@
 """
 Custom emoji ID cache — populated once at startup via init_custom_emoji(client).
 
-The previous implementation fetched regular animated sticker sets
-(InputStickerSetAnimatedEmoji) — those documents are NOT custom emoji
-type, so their IDs don't render in <tg-emoji> tags.
+Usage
+─────
+  enhance_text(html_str)     → wraps all _IDS emoji chars in <tg-emoji> tags
+  get_id("🎵")               → str document_id for icon_custom_emoji_id, or None
+  EM["music"]                → "<tg-emoji emoji-id='…'>🎵</tg-emoji>" (or "🎵")
+  em("music")                → same as EM["music"]  (shorthand)
 
-This version uses messages.searchCustomEmoji which returns actual
-custom-emoji document IDs that Telegram clients animate inline in text.
+Named-emoji helper (EM / em)
+─────────────────────────────
+All bot messages that want to show a specific animated emoji should call
+em("name") rather than hard-coding the Unicode character.  That way every
+language string uses the same glyph AND the same animation, and swapping to
+a different document ID only requires changing _EMOJI_CHARS below.
 
-Usage:
-    enhance_text(html_str) → wraps selected emoji in <tg-emoji> tags
-    get_id("🎵")           → str document_id for icon_custom_emoji_id, or None
+To add a new emoji:
+  1. Add  "name": "CHAR"  to _EMOJI_CHARS.
+  2. Optionally add  "CHAR": DOC_ID  to _HARDCODED (skips API lookup).
+  3. If you want it auto-resolved at startup, add the char to _WANTED.
 """
 from __future__ import annotations
 
@@ -98,3 +106,89 @@ def enhance_text(text: str) -> str:
                 f'<tg-emoji emoji-id="{doc_id}">{emoji}</tg-emoji>',
             )
     return text
+
+
+# ── Named-emoji map ──────────────────────────────────────────────────────────
+# Map a semantic name → the Unicode character used across ALL language strings.
+# Changing a char here changes it everywhere at once.
+# When _IDS has a document_id for the char, em() returns a full <tg-emoji> tag.
+
+_EMOJI_CHARS: Dict[str, str] = {
+    # ── Music / playback ────────────────────────────────────────────────────
+    "music":        "🎵",
+    "notes":        "🎶",
+    "headphones":   "🎧",
+    "play":         "▶️",
+    "pause":        "⏸",
+    "skip":         "⏭",
+    "stop":         "⏹",
+    "loop":         "🔁",
+    "shuffle":      "🔀",
+    "mute":         "🔇",
+    "volume":       "🔊",
+    # ── Status / UI ──────────────────────────────────────────────────────────
+    "ok":           "✅",
+    "error":        "❌",
+    "warning":      "⚠️",
+    "info":         "ℹ️",
+    "loading":      "⏳",
+    "bolt":         "⚡",
+    "fire":         "🔥",
+    "star":         "⭐",
+    "pin":          "📌",
+    "sparkles":     "✨",
+    "rocket":       "🚀",
+    "crown":        "👑",
+    "diamond":      "💎",
+    "globe":        "🌐",
+    "bot":          "🤖",
+    "alien":        "👾",
+    "ufo":          "🛸",
+    "satellite":    "📡",
+    "settings":     "⚙️",
+    "shield":       "🛡️",
+    "bulb":         "💡",
+    "mail":         "📨",
+    "party":        "🎉",
+    "trophy":       "🏆",
+    "target":       "🎯",
+    "gem":          "🌟",
+    "sparkle":      "💫",
+    "heart":        "❤️",
+    "crystal":      "🔮",
+    "explosion":    "💥",
+    "wave":         "🌊",
+    "palette":      "🎨",
+    "gamepad":      "🎮",
+}
+
+
+def em(name: str) -> str:
+    """Return the animated <tg-emoji> tag for the named emoji, or the plain char.
+
+    Example:
+        em("music")  →  '<tg-emoji emoji-id="5046509860389126442">🎵</tg-emoji>'
+                         (or just "🎵" before startup finishes)
+
+    Use this in any bot message string where you want a consistent, potentially
+    animated emoji across all languages:
+        await message.reply_text(f"{em('ok')} Done!")
+    """
+    char = _EMOJI_CHARS.get(name, name)   # fall back to name itself if unknown
+    doc_id = _IDS.get(char)
+    if doc_id:
+        return f'<tg-emoji emoji-id="{doc_id}">{char}</tg-emoji>'
+    return char
+
+
+# Pre-built dict — resolved lazily (refreshed after init_custom_emoji runs).
+# Access via EM["music"] or em("music") — they return the same value.
+class _EMProxy(dict):
+    """Dict-like that calls em() on key access so values stay fresh after init."""
+    def __getitem__(self, key: str) -> str:
+        return em(key)
+    def __contains__(self, key: object) -> bool:
+        return key in _EMOJI_CHARS
+
+EM: Dict[str, str] = _EMProxy()
+# ─────────────────────────────────────────────────────────────────────────────
