@@ -62,7 +62,7 @@ def _prepare_html(text: str) -> str:
     """Full HTML pipeline: fix pyrogram tags THEN animate plain emoji chars."""
     if not text:
         return text
-    text = _prepare_html(text)
+    text = _fix_tg_emoji(text)
     try:
         from YukkiMusic.utils.custom_emoji import enhance_text
         text = enhance_text(text)
