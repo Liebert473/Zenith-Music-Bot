@@ -31,6 +31,7 @@ from YukkiMusic.utils.database import (get_active_chats,
                                        update_user_top)
 from YukkiMusic.utils.decorators.language import language
 from YukkiMusic.utils.formatters import alpha_to_int
+from YukkiMusic.utils.tg_send import _fix_tg_emoji
 
 BROADCAST_COMMAND = get_command("BROADCAST_COMMAND")
 AUTO_DELETE = config.CLEANMODE_DELETE_MINS
@@ -140,7 +141,7 @@ async def braodcast_message(client, message, _):
         src_chat = message.chat.id
         src_msg_id = message.id
         cap_html = message.caption.html if (message.caption and hasattr(message.caption, "html")) else (message.caption or "")
-        cleaned = _strip_broadcast_flags(cap_html)
+        cleaned = _fix_tg_emoji(_strip_broadcast_flags(cap_html))
         # Drop the leading /broadcast[@bot] command token from the HTML string
         cleaned = re.sub(r'^/\S+\s*', '', cleaned, count=1).strip()
         custom_caption = cleaned or None
@@ -149,11 +150,11 @@ async def braodcast_message(client, message, _):
         if len(message.command) < 2:
             return await message.reply_text(_["broad_5"])
         raw_html = message.text.html if hasattr(message.text, "html") else str(message.text)
-        text_only = re.sub(
+        text_only = _fix_tg_emoji(re.sub(
             r'^/\S+\s*', '',
             _strip_broadcast_flags(raw_html),
             count=1,
-        ).strip()
+        ).strip())
         if not text_only:
             return await message.reply_text(_["broad_6"])
 

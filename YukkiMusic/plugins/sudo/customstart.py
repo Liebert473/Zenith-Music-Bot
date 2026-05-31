@@ -7,6 +7,7 @@ import re
 
 import config
 from pyrogram import filters
+from YukkiMusic.utils.tg_send import _fix_tg_emoji
 from pyrogram.enums import ParseMode
 from pyrogram.types import InlineKeyboardMarkup, Message
 
@@ -34,11 +35,15 @@ def _extract_payload(message: Message) -> tuple[str | None, str | None]:
 
     replied = message.reply_to_message
     if replied:
-        # Preserve entities → HTML so storage is parse-mode-stable
+        # Preserve entities → HTML so storage is parse-mode-stable.
+        # _fix_tg_emoji converts pyrogram's <emoji emoji-id="…"> to the
+        # Bot API form <tg-emoji emoji-id="…"> before we store the text.
         if replied.text:
-            text = replied.text.html if hasattr(replied.text, "html") else str(replied.text)
+            raw = replied.text.html if hasattr(replied.text, "html") else str(replied.text)
+            text = _fix_tg_emoji(raw)
         elif replied.caption:
-            text = replied.caption.html if hasattr(replied.caption, "html") else str(replied.caption)
+            raw = replied.caption.html if hasattr(replied.caption, "html") else str(replied.caption)
+            text = _fix_tg_emoji(raw)
         # Capture photo file_id (largest size) — file_ids are bot-scoped,
         # since the bot received this message the id is reusable by it.
         if replied.photo:
@@ -49,7 +54,8 @@ def _extract_payload(message: Message) -> tuple[str | None, str | None]:
     # preserved as <tg-emoji emoji-id="…"> tags in the stored value.
     if text is None and len(message.command) > 1:
         # Strip only the leading /command[@bot] token; keep the rest verbatim.
-        text = re.sub(r'^/\S+\s*', '', message.text.html, count=1).strip()
+        raw = re.sub(r'^/\S+\s*', '', message.text.html, count=1).strip()
+        text = _fix_tg_emoji(raw)
 
     return text, photo_id
 

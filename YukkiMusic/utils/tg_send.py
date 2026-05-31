@@ -28,6 +28,25 @@ from __future__ import annotations
 import logging
 from typing import Dict, List, Optional
 
+# ── Pyrogram → Bot API HTML normalisation ────────────────────────────────────
+# pyrogram 2.0.106 serialises MessageEntityCustomEmoji as:
+#   <emoji emoji-id="DOC_ID">char</emoji>
+# The HTTP Bot API parse_mode=HTML requires:
+#   <tg-emoji emoji-id="DOC_ID">char</tg-emoji>
+# All text/caption passed to the HTTP helpers is normalised at entry so
+# callers never have to think about this.
+
+def _fix_tg_emoji(text: str) -> str:
+    """Convert pyrogram's <emoji emoji-id="…"> tags to Bot API <tg-emoji> form."""
+    if not text or "<emoji " not in text:
+        return text
+    return (
+        text
+        .replace("<emoji emoji-id=", "<tg-emoji emoji-id=")
+        .replace("</emoji>",          "</tg-emoji>")
+    )
+# ─────────────────────────────────────────────────────────────────────────────
+
 import aiohttp
 import config
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -124,7 +143,7 @@ async def send_message(
     """
     payload: dict = {
         "chat_id": chat_id,
-        "text": text,
+        "text": _fix_tg_emoji(text),
         "parse_mode": parse_mode,
         "reply_markup": {"inline_keyboard": rows},
         "disable_web_page_preview": disable_preview,
@@ -151,7 +170,7 @@ async def send_photo(
     payload: dict = {
         "chat_id": chat_id,
         "photo": photo,
-        "caption": caption,
+        "caption": _fix_tg_emoji(caption) if caption else caption,
         "parse_mode": parse_mode,
         "reply_markup": {"inline_keyboard": rows},
     }
@@ -182,7 +201,7 @@ async def edit_message(
     res = await _post("editMessageText", {
         "chat_id": chat_id,
         "message_id": message_id,
-        "text": text,
+        "text": _fix_tg_emoji(text),
         "parse_mode": parse_mode,
         "reply_markup": {"inline_keyboard": rows},
         "disable_web_page_preview": disable_preview,
