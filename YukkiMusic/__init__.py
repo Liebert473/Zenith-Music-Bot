@@ -7,6 +7,24 @@
 #
 # All rights reserved.
 
+# ── Pyrogram peer-ID compatibility patch ─────────────────────────────────────
+# pyrogram 2.0.106 hard-rejects channel IDs longer than 13 chars in
+# get_peer_type() (i.e. -100 + 9 digits).  Telegram now issues 10-digit
+# channel IDs (-100 + 10 digits = 14 chars).  Patch the function to use
+# prefix-based detection instead of a length cap so all valid IDs work.
+import pyrogram.utils as _pyu  # noqa: E402
+
+def _get_peer_type_patched(peer_id: int) -> str:
+    s = str(peer_id)
+    if not s.startswith("-"):
+        return "user"
+    if s.startswith("-100"):
+        return "channel"
+    return "chat"
+
+_pyu.get_peer_type = _get_peer_type_patched
+# ─────────────────────────────────────────────────────────────────────────────
+
 from YukkiMusic.core.bot import YukkiBot
 from YukkiMusic.core.dir import dirr
 from YukkiMusic.core.git import git
