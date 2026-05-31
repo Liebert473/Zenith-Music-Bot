@@ -7,6 +7,8 @@
 #
 # All rights reserved.
 
+import asyncio
+
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, Message
 
@@ -20,6 +22,7 @@ from YukkiMusic.utils.database import get_loop
 from YukkiMusic.utils.decorators import AdminRightsCheck
 from YukkiMusic.utils.inline.play import (stream_markup,
                                           telegram_markup)
+from YukkiMusic.utils import tg_send as _ts
 from YukkiMusic.utils.stream.autoclear import auto_clean
 from YukkiMusic.utils.thumbnails import gen_thumb
 
@@ -130,10 +133,13 @@ async def skip(cli, message: Message, _, chat_id):
                 user,
                 f"https://t.me/{app.username}?start=info_{videoid}",
             ),
-            reply_markup=InlineKeyboardMarkup(button),
+            reply_markup=_ts.to_markup(button),
         )
         db[chat_id][0]["mystic"] = run
         db[chat_id][0]["markup"] = "tg"
+        asyncio.create_task(
+            _ts.edit_reply_markup(message.chat.id, run.id, button)
+        )
     elif "vid_" in queued:
         mystic = await message.reply_text(
             _["call_10"], disable_web_page_preview=True
@@ -159,10 +165,13 @@ async def skip(cli, message: Message, _, chat_id):
                 user,
                 f"https://t.me/{app.username}?start=info_{videoid}",
             ),
-            reply_markup=InlineKeyboardMarkup(button),
+            reply_markup=_ts.to_markup(button),
         )
         db[chat_id][0]["mystic"] = run
         db[chat_id][0]["markup"] = "stream"
+        asyncio.create_task(
+            _ts.edit_reply_markup(message.chat.id, run.id, button)
+        )
         await mystic.delete()
     elif "index_" in queued:
         try:
@@ -173,10 +182,13 @@ async def skip(cli, message: Message, _, chat_id):
         run = await message.reply_photo(
             photo=config.STREAM_IMG_URL,
             caption=_["stream_2"].format(user),
-            reply_markup=InlineKeyboardMarkup(button),
+            reply_markup=_ts.to_markup(button),
         )
         db[chat_id][0]["mystic"] = run
         db[chat_id][0]["markup"] = "tg"
+        asyncio.create_task(
+            _ts.edit_reply_markup(message.chat.id, run.id, button)
+        )
     else:
         try:
             await Yukki.skip_stream(chat_id, queued, video=status)
@@ -191,10 +203,13 @@ async def skip(cli, message: Message, _, chat_id):
                 caption=_["stream_3"].format(
                     title, check[0]["dur"], user
                 ),
-                reply_markup=InlineKeyboardMarkup(button),
+                reply_markup=_ts.to_markup(button),
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
+            asyncio.create_task(
+                _ts.edit_reply_markup(message.chat.id, run.id, button)
+            )
         elif videoid == "soundcloud":
             button = telegram_markup(_, chat_id)
             run = await message.reply_photo(
@@ -204,10 +219,13 @@ async def skip(cli, message: Message, _, chat_id):
                 caption=_["stream_3"].format(
                     title, check[0]["dur"], user
                 ),
-                reply_markup=InlineKeyboardMarkup(button),
+                reply_markup=_ts.to_markup(button),
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
+            asyncio.create_task(
+                _ts.edit_reply_markup(message.chat.id, run.id, button)
+            )
         else:
             button = stream_markup(_, videoid, chat_id)
             img = await gen_thumb(videoid)
@@ -217,7 +235,10 @@ async def skip(cli, message: Message, _, chat_id):
                     user,
                     f"https://t.me/{app.username}?start=info_{videoid}",
                 ),
-                reply_markup=InlineKeyboardMarkup(button),
+                reply_markup=_ts.to_markup(button),
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "stream"
+            asyncio.create_task(
+                _ts.edit_reply_markup(message.chat.id, run.id, button)
+            )

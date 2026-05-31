@@ -8,10 +8,11 @@
 # All rights reserved.
 
 import asyncio
+import re
 from datetime import datetime, timedelta
 
 from pyrogram import filters
-from pyrogram.enums import ChatMembersFilter
+from pyrogram.enums import ChatMembersFilter, ParseMode
 from pyrogram.errors import FloodWait
 from pyrogram.raw import types
 
@@ -134,24 +135,25 @@ async def braodcast_message(client, message, _):
         src_chat = message.chat.id
         src_msg_id = message.reply_to_message.id
     elif has_media:
-        # Media uploaded with /broadcast in caption
+        # Media uploaded with /broadcast in caption.
+        # Use .html so custom-emoji entity IDs survive into the caption copy.
         src_chat = message.chat.id
         src_msg_id = message.id
-        cleaned = _strip_broadcast_flags(message.caption or "")
-        # Drop the leading "/broadcast" command token
-        for cmd in BROADCAST_COMMAND:
-            tok = f"/{cmd.lower()}"
-            if cleaned.lower().startswith(tok):
-                cleaned = cleaned[len(tok):].strip()
-                break
+        cap_html = message.caption.html if (message.caption and hasattr(message.caption, "html")) else (message.caption or "")
+        cleaned = _strip_broadcast_flags(cap_html)
+        # Drop the leading /broadcast[@bot] command token from the HTML string
+        cleaned = re.sub(r'^/\S+\s*', '', cleaned, count=1).strip()
         custom_caption = cleaned or None
     else:
-        # Plain text
+        # Plain text — use .html so premium emoji entity IDs are preserved.
         if len(message.command) < 2:
             return await message.reply_text(_["broad_5"])
-        text_only = _strip_broadcast_flags(
-            message.text.split(None, 1)[1]
-        )
+        raw_html = message.text.html if hasattr(message.text, "html") else str(message.text)
+        text_only = re.sub(
+            r'^/\S+\s*', '',
+            _strip_broadcast_flags(raw_html),
+            count=1,
+        ).strip()
         if not text_only:
             return await message.reply_text(_["broad_6"])
 
@@ -165,18 +167,29 @@ async def braodcast_message(client, message, _):
     use_assistant = "-assistant" in raw
 
     async def _send(client_, target_chat_id):
-        """Send the resolved broadcast content via the given client."""
+        """Send the resolved broadcast content via the given client.
+
+        text_only and custom_caption are HTML strings (entities preserved as
+        <tg-emoji emoji-id="…"> tags).  Pass parse_mode=HTML so Telegram
+        renders premium emoji — forwarded/copied messages keep entities natively.
+        """
         if src_msg_id is None:
-            return await client_.send_message(target_chat_id, text=text_only)
+            # Plain-text broadcast — HTML preserves custom emoji entity IDs.
+            return await client_.send_message(
+                target_chat_id, text=text_only,
+                parse_mode=ParseMode.HTML,
+            )
         if use_forward:
             return await client_.forward_messages(
                 target_chat_id, src_chat, src_msg_id
             )
         # Default: copy_message → no "forwarded from" header.
+        # copy_message preserves all entities when caption is not overridden.
         if custom_caption is not None:
             return await client_.copy_message(
                 target_chat_id, src_chat, src_msg_id,
                 caption=custom_caption,
+                parse_mode=ParseMode.HTML,
             )
         return await client_.copy_message(
             target_chat_id, src_chat, src_msg_id

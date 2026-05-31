@@ -3,6 +3,8 @@
 # in private chats. Stored in MongoDB, language-independent.
 #
 
+import re
+
 import config
 from pyrogram import filters
 from pyrogram.enums import ParseMode
@@ -42,9 +44,12 @@ def _extract_payload(message: Message) -> tuple[str | None, str | None]:
         if replied.photo:
             photo_id = replied.photo.file_id
 
-    # Inline text arg only when no reply (raw, owner types HTML if they want it)
+    # Inline text arg only when no reply.
+    # Use .html so MessageEntityCustomEmoji (premium emoji) document-IDs are
+    # preserved as <tg-emoji emoji-id="…"> tags in the stored value.
     if text is None and len(message.command) > 1:
-        text = message.text.split(None, 1)[1]
+        # Strip only the leading /command[@bot] token; keep the rest verbatim.
+        text = re.sub(r'^/\S+\s*', '', message.text.html, count=1).strip()
 
     return text, photo_id
 

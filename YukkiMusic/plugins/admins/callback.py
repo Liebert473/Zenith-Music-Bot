@@ -1,3 +1,4 @@
+import asyncio
 import random
 
 from pyrogram import filters
@@ -21,6 +22,7 @@ from YukkiMusic.utils.inline.play import (panel_markup_1,
                                           panel_markup_3,
                                           stream_markup,
                                           telegram_markup)
+from YukkiMusic.utils import tg_send as _ts
 from YukkiMusic.utils.stream.autoclear import auto_clean
 from YukkiMusic.utils.thumbnails import gen_thumb
 
@@ -36,12 +38,8 @@ async def markup_panel(client, CallbackQuery: CallbackQuery, _):
     videoid, chat_id = callback_request.split("|")
     chat_id = CallbackQuery.message.chat.id
     buttons = panel_markup_1(_, videoid, chat_id)
-    try:
-        await CallbackQuery.edit_message_reply_markup(
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
-    except:
-        return
+    # Use HTTP Bot API so colored buttons + icon emoji are applied
+    await _ts.edit_reply_markup(chat_id, CallbackQuery.message.id, buttons)
     if chat_id not in wrong:
         wrong[chat_id] = {}
     wrong[chat_id][CallbackQuery.message.id] = False
@@ -59,12 +57,7 @@ async def del_back_playlist(client, CallbackQuery, _):
     else:
         buttons = stream_markup(_, videoid, chat_id)
     chat_id = CallbackQuery.message.chat.id
-    try:
-        await CallbackQuery.edit_message_reply_markup(
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
-    except:
-        return
+    await _ts.edit_reply_markup(chat_id, CallbackQuery.message.id, buttons)
     if chat_id not in wrong:
         wrong[chat_id] = {}
     wrong[chat_id][CallbackQuery.message.id] = True
@@ -93,12 +86,7 @@ async def del_back_playlist(client, CallbackQuery, _):
             buttons = panel_markup_1(_, videoid, chat_id)
         if pages == 0:
             buttons = panel_markup_3(_, videoid, chat_id)
-    try:
-        await CallbackQuery.edit_message_reply_markup(
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
-    except:
-        return
+    await _ts.edit_reply_markup(chat_id, CallbackQuery.message.id, buttons)
 
 
 downvote = {}
@@ -272,10 +260,13 @@ async def del_back_playlist(client, CallbackQuery, _):
                     user,
                     f"https://t.me/{app.username}?start=info_{videoid}",
                 ),
-                reply_markup=InlineKeyboardMarkup(button),
+                reply_markup=_ts.to_markup(button),
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
+            asyncio.create_task(
+                _ts.edit_reply_markup(chat_id, run.id, button)
+            )
             await CallbackQuery.edit_message_text(txt)
         elif "vid_" in queued:
             mystic = await CallbackQuery.message.reply_text(
@@ -304,10 +295,13 @@ async def del_back_playlist(client, CallbackQuery, _):
                     user,
                     f"https://t.me/{app.username}?start=info_{videoid}",
                 ),
-                reply_markup=InlineKeyboardMarkup(button),
+                reply_markup=_ts.to_markup(button),
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "stream"
+            asyncio.create_task(
+                _ts.edit_reply_markup(chat_id, run.id, button)
+            )
             await CallbackQuery.edit_message_text(txt)
             await mystic.delete()
         elif "index_" in queued:
@@ -323,10 +317,13 @@ async def del_back_playlist(client, CallbackQuery, _):
             run = await CallbackQuery.message.reply_photo(
                 photo=STREAM_IMG_URL,
                 caption=_["stream_2"].format(user),
-                reply_markup=InlineKeyboardMarkup(button),
+                reply_markup=_ts.to_markup(button),
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
+            asyncio.create_task(
+                _ts.edit_reply_markup(chat_id, run.id, button)
+            )
             await CallbackQuery.edit_message_text(txt)
         else:
             try:
@@ -344,10 +341,13 @@ async def del_back_playlist(client, CallbackQuery, _):
                     caption=_["stream_3"].format(
                         title, check[0]["dur"], user
                     ),
-                    reply_markup=InlineKeyboardMarkup(button),
+                    reply_markup=_ts.to_markup(button),
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "tg"
+                asyncio.create_task(
+                    _ts.edit_reply_markup(chat_id, run.id, button)
+                )
             elif videoid == "soundcloud":
                 button = telegram_markup(_, chat_id)
                 run = await CallbackQuery.message.reply_photo(
@@ -357,10 +357,13 @@ async def del_back_playlist(client, CallbackQuery, _):
                     caption=_["stream_3"].format(
                         title, check[0]["dur"], user
                     ),
-                    reply_markup=InlineKeyboardMarkup(button),
+                    reply_markup=_ts.to_markup(button),
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "tg"
+                asyncio.create_task(
+                    _ts.edit_reply_markup(chat_id, run.id, button)
+                )
             else:
                 button = stream_markup(_, videoid, chat_id)
                 img = await gen_thumb(videoid)
@@ -370,10 +373,13 @@ async def del_back_playlist(client, CallbackQuery, _):
                         user,
                         f"https://t.me/{app.username}?start=info_{videoid}",
                     ),
-                    reply_markup=InlineKeyboardMarkup(button),
+                    reply_markup=_ts.to_markup(button),
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "stream"
+                asyncio.create_task(
+                    _ts.edit_reply_markup(chat_id, run.id, button)
+                )
             await CallbackQuery.edit_message_text(txt)
     else:
         playing = db.get(chat_id)

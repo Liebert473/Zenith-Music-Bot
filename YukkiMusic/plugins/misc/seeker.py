@@ -9,10 +9,9 @@
 
 import asyncio
 
-from pyrogram.types import InlineKeyboardMarkup
-
 from strings import get_string
 from YukkiMusic.misc import db
+from YukkiMusic.utils import tg_send as _ts
 from YukkiMusic.utils.database import (get_active_chats, get_lang,
                                        is_music_playing)
 from YukkiMusic.utils.formatters import seconds_to_min
@@ -91,8 +90,8 @@ async def markup_timer():
                             playing[0]["dur"],
                         )
                     )
-                    await mystic.edit_reply_markup(
-                        reply_markup=InlineKeyboardMarkup(buttons)
+                    await _ts.edit_reply_markup(
+                        mystic.chat.id, mystic.id, buttons
                     )
                 except:
                     continue

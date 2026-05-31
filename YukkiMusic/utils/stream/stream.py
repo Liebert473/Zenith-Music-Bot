@@ -7,6 +7,7 @@
 #
 # All rights reserved.
 
+import asyncio
 import os
 from random import randint
 from typing import Union
@@ -26,6 +27,7 @@ from YukkiMusic.utils.inline.play import (stream_markup,
                                           telegram_markup)
 from YukkiMusic.utils.inline.playlist import close_markup
 from YukkiMusic.utils.pastebin import Yukkibin
+from YukkiMusic.utils import tg_send as _ts
 from YukkiMusic.utils.stream.queue import put_queue, put_queue_index
 from YukkiMusic.utils.thumbnails import gen_thumb
 
@@ -122,10 +124,13 @@ async def stream(
                         user_name,
                         f"https://t.me/{app.username}?start=info_{vidid}",
                     ),
-                    reply_markup=InlineKeyboardMarkup(button),
+                    reply_markup=_ts.to_markup(button),
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "stream"
+                asyncio.create_task(
+                    _ts.edit_reply_markup(original_chat_id, run.id, button)
+                )
         if count == 0:
             return
         else:
@@ -203,10 +208,13 @@ async def stream(
                     user_name,
                     f"https://t.me/{app.username}?start=info_{vidid}",
                 ),
-                reply_markup=InlineKeyboardMarkup(button),
+                reply_markup=_ts.to_markup(button),
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "stream"
+            asyncio.create_task(
+                _ts.edit_reply_markup(original_chat_id, run.id, button)
+            )
     elif streamtype == "soundcloud":
         file_path = result["filepath"]
         title = result["title"]
@@ -255,10 +263,13 @@ async def stream(
                 caption=_["stream_3"].format(
                     title, duration_min, user_name
                 ),
-                reply_markup=InlineKeyboardMarkup(button),
+                reply_markup=_ts.to_markup(button),
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
+            asyncio.create_task(
+                _ts.edit_reply_markup(original_chat_id, run.id, button)
+            )
     elif streamtype == "telegram":
         file_path = result["path"]
         link = result["link"]
@@ -313,10 +324,13 @@ async def stream(
                 caption=_["stream_4"].format(
                     title, link, duration_min, user_name
                 ),
-                reply_markup=InlineKeyboardMarkup(button),
+                reply_markup=_ts.to_markup(button),
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
+            asyncio.create_task(
+                _ts.edit_reply_markup(original_chat_id, run.id, button)
+            )
     elif streamtype == "live":
         link = result["link"]
         vidid = result["vidid"]
@@ -372,10 +386,13 @@ async def stream(
                     user_name,
                     f"https://t.me/{app.username}?start=info_{vidid}",
                 ),
-                reply_markup=InlineKeyboardMarkup(button),
+                reply_markup=_ts.to_markup(button),
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
+            asyncio.create_task(
+                _ts.edit_reply_markup(original_chat_id, run.id, button)
+            )
     elif streamtype == "index":
         link = result
         title = "Index or M3u8 Link"
@@ -422,8 +439,11 @@ async def stream(
                 original_chat_id,
                 photo=config.STREAM_IMG_URL,
                 caption=_["stream_2"].format(user_name),
-                reply_markup=InlineKeyboardMarkup(button),
+                reply_markup=_ts.to_markup(button),
             )
             db[chat_id][0]["mystic"] = run
             db[chat_id][0]["markup"] = "tg"
+            asyncio.create_task(
+                _ts.edit_reply_markup(original_chat_id, run.id, button)
+            )
             await mystic.delete()

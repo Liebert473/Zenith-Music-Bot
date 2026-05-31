@@ -7,6 +7,7 @@
 #
 # All rights reserved.
 
+import asyncio
 import random
 import string
 from ast import ExceptHandler
@@ -32,6 +33,7 @@ from YukkiMusic.utils.inline.play import (livestream_markup,
                                           playlist_markup,
                                           slider_markup, track_markup)
 from YukkiMusic.utils.inline.playlist import botplaylist_markup
+from YukkiMusic.utils import tg_send as _ts
 from YukkiMusic.utils.logger import play_logs
 from YukkiMusic.utils.stream.stream import stream
 
@@ -431,7 +433,7 @@ async def play_commnd(
                 )
                 return await mystic.edit_text(
                     _["play_15"],
-                    reply_markup=InlineKeyboardMarkup(buttons),
+                    reply_markup=_ts.to_markup(buttons),
                 )
         try:
             await stream(
@@ -475,10 +477,13 @@ async def play_commnd(
                 "f" if fplay else "d",
             )
             await mystic.delete()
-            await message.reply_photo(
+            run = await message.reply_photo(
                 photo=img,
                 caption=cap,
-                reply_markup=InlineKeyboardMarkup(buttons),
+                reply_markup=_ts.to_markup(buttons),
+            )
+            asyncio.create_task(
+                _ts.edit_reply_markup(message.chat.id, run.id, buttons)
             )
             return await play_logs(
                 message, streamtype=f"Playlist : {plist_type}"
@@ -495,13 +500,16 @@ async def play_commnd(
                     "f" if fplay else "d",
                 )
                 await mystic.delete()
-                await message.reply_photo(
+                run = await message.reply_photo(
                     photo=details["thumb"],
                     caption=_["play_11"].format(
                         details["title"].title(),
                         details["duration_min"],
                     ),
-                    reply_markup=InlineKeyboardMarkup(buttons),
+                    reply_markup=_ts.to_markup(buttons),
+                )
+                asyncio.create_task(
+                    _ts.edit_reply_markup(message.chat.id, run.id, buttons)
                 )
                 return await play_logs(
                     message, streamtype=f"Searched on Youtube"
@@ -515,10 +523,13 @@ async def play_commnd(
                     "f" if fplay else "d",
                 )
                 await mystic.delete()
-                await message.reply_photo(
+                run = await message.reply_photo(
                     photo=img,
                     caption=cap,
-                    reply_markup=InlineKeyboardMarkup(buttons),
+                    reply_markup=_ts.to_markup(buttons),
+                )
+                asyncio.create_task(
+                    _ts.edit_reply_markup(message.chat.id, run.id, buttons)
                 )
                 return await play_logs(
                     message, streamtype=f"URL Searched Inline"
@@ -577,7 +588,7 @@ async def play_music(client, CallbackQuery, _):
         )
         return await mystic.edit_text(
             _["play_15"],
-            reply_markup=InlineKeyboardMarkup(buttons),
+            reply_markup=_ts.to_markup(buttons),
         )
     video = True if mode == "v" else None
     ffplay = True if fplay == "f" else None
@@ -767,7 +778,7 @@ async def slider_queries(client, CallbackQuery, _):
             ),
         )
         return await CallbackQuery.edit_message_media(
-            media=med, reply_markup=InlineKeyboardMarkup(buttons)
+            media=med, reply_markup=_ts.to_markup(buttons)
         )
     if what == "B":
         if rtype == 0:
@@ -792,5 +803,5 @@ async def slider_queries(client, CallbackQuery, _):
             ),
         )
         return await CallbackQuery.edit_message_media(
-            media=med, reply_markup=InlineKeyboardMarkup(buttons)
+            media=med, reply_markup=_ts.to_markup(buttons)
         )

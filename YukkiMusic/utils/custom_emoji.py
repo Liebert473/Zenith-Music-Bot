@@ -23,6 +23,13 @@ _LOG = logging.getLogger(__name__)
 # emoji char → custom-emoji document_id (int), filled at startup
 _IDS: Dict[str, int] = {}
 
+# ── Hardcoded custom emoji IDs (user-verified document IDs) ─────────────────
+# These bypass the API discovery step so the exact variant is always used.
+_HARDCODED: Dict[str, int] = {
+    "📌": 6061980265356466673,  # pin — used on the Loop button
+}
+_IDS.update(_HARDCODED)
+
 # Emoji we want animated in /start, /help, settings.
 # Telegram tends to have custom-emoji matches for most of these.
 _WANTED = (
@@ -47,6 +54,8 @@ async def init_custom_emoji(client) -> None:
     fetched = 0
     skipped = 0
     for emoji_char in _WANTED:
+        if emoji_char in _HARDCODED:   # keep the user-verified ID, skip API
+            continue
         try:
             result = await client.invoke(
                 SearchCustomEmoji(emoticon=emoji_char, hash=0)

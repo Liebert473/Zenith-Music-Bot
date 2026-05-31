@@ -192,6 +192,28 @@ async def edit_message(
     return res.get("ok", False)
 
 
+async def edit_reply_markup(
+    chat_id: int,
+    message_id: int,
+    rows: List[List[dict]],
+) -> bool:
+    """Replace ONLY the inline keyboard of a message via HTTP Bot API.
+
+    Keeps the existing text/caption/photo untouched.
+    Supports Bot API 9.4 style + icon_custom_emoji_id — use this instead of
+    pyrogram's edit_message_reply_markup when you want colored / icon buttons.
+    Errors are logged at DEBUG level (non-fatal: the message is still visible).
+    """
+    res = await _post("editMessageReplyMarkup", {
+        "chat_id": chat_id,
+        "message_id": message_id,
+        "reply_markup": {"inline_keyboard": rows},
+    })
+    if not res.get("ok"):
+        _LOG.debug("editMessageReplyMarkup: %s", res.get("description"))
+    return res.get("ok", False)
+
+
 async def delete_message(chat_id: int, message_id: int) -> bool:
     """Delete a message.  Returns success bool."""
     res = await _post("deleteMessage", {

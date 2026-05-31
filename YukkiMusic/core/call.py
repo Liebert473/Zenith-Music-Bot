@@ -47,6 +47,7 @@ from YukkiMusic.utils.database import (add_active_chat,
 from YukkiMusic.utils.exceptions import AssistantErr
 from YukkiMusic.utils.inline.play import (stream_markup,
                                           telegram_markup)
+from YukkiMusic.utils import tg_send as _ts
 from YukkiMusic.utils.stream.autoclear import auto_clean
 from YukkiMusic.utils.thumbnails import gen_thumb
 
@@ -400,10 +401,13 @@ class Call(PyTgCalls):
                         user,
                         f"https://t.me/{app.username}?start=info_{videoid}",
                     ),
-                    reply_markup=InlineKeyboardMarkup(button),
+                    reply_markup=_ts.to_markup(button),
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "tg"
+                asyncio.create_task(
+                    _ts.edit_reply_markup(original_chat_id, run.id, button)
+                )
             elif "vid_" in queued:
                 mystic = await app.send_message(
                     original_chat_id, _["call_10"]
@@ -450,10 +454,13 @@ class Call(PyTgCalls):
                         user,
                         f"https://t.me/{app.username}?start=info_{videoid}",
                     ),
-                    reply_markup=InlineKeyboardMarkup(button),
+                    reply_markup=_ts.to_markup(button),
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "stream"
+                asyncio.create_task(
+                    _ts.edit_reply_markup(original_chat_id, run.id, button)
+                )
             elif "index_" in queued:
                 stream = (
                     MediaStream(
@@ -478,10 +485,13 @@ class Call(PyTgCalls):
                     original_chat_id,
                     photo=config.STREAM_IMG_URL,
                     caption=_["stream_2"].format(user),
-                    reply_markup=InlineKeyboardMarkup(button),
+                    reply_markup=_ts.to_markup(button),
                 )
                 db[chat_id][0]["mystic"] = run
                 db[chat_id][0]["markup"] = "tg"
+                asyncio.create_task(
+                    _ts.edit_reply_markup(original_chat_id, run.id, button)
+                )
             else:
                 stream = (
                     MediaStream(
@@ -511,10 +521,13 @@ class Call(PyTgCalls):
                         caption=_["stream_3"].format(
                             title, check[0]["dur"], user
                         ),
-                        reply_markup=InlineKeyboardMarkup(button),
+                        reply_markup=_ts.to_markup(button),
                     )
                     db[chat_id][0]["mystic"] = run
                     db[chat_id][0]["markup"] = "tg"
+                    asyncio.create_task(
+                        _ts.edit_reply_markup(original_chat_id, run.id, button)
+                    )
                 elif videoid == "soundcloud":
                     button = telegram_markup(_, chat_id)
                     run = await app.send_photo(
@@ -523,10 +536,13 @@ class Call(PyTgCalls):
                         caption=_["stream_3"].format(
                             title, check[0]["dur"], user
                         ),
-                        reply_markup=InlineKeyboardMarkup(button),
+                        reply_markup=_ts.to_markup(button),
                     )
                     db[chat_id][0]["mystic"] = run
                     db[chat_id][0]["markup"] = "tg"
+                    asyncio.create_task(
+                        _ts.edit_reply_markup(original_chat_id, run.id, button)
+                    )
                 else:
                     img = await gen_thumb(videoid)
                     button = stream_markup(_, videoid, chat_id)
@@ -537,10 +553,13 @@ class Call(PyTgCalls):
                             user,
                             f"https://t.me/{app.username}?start=info_{videoid}",
                         ),
-                        reply_markup=InlineKeyboardMarkup(button),
+                        reply_markup=_ts.to_markup(button),
                     )
                     db[chat_id][0]["mystic"] = run
                     db[chat_id][0]["markup"] = "stream"
+                    asyncio.create_task(
+                        _ts.edit_reply_markup(original_chat_id, run.id, button)
+                    )
 
     async def ping(self):
         # py-tgcalls 2.x: .ping is a plain float property, not awaitable.
