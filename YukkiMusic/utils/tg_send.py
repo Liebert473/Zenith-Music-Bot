@@ -29,34 +29,46 @@ import logging
 import re
 from typing import Dict, List, Optional
 
-# ── Pyrogram → Bot API HTML normalisation ────────────────────────────────────
-# pyrogram 2.0.x serialises MessageEntityCustomEmoji in at least two forms:
+# ── HTML pre-processing pipeline ─────────────────────────────────────────────
+# Every text / caption sent via the HTTP Bot API goes through _prepare_html.
 #
-#   <emoji emoji-id="DOC_ID">char</emoji>   (older builds)
-#   <emoji id="DOC_ID">char</emoji>         (2.0.106 — note: no "emoji-" prefix!)
+# Step 1 — _fix_tg_emoji
+#   pyrogram 2.0.x serialises MessageEntityCustomEmoji as one of:
+#     <emoji emoji-id="DOC">char</emoji>   (older builds)
+#     <emoji id="DOC">char</emoji>         (2.0.106)
+#   Bot API requires:
+#     <tg-emoji emoji-id="DOC">char</tg-emoji>
+#   A regex handles all attribute-name / quote-style variants.
 #
-# The HTTP Bot API parse_mode=HTML requires exactly:
-#   <tg-emoji emoji-id="DOC_ID">char</tg-emoji>
-#
-# Use a regex that captures the numeric document ID regardless of which
-# attribute name pyrogram chose.  Single/double quotes and bare integers
-# are all accepted defensively.
-#
-# The function is a no-op when the text contains no "<emoji" at all, so
-# there is zero overhead on ordinary messages.
+# Step 2 — enhance_text  (from custom_emoji)
+#   Wraps plain Unicode emoji chars with <tg-emoji> tags where the user has
+#   provided a document_id.  Falls back silently to the plain char if no ID
+#   is registered.  Already-wrapped chars are left untouched.
+# ─────────────────────────────────────────────────────────────────────────────
 
-_EMOJI_RE = re.compile(
-    r'<emoji\s+(?:emoji-)?id=["\']?(\d+)["\']?\s*>'
-)
+_EMOJI_RE = re.compile(r'<emoji\s+(?:emoji-)?id=["\']?(\d+)["\']?\s*>')
+
 
 def _fix_tg_emoji(text: str) -> str:
-    """Normalise all pyrogram <emoji …> variants to Bot API <tg-emoji emoji-id="…">."""
+    """Convert all pyrogram <emoji …> tag variants to <tg-emoji emoji-id="…">."""
     if not text or "<emoji" not in text:
         return text
     text = _EMOJI_RE.sub(r'<tg-emoji emoji-id="\1">', text)
     text = text.replace("</emoji>", "</tg-emoji>")
     return text
-# ─────────────────────────────────────────────────────────────────────────────
+
+
+def _prepare_html(text: str) -> str:
+    """Full HTML pipeline: fix pyrogram tags THEN animate plain emoji chars."""
+    if not text:
+        return text
+    text = _prepare_html(text)
+    try:
+        from YukkiMusic.utils.custom_emoji import enhance_text
+        text = enhance_text(text)
+    except Exception:
+        pass
+    return text
 
 import aiohttp
 import config
@@ -154,7 +166,7 @@ async def send_message(
     """
     payload: dict = {
         "chat_id": chat_id,
-        "text": _fix_tg_emoji(text),
+        "text": _prepare_html(text),
         "parse_mode": parse_mode,
         "reply_markup": {"inline_keyboard": rows},
         "disable_web_page_preview": disable_preview,
@@ -185,7 +197,7 @@ async def send_photo(
     payload: dict = {
         "chat_id": chat_id,
         "photo": photo,
-        "caption": _fix_tg_emoji(caption) if caption else caption,
+        "caption": _prepare_html(caption) if caption else caption,
         "parse_mode": parse_mode,
         "reply_markup": {"inline_keyboard": rows},
     }
@@ -220,7 +232,7 @@ async def edit_message(
     res = await _post("editMessageText", {
         "chat_id": chat_id,
         "message_id": message_id,
-        "text": _fix_tg_emoji(text),
+        "text": _prepare_html(text),
         "parse_mode": parse_mode,
         "reply_markup": {"inline_keyboard": rows},
         "disable_web_page_preview": disable_preview,

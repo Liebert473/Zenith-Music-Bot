@@ -18,7 +18,6 @@ from strings import get_command, get_string, helpers
 from YukkiMusic import app
 from YukkiMusic.misc import SUDOERS
 from YukkiMusic.utils import help_pannel, tg_send as _ts
-from YukkiMusic.utils.custom_emoji import enhance_text
 from YukkiMusic.utils.database import get_lang, is_commanddelete_on
 from YukkiMusic.utils.decorators.language import (LanguageStart, languageCB)
 from YukkiMusic.utils.inline.help import (help_back_markup, private_help_panel)
@@ -49,7 +48,7 @@ async def helper_private(
         language = await get_lang(chat_id)
         _ = get_string(language)
         rows = help_pannel(_, True, is_sudo=(user_id in SUDOERS))
-        text = enhance_text(_["help_1"])
+        text = _["help_1"]
         # Delete old message, send fresh one with colors
         try:
             await update.message.delete()
@@ -68,7 +67,7 @@ async def helper_private(
         _ = get_string(language)
         rows = help_pannel(_, is_sudo=(user_id in SUDOERS))
         await _ts.send_message(
-            chat_id, enhance_text(_["help_1"]), rows,
+            chat_id, _["help_1"], rows,
             reply_to=update.id, disable_preview=True,
         )
 

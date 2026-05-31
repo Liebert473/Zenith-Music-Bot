@@ -31,7 +31,7 @@ from YukkiMusic.utils.database import (get_active_chats,
                                        update_user_top)
 from YukkiMusic.utils.decorators.language import language
 from YukkiMusic.utils.formatters import alpha_to_int
-from YukkiMusic.utils.tg_send import _fix_tg_emoji
+from YukkiMusic.utils.tg_send import _prepare_html as _fix_tg_emoji
 
 BROADCAST_COMMAND = get_command("BROADCAST_COMMAND")
 AUTO_DELETE = config.CLEANMODE_DELETE_MINS

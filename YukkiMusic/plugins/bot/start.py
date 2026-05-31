@@ -23,7 +23,6 @@ from pyrogram.errors import (
 from pyrogram.types import (ChatPrivileges, InlineKeyboardButton,
                             InlineKeyboardMarkup, Message)
 from youtubesearchpython.__future__ import VideosSearch
-from YukkiMusic.utils.custom_emoji import enhance_text
 from YukkiMusic.utils import tg_send as _ts
 
 import config
@@ -62,7 +61,7 @@ async def start_comm(client, message: Message, _):
             rows = help_pannel(_, is_sudo=(message.from_user.id in SUDOERS))
             return await _ts.send_message(
                 message.chat.id,
-                enhance_text(_["help_1"]),
+                (_["help_1"]),
                 rows,
                 reply_to=message.id,
             )
@@ -235,7 +234,7 @@ async def start_comm(client, message: Message, _):
                     disable_preview=False,
                 )
         else:
-            caption = enhance_text(
+            caption = (
                 _["start_2"].format(_html.escape(config.MUSIC_BOT_NAME))
             )
             photo = config.START_IMG_URL
@@ -272,7 +271,7 @@ async def start_comm(client, message: Message, _):
 async def testbot(client, message: Message, _):
     rows = start_pannel(_)
     return await message.reply_text(
-        enhance_text(_["start_1"].format(
+        (_["start_1"].format(
             _html.escape(message.chat.title or ""),
             _html.escape(config.MUSIC_BOT_NAME),
         )),
@@ -521,7 +520,7 @@ async def welcome(client, message: Message):
                 userbot = await get_assistant(message.chat.id)
                 out = start_pannel(_)
                 await message.reply_text(
-                    enhance_text(_["start_3"].format(
+                    (_["start_3"].format(
                         _html.escape(config.MUSIC_BOT_NAME),
                         _html.escape(userbot.username or ""),
                         userbot.id,

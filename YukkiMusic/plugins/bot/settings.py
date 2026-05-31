@@ -13,7 +13,7 @@ from pyrogram import filters
 from pyrogram.enums import ChatType, ParseMode
 from pyrogram.errors import MessageNotModified
 from YukkiMusic.utils import tg_send as _ts
-from YukkiMusic.utils.custom_emoji import enhance_text
+
 from pyrogram.types import (CallbackQuery, InlineKeyboardButton,
                             InlineKeyboardMarkup, Message)
 
@@ -108,7 +108,7 @@ async def settings_back_markup(
         if custom and custom.get("text"):
             caption = custom["text"].replace("{bot}", MUSIC_BOT_NAME)
         else:
-            caption = enhance_text(
+            caption = (
                 _["start_2"].format(_html.escape(MUSIC_BOT_NAME))
             )
         photo = (custom or {}).get("photo") or _config.START_IMG_URL

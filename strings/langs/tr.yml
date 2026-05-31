@@ -3,25 +3,25 @@ name : 🇹🇷 Turkish
 # General Strings
 general_1 : "Bir kullanıcının mesajını yanıtlayın veya username/user_id verin."
 general_2 : "Hata! Komutun Yanlış Kullanımı."
-general_3 : "Sorgunuz işlenirken bazı **istisnalar oluştu**.\n\nİstisna Türü:- {0}"
+general_3 : "Sorgunuz işlenirken bazı <b>istisnalar oluştu</b>.\n\nİstisna Türü:- {0}"
 general_4 : "Bu sohbet grubunda isimsiz bir yöneticisiniz!\nYönetici Haklarından Kullanıcı Hesabına geri dönün."
 general_5 : "Bu eylemi gerçekleştirmek için sesli sohbet haklarına sahip yönetici olmanız gerekir."
 general_6 : "Bot sesli sohbette yayın yapmıyor."
 
 # Classes - Telegram.py
-tg_1 : "Bot şu anda indirilenlerle **aşırı yüklenmiş**.\n\n**Deneme Süresi:** {0} (__beklenen süre__))"
+tg_1 : "Bot şu anda indirilenlerle <b>aşırı yüklenmiş</b>.\n\n<b>Deneme Süresi:</b> {0} (<i>beklenen süre</i>))"
 tg_2 : "Failed to download the media from telegram."
 
 # Core - Call.py
-call_1 : "Bot, asistan hesabını kanalınıza davet etmek için **Yönetici** İzni gerektirir.\n\nKanal oynatma modunu şununla devre dışı bırakın: : /playmode"
-call_2 : "Asistan, grubunuz veya kanalınızda yasaklanmış, lütfen yasağı kaldırın.\n\n**Asistan Kullanıcı Adı:** @{0}\n**Asistan Kimliği:** {1}"
-call_3 : "Asistan Hesabını sohbetinize davet ederken İstisna Oluştu.\n\n**Nedeni**: {0}"
-call_4 : "Bot, asistan hesabını sohbet grubunuza davet etmek için **Kullanıcıları Bağlantı Yoluyla Davet Et** İzni gerektirir."
+call_1 : "Bot, asistan hesabını kanalınıza davet etmek için <b>Yönetici</b> İzni gerektirir.\n\nKanal oynatma modunu şununla devre dışı bırakın: : /playmode"
+call_2 : "Asistan, grubunuz veya kanalınızda yasaklanmış, lütfen yasağı kaldırın.\n\n<b>Asistan Kullanıcı Adı:</b> @{0}\n<b>Asistan Kimliği:</b> {1}"
+call_3 : "Asistan Hesabını sohbetinize davet ederken İstisna Oluştu.\n\n<b>Nedeni</b>: {0}"
+call_4 : "Bot, asistan hesabını sohbet grubunuza davet etmek için <b>Kullanıcıları Bağlantı Yoluyla Davet Et</b> İzni gerektirir."
 call_5 : "Asistan Hesabı 5 Saniye içinde katılacak.. Lütfen Bekleyin!"
 call_6 : "Asistan Hesabı[{0}] Başarıyla Katıldı.\n\nMüzik Şimdi Başlatılıyor"
-call_7 : "**Zararlı Yönetici Hakkı Verildi **\n\nLütfen ** KULLANICILARI YASAK** haklarını bottan kaldırın."
-call_8 : "**Zararlı Yönetici Hakkı Verildi **\n\nLütfen bottan **YENİ YÖNETİCİLER EKLE** haklarını kaldırın."
-call_9 : "**Yayın değiştirilemedi**\nParçayı tekrar değiştirmek için /skip butonunu kullanın."
+call_7 : "<b>Zararlı Yönetici Hakkı Verildi </b>\n\nLütfen <b> KULLANICILARI YASAK</b> haklarını bottan kaldırın."
+call_8 : "<b>Zararlı Yönetici Hakkı Verildi </b>\n\nLütfen bottan <b>YENİ YÖNETİCİLER EKLE</b> haklarını kaldırın."
+call_9 : "<b>Yayın değiştirilemedi</b>\nParçayı tekrar değiştirmek için /skip butonunu kullanın."
 call_10 : "Oynatma Listesinden Sonraki Parçayı İndirme"
 
 # PLUGINS - Auth.py
@@ -31,7 +31,7 @@ auth_3 : "Zaten Yetkili Kullanıcılar Listesinde."
 auth_4 : "Bu Grubun Yetkili Kullanıcılar Listesinden Kaldırıldı."
 auth_5 : "Hedeflenen kullanıcı Yetkili Kullanıcı değil."
 auth_6 : "Yetkili Kullanıcılar Alınıyor... Lütfen Bekleyin"
-auth_7 : "**Yetkili Kullanıcılar Listesi[AUL]:**\n\n"
+auth_7 : "<b>Yetkili Kullanıcılar Listesi[AUL]:</b>\n\n"
 auth_8 : "┗ Tarafından eklendi:-"
 
 # PLUGINS - Admins
@@ -45,8 +45,8 @@ admin_7 : "Müziğin sesi zaten açıldı."
 admin_8 : "🎧 Sesli Sohbetin Sesi Açıldı {}!"
 admin_9 : "🎧 Sesli Sohbeti Bitiren/Durduran {}!"
 admin_10 : "🎧 Sesli Sohbet {} tarafından atlandı!. Sırada Artık Müzik Yok."
-admin_11 : "Akış **{0}** olarak değiştirilirken hata oluştu\n\nLütfen /skip komutunu tekrar kullanın."
-admin_12 : "Döngü çalmanın etkinleştirilmesi nedeniyle belirli bir parçaya geçilemiyor. Bu özelliği kullanmak için lütfen döngüsel oynatmayı `/loop disable` üzerinden devre dışı bırakın."
+admin_11 : "Akış <b>{0}</b> olarak değiştirilirken hata oluştu\n\nLütfen /skip komutunu tekrar kullanın."
+admin_12 : "Döngü çalmanın etkinleştirilmesi nedeniyle belirli bir parçaya geçilemiyor. Bu özelliği kullanmak için lütfen döngüsel oynatmayı <code>/loop disable</code> üzerinden devre dışı bırakın."
 admin_13 : "Lütfen 1, 2 veya 4 gibi belirli parçalar için sayısal sayılar kullanın."
 admin_14 : "Belirli bir numaraya atlamak için sırada en az 2 parça gerekir. /queue ile sırayı kontrol et"
 admin_15 : "Verdiğiniz değer için sırada yeterli parça yok. Lütfen 1 ile {0} arasında bir sayı seçin"
@@ -57,9 +57,9 @@ admin_19 : "Bunu gerçekleştirmek için sesli sohbet haklarına sahip yönetici
 admin_20 : "Yönetici önbelleği başarıyla yeniden yüklendi."
 admin_21 : "Sırada karıştırılacak bir şey yok"
 admin_22 : "Karıştırılamadı.\n\nSırayı kontrol edin: /queue"
-admin_23 : "**Sıra Karıştırıldı: {0}**\n\nKarıştırılan sırayı kontrol edin: /queue"
-admin_24 : "**Kullanım:**\n/loop [enable/disable] veya [1-10 arası sayı]\n\n**Örnek:** /loop 5"
-admin_25 : "Döngü, {0} tarafından **{1}** kez etkinleştirildi. Bot şimdi sesli sohbette çalmakta olan müziği **{1}** kez tekrarlayacak"
+admin_23 : "<b>Sıra Karıştırıldı: {0}</b>\n\nKarıştırılan sırayı kontrol edin: /queue"
+admin_24 : "<b>Kullanım:</b>\n/loop [enable/disable] veya [1-10 arası sayı]\n\n<b>Örnek:</b> /loop 5"
+admin_25 : "Döngü, {0} tarafından <b>{1}</b> kez etkinleştirildi. Bot şimdi sesli sohbette çalmakta olan müziği <b>{1}</b> kez tekrarlayacak"
 admin_26 : "Döngü oynatma için lütfen 1-10 arasındaki sayıları kullanın"
 admin_27 : "Döngü Oynatma devre dışı bırakıldı"
 
@@ -67,17 +67,17 @@ admin_27 : "Döngü Oynatma devre dışı bırakıldı"
 # Start
 start_1 : "Beni {0}'e davet ettiğiniz için teşekkürler.\n{1} çalışıyor.\n\nHerhangi bir yardım için destek grubumuza veya kanalımıza göz atın.."
 start_2 : "Merhaba, Benim adım {0}.\n\nBazı kullanışlı özelliklere sahip bir telegram müzik botuyum. Youtube, Spotify, Resso, AppleMusic , Soundcloud vb. Destekleyici platformlar\n\nBeni gruplarınıza eklemekten çekinmeyin."
-start_3 : "Hoş Geldiniz {0}\n\nÇalışmak için herhangi bir **yönetici iznine** ihtiyacım yok ( isteninceye kadar).\n\nAsistan Kullanıcı Adı:- @{1}\nAsistan Kimliği:- {2}"
+start_3 : "Hoş Geldiniz {0}\n\nÇalışmak için herhangi bir <b>yönetici iznine</b> ihtiyacım yok ( isteninceye kadar).\n\nAsistan Kullanıcı Adı:- @{1}\nAsistan Kimliği:- {2}"
 start_4 : "{0}'s Owner[{1}] sohbetinize katıldı."
 start_5 : "{0} adlı kullanıcının Sudo Kullanıcısının[{1}] bir üyesi sohbetinize az önce katıldı."
-start_6 : "❗️ **Süper Grup Gerekli** ❗️\n\nLütfen **grubunuzu** **süper gruba** dönüştürün ve sonra beni tekrar ekleyin.\n\n**Üst grup nasıl yapılır?**\n✅ Grubunuzun sohbet geçmişini oluşturun **görünür** yapın önce."
+start_6 : "❗️ <b>Süper Grup Gerekli</b> ❗️\n\nLütfen <b>grubunuzu</b> <b>süper gruba</b> dönüştürün ve sonra beni tekrar ekleyin.\n\n<b>Üst grup nasıl yapılır?</b>\n✅ Grubunuzun sohbet geçmişini oluşturun <b>görünür</b> yapın önce."
 
 # Help
 help_1 : "Daha fazla bilgi için aşağıdaki butonlara tıklayın. Komutlar ve öğreticileri görmek istiyorsanız ( botun nasıl çalıştığı hakkında merak edilenler ve her şey ):-\n\nTüm komutlar aşşağıdaki butonlara basarak görebilirsiniz: /"
 help_2 : "Yardım için PM'den bana ulaşın."
 
 # Settings
-setting_1 : "⚙️ **Müzik Botu Ayarları**\n\n🖇**Grup:** {0}\n🔖**Grup Kimliği:** `{1}`\n\n💡**Aşağıdan istediğiniz işlev butonlarını seçin düzenlemek veya değiştirmek için.**"
+setting_1 : "⚙️ <b>Müzik Botu Ayarları</b>\n\n🖇<b>Grup:</b> {0}\n🔖<b>Grup Kimliği:</b> <code>{1}</code>\n\n💡<b>Aşağıdan istediğiniz işlev butonlarını seçin düzenlemek veya değiştirmek için.</b>"
 setting_3 : "⁉️ Bu Nedir?\n\n1) Doğrudan: Arama sorgularını doğrudan oynatır. Videoları doğrudan modda oynatmak için -v kullanın.\n\n2) Satır İçi: Video ve ses arasında seçim yapmak için Satır İçi İşaretleme Düğmelerini döndürür."
 setting_4 : "⁉️ Bu Nedir?\n\n👥 Herkes: Bu grupta bulunan yönetici komutlarını (skip, pause, resume vb.) herkes kullanabilir.\n\n🙍 Yalnızca Yönetici: Yalnızca yöneticiler ve yetkili kullanıcılar yönetici komutlarını kullanabilir."
 setting_5 : "Yetkili Kullanıcı Bulunamadı\n\nYönetici olmayan herhangi bir kişinin /auth ile yönetici komutlarımı kullanmasına ve /unauth kullanarak kullanmamasına izin verebilirsiniz"
@@ -101,21 +101,21 @@ set_cb_8 : "Geri alma.."
 # Misc
 gstats_1 : "Global İstatistikleri Alma, Bu Biraz Zaman Alabilir..."
 gstats_2 : "Global İstatistik Bulunamadı."
-gstats_3 : "**Bot'taki Toplam Sorgu:** {0}\n\n{1}, şu ana kadar **{2}** parça çalmış ve **{3}** gibi çok sayıda parça çalmıştır.\n\n**En İyi {4} Parçalar:**\n"
+gstats_3 : "<b>Bot'taki Toplam Sorgu:</b> {0}\n\n{1}, şu ana kadar <b>{2}</b> parça çalmış ve <b>{3}</b> gibi çok sayıda parça çalmıştır.\n\n<b>En İyi {4} Parçalar:</b>\n"
 
 ustats_1 : "Kullanıcı İstatistikleri Bulunamadı."
-ustats_2 : "Selamlar!, Şimdiye kadar çok sayıda **{1}** kez **{0}** parça çaldınız.\n\nEn çok {2} çaldığınız parça:\n\n"
+ustats_2 : "Selamlar!, Şimdiye kadar çok sayıda <b>{1}</b> kez <b>{0}</b> parça çaldınız.\n\nEn çok {2} çaldığınız parça:\n\n"
 
 tops_1 : "Botun Global İlk 10 Sohbetini Alma, Bu biraz zaman alabilir..."
 tops_2 : "İstatistik Bulunamadı"
-tops_3 : "**{1}'in En İyi {0} Sohbetleri:**\n\n"
+tops_3 : "<b>{1}'in En İyi {0} Sohbetleri:</b>\n\n"
 tops_4 : "Botun Global İlk 10 Kullanıcısını Alma, Bu Biraz Zaman Alabilir..."
-tops_5 : "**{1}'nin En İyi {0} Kullanıcısı:**\n\n"
+tops_5 : "<b>{1}'nin En İyi {0} Kullanıcısı:</b>\n\n"
 tops_6 : "Bu Sohbetin En İyi 10 Parçasını Almak, Bu Biraz Zaman Alabilir..."
 tops_7 : "Botun Global İlk 10 Parçasını Alma, Bu Biraz Zaman Alabilir..."
-tops_8 : "Bu sohbet grubu, şu ana kadar **{1}** defadan fazla sayıda **{0}** parça çaldı.\n\nBu sohbet grubu tarafından en çok çalınan {2} parça:\n\n"
+tops_8 : "Bu sohbet grubu, şu ana kadar <b>{1}</b> defadan fazla sayıda <b>{0}</b> parça çaldı.\n\nBu sohbet grubu tarafından en çok çalınan {2} parça:\n\n"
 tops_9 : "Bot'un Genel İstatistiklerini Ve Bilgilerini Almak.. Bu Biraz Zaman Alabilir..."
-tops_10 : "**BOT'UN GLOBAL İSTATİSTİKLERİ**\n\nBot sunucularından genel istatistikleri kontrol etmek istediğiniz butonları aşağıdan seçin."
+tops_10 : "<b>BOT'UN GLOBAL İSTATİSTİKLERİ</b>\n\nBot sunucularından genel istatistikleri kontrol etmek istediğiniz butonları aşağıdan seçin."
 
 
 # Play 
@@ -124,34 +124,34 @@ playcb_1 : "Bu Senin İçin Değil! Kendi Şarkını Ara."
 playcb_2 : "Sonraki Sonucu Alma"
 
 # Channel Play
-cplay_1 : "Bu sohbetteki kanallarda[{0}] herhangi bir kanala veya sohbetinizin bağlantılı kanalına müzik çalabilirsiniz.\n\n**Bağlı kanal için:**\n`/{1}bağlı`\n\n** Diğer herhangi bir kanal için:**\n`/{1} [Kanal Kimliği]`"
+cplay_1 : "Bu sohbetteki kanallarda[{0}] herhangi bir kanala veya sohbetinizin bağlantılı kanalına müzik çalabilirsiniz.\n\n<b>Bağlı kanal için:</b>\n<code>/{1}bağlı</code>\n\n<b> Diğer herhangi bir kanal için:</b>\n<code>/{1} [Kanal Kimliği]</code>"
 cplay_2 : "Bu sohbette bağlantılı kanal yok."
-cplay_3 : "{0}\n\n__Kanal Kimliği__ ile Tanımlanmış Kanal: {1}"
+cplay_3 : "{0}\n\n<i>Kanal Kimliği</i> ile Tanımlanmış Kanal: {1}"
 cplay_4 : "Kanal alınamadı.\n\nKanalınıza bot eklediğinizden ve onu yönetici olarak terfi ettirdiğinizden emin olun.\nKanalı /channelplay ile değiştirin veya /playmode ile kanal oynatma modunu devre dışı bırakın"
 cplay_5 : "Yalnızca Kanallar Desteklenir."
-cplay_6 : "Kanalı bu gruba bağlamak için[{0}] kanalın **Sahibi** olmanız gerekir.\n**Kanal Sahibi:** @{1}\n\nAlternatif olarak grubunuzu o kanala bağlayabilirsiniz. ve ardından `/channelplay bağlantılı ile bağlanmayı deneyin`"
+cplay_6 : "Kanalı bu gruba bağlamak için[{0}] kanalın <b>Sahibi</b> olmanız gerekir.\n<b>Kanal Sahibi:</b> @{1}\n\nAlternatif olarak grubunuzu o kanala bağlayabilirsiniz. ve ardından <code>/channelplay bağlantılı ile bağlanmayı deneyin</code>"
 
 #Play
 play_1 : "🔄 Sorgu İşleniyor... Lütfen Bekleyin!"
-play_2 : "**🏷Kanal Oynatma Modu**\n🔄 Sorgu İşleniyor... Lütfen Bekleyin!\n\n**Bağlı Kanal:** {0}"
+play_2 : "<b>🏷Kanal Oynatma Modu</b>\n🔄 Sorgu İşleniyor... Lütfen Bekleyin!\n\n<b>Bağlı Kanal:</b> {0}"
 play_3 : "Sorgu İşlenemedi!"
-play_4 : "🖇 **Yalnızca Yöneticiler Oynatır**\nYalnızca Yöneticiler ve Yetkilendirme Kullanıcıları bu grupta müzik çalabilir.\n\nModu /playmode aracılığıyla değiştirin ve zaten yöneticiyseniz, /admincache aracılığıyla admincache'i yeniden yükleyin"
+play_4 : "🖇 <b>Yalnızca Yöneticiler Oynatır</b>\nYalnızca Yöneticiler ve Yetkilendirme Kullanıcıları bu grupta müzik çalabilir.\n\nModu /playmode aracılığıyla değiştirin ve zaten yöneticiyseniz, /admincache aracılığıyla admincache'i yeniden yükleyin"
 play_5 : "Ses dosyası işlenemedi.\n\nSes Dosyası Boyutu 100 mb'den Küçük Olmalı"
-play_6 : "**Süre Sınırı Aşıldı**\n\n**İzin Verilen Süre: **{0} dakika\n**Alınan Süre:** {1} dakika(s)"
+play_6 : "<b>Süre Sınırı Aşıldı</b>\n\n<b>İzin Verilen Süre: </b>{0} dakika\n<b>Alınan Süre:</b> {1} dakika(s)"
 play_7 : "Üzgünüm! Bot, CPU aşırı yükleme sorunları nedeniyle yalnızca sınırlı sayıda görüntülü görüşmeye izin verir. Diğer birçok sohbet şu anda görüntülü aramayı kullanıyor. Sese geçmeyi deneyin veya daha sonra tekrar deneyin"
-play_8 : "Geçerli Bir Video Dosyası Uzantısı Değil!\n\n**Desteklenen Biçimler:** {0}"
+play_8 : "Geçerli Bir Video Dosyası Uzantısı Değil!\n\n<b>Desteklenen Biçimler:</b> {0}"
 play_9 : "Video Dosya Boyutu 1 GB'den Küçük Olmalı"
-play_10 : "**Youtube Oynatma Listesi Özelliği**\n\nYoutube Oynatma Listesinin tamamını oynatmak istediğiniz Modu seçin"
-play_11 : "🔘Başlık: **{0}\n\n⏱️Süre:** {1} Dakika"
-play_12 : "**Spotify Oynatma Listeleri**\n\n👉Talep Eden:- {0}"
-play_13 : "**Apple Oynatma Listeleri**\n\n👉Talep Eden:- {0}"
-play_14 : "**URL doğrulanamıyor.**\nBot, bu url'nin şu platformlardan birine ait olup olmadığını merak ediyor: Youtube, AppleMusic, Spotify, Resso ve Soundcloud.\n\nM3u8 veya Uzak Bağlantılar için /stream'i kullanabilirsiniz.."
-play_15 : "**Canlı Yayın Algılandı**\n\nSistemler, stream bağlantınızı canlı yayın olarak algıladı. Canlı yayın oynamak istiyormusunuz ?"
+play_10 : "<b>Youtube Oynatma Listesi Özelliği</b>\n\nYoutube Oynatma Listesinin tamamını oynatmak istediğiniz Modu seçin"
+play_11 : "🔘Başlık: <b>{0}\n\n⏱️Süre:</b> {1} Dakika"
+play_12 : "<b>Spotify Oynatma Listeleri</b>\n\n👉Talep Eden:- {0}"
+play_13 : "<b>Apple Oynatma Listeleri</b>\n\n👉Talep Eden:- {0}"
+play_14 : "<b>URL doğrulanamıyor.</b>\nBot, bu url'nin şu platformlardan birine ait olup olmadığını merak ediyor: Youtube, AppleMusic, Spotify, Resso ve Soundcloud.\n\nM3u8 veya Uzak Bağlantılar için /stream'i kullanabilirsiniz.."
+play_15 : "<b>Canlı Yayın Algılandı</b>\n\nSistemler, stream bağlantınızı canlı yayın olarak algıladı. Canlı yayın oynamak istiyormusunuz ?"
 play_16 : "Parça ayrıntıları getirilemedi. başka şarkı dene."
 
 
 #Playlist
-playlist_1 : "**Kullanım:** /play [Müzik Adı veya Youtube Bağlantısı veya Sesi Yanıtla]\n\nBot'un Sunucu Oynatma Listesini oynatmak istiyorsanız! Aşağıdaki butona basın."
+playlist_1 : "<b>Kullanım:</b> /play [Müzik Adı veya Youtube Bağlantısı veya Sesi Yanıtla]\n\nBot'un Sunucu Oynatma Listesini oynatmak istiyorsanız! Aşağıdaki butona basın."
 playlist_2 : "Çalma listeniz alınıyor. Lütfen bekleyin"
 playlist_3 : "Bot Sunucusunda oynatma listeniz yok."
 playlist_4 : "Getirilen Oynatma Listesit:\n\n"
@@ -164,11 +164,11 @@ playlist_10 : "Oynatma Listesi Ekleme\n\n{0}\ Oynatma Listenize Eklendi."
 playlist_11 : "Listeniz başarıyla silindi."
 playlist_12 : "Listeniz silinemedi."
 playlist_13 : "Tüm çalma listelerinizi sunucudan silindi. "
-playlist_14 : "**Tüm oynatma listenizi silmek istediğinizden emin misiniz?**\n\nOynatma listenizi kaybedeceksiniz ve bu daha sonra kurtarılamaz."
-playlist_15 : "[Tüm Oynatma Listesini Kontrol Et]({0})"
+playlist_14 : "<b>Tüm oynatma listenizi silmek istediğinizden emin misiniz?</b>\n\nOynatma listenizi kaybedeceksiniz ve bu daha sonra kurtarılamaz."
+playlist_15 : "<a href='{0}'>Tüm Oynatma Listesini Kontrol Et</a>"
 playlist_16 : "Sıraya Alınmış Oynatma Listesi:"
 playlist_17 : "Sıradaki Pozisyon-"
-playlist_18 : "[Tüm Sıradaki Oynatma Listesini Kontrol Et]({0})\n\nSon Sıradaki Pozisyon : **{1}**"
+playlist_18 : "<a href='{0}'>Tüm Sıradaki Oynatma Listesini Kontrol Et</a>\n\nSon Sıradaki Pozisyon : <b>{1}</b>"
 
 
 #Playmode
@@ -181,16 +181,16 @@ str_2 : "✅ Geçerli Akış Doğrulandı\n\nLütfen bağlantının işlenmesini
 str_3 : "Youtube canlı yayın akışı yapılamıyor. Canlı Biçim Bulunamadı"
 
 #TopPlay
-tracks_1 : "**{0} En İyi 10 Oynatma Listesi işleniyor**\n\n**👉Talep Eden:** {1}\n📢**Kanal Oynatma:** {2}\n\n /stats'a göre En İyi 10 parçayı kontrol edin"
-tracks_2 : "**Hata**\n\nBot'un sunucularında **{0} En İyi 10 Oynatma Listesi** yok. Lütfen başka bir oynatma listesi deneyin"
+tracks_1 : "<b>{0} En İyi 10 Oynatma Listesi işleniyor</b>\n\n<b>👉Talep Eden:</b> {1}\n📢<b>Kanal Oynatma:</b> {2}\n\n /stats'a göre En İyi 10 parçayı kontrol edin"
+tracks_2 : "<b>Hata</b>\n\nBot'un sunucularında <b>{0} En İyi 10 Oynatma Listesi</b> yok. Lütfen başka bir oynatma listesi deneyin"
 
 
 # TOOLS
 
 #Lyrics
-lyrics_1 : "**Kullanım:**\n\n/lyrics [ Şarkı ADı]"
+lyrics_1 : "<b>Kullanım:</b>\n\n/lyrics [ Şarkı ADı]"
 lyrics_2 : "Şarkı Sözleri Arama"
-lyrics_3 : "❌ Şarkı sözleri getirilemedi😭.\n\n💡**Aramaya çalışıldı:** {0}"
+lyrics_3 : "❌ Şarkı sözleri getirilemedi😭.\n\n💡<b>Aramaya çalışıldı:</b> {0}"
 lyrics_5 : 
 lyrics_4 : "Uzun spam türlerinde şarkı sözü aramasından kaçınmak için aşağıdaki düğmeyi tıklayın ve aranılan şarkı sözlerini alın."
 
@@ -199,28 +199,28 @@ ping_1 : "Ping!!!!"
 
 # Song
 song_1 : "YouTube'dan Müzik veya Video'yu yalnızca özel sohbette indirebilirsiniz. Lütfen beni özel sohbette başlat."
-song_2 : "**Kullanım:**\n\n/song [Şarkı Adı] veya [Youtube Link]"
+song_2 : "<b>Kullanım:</b>\n\n/song [Şarkı Adı] veya [Youtube Link]"
 song_3 : "Canlı Bağlantı Algılandı. Canlı youtube videolarını indiremiyorum. "
-song_4 : "**🔘 Başlık:**- {0}\n\nİndirmek istediğiniz türü seçin."
+song_4 : "<b>🔘 Başlık:</b>- {0}\n\nİndirmek istediğiniz türü seçin."
 song_5 : "Geçerli bir Youtube Bağlantısı değil"
 song_6 : "Format Alınıyor.. \n\nLütfen Bekleyin.."
 song_7 : "Video için kullanılabilir biçimler alınamadı. Lütfen başka bir parça deneyin."
 song_8 : "İndirme Başladı\n\nİndirme hızı yavaş olabilir. Lütfen bekleyin.."
-song_9 : "Youtube-DL'den şarkı indirilemedi\n\n**Nedeni:** {0}"
+song_9 : "Youtube-DL'den şarkı indirilemedi\n\n<b>Nedeni:</b> {0}"
 song_10 : "Sunuculardan telegrama yüklenemedi."
 song_11 : "Yükleme Başladı\n\nYükleme hızı yavaş olabilir. Lütfen bekleyin.."
 
 # Tools - Queue
 queue_1 : "Lütfen Bekleyin.. Sıra Alınıyor.."
 queue_2 : "Sırada Hiç Birşey Yok."
-queue_3 : "<u>**Queued Tracks:</u>**  [Checkout More Queued Tracks From Here]({0})"
-queue_4 : "⏳ Sıraya eklendi **#{0}\n\n🔘Başlık:** {1}\n**⏱Süre:** {2}\n👉**Talep Eden:** {3}"
+queue_3 : "<u><b>Queued Tracks:</u></b>  <a href='{0}'>Checkout More Queued Tracks From Here</a>"
+queue_4 : "⏳ Sıraya eklendi <b>#{0}\n\n🔘Başlık:</b> {1}\n<b>⏱Süre:</b> {2}\n👉<b>Talep Eden:</b> {3}"
 
 # All Streaming Lines
-stream_1 : "📡 **Yayın Başladı**\n\n👉**Talep Eden:** {0}\n🔦**Bilgi: **[Buradan]({1})"
-stream_2 : "📡 **URL ile Yayına Başladı **\n\n👉**Talep Eden:** {0}"
-stream_3 : "📡 **Yayın Başladı**\n\n**🔘Başlık:** {0}\n⌛️**Süre**: {1}\n👤**İsteyen:** {2}"
-stream_4 : "📡 **Akış Başlatıldı**\n\n**🔘Başlık:** [{0}]({1})\n⌛️**Süre**: {2}\n👤**İsteyen:** {3}"
+stream_1 : "📡 <b>Yayın Başladı</b>\n\n👉<b>Talep Eden:</b> {0}\n🔦<b>Bilgi: </b><a href='{1}'>Buradan</a>"
+stream_2 : "📡 <b>URL ile Yayına Başladı </b>\n\n👉<b>Talep Eden:</b> {0}"
+stream_3 : "📡 <b>Yayın Başladı</b>\n\n<b>🔘Başlık:</b> {0}\n⌛️<b>Süre</b>: {1}\n👤<b>İsteyen:</b> {2}"
+stream_4 : "📡 <b>Akış Başlatıldı</b>\n\n<b>🔘Başlık:</b> <a href='{1}'>{0}</a>\n⌛️<b>Süre</b>: {2}\n👤<b>İsteyen:</b> {3}"
 
 # Inline Buttons
 
@@ -323,76 +323,76 @@ SA_B_8 : "🤖 Bot Stats"
 
 #Sudo
 sudo_1 : "{0} zaten bir sudo kullanıcısı."
-sudo_2 : "Sudo Kullanıcılarına **{0}** eklendi." 
+sudo_2 : "Sudo Kullanıcılarına <b>{0}</b> eklendi." 
 sudo_3 : "Bot'un Sudo'sunun bir parçası değil."
 sudo_4 : "Bot'un Sudo Kullanıcısından kaldırıldı"
-sudo_5 : "⭐️<u> **Owners:**</u>\n"
-sudo_6 : "\n⭐️<u> **Sudo Users:**</u>\n"
+sudo_5 : "⭐️<u> <b>Owners:</b></u>\n"
+sudo_6 : "\n⭐️<u> <b>Sudo Users:</b></u>\n"
 sudo_7 : "Sudo Kullanıcısı Yok"
 
 #Block
 block_1 : "{0} bot tarafından zaten engellendi."
-block_2 : "Botun Engellenenler Listesine **{0}** eklendi. Kullanıcı artık hiçbir koşulda bot kullanamayacak.\n\nEngellenen kullanıcıları kontrol edin: /blockedusers"
+block_2 : "Botun Engellenenler Listesine <b>{0}</b> eklendi. Kullanıcı artık hiçbir koşulda bot kullanamayacak.\n\nEngellenen kullanıcıları kontrol edin: /blockedusers"
 block_3 : "Kullanıcı zaten ücretsiz ve engellenmedi."
 block_4 : "Kullanıcı engelleme listesinden kaldırıldı. Kullanıcı artık bot kullanabilecek."
 block_5 : "Engellenen Kullanıcı Bulunamadı"
 block_6 : "Engellenen Kullanıcılar Listesi Alınıyor.. Lütfen Bekleyin"
-block_7 : "**Engellenmiş kullanıcılar:**\n\n"
+block_7 : "<b>Engellenmiş kullanıcılar:</b>\n\n"
 
 #Blacklist Chats
-black_1 : "**Kullanım:**\n/blacklistchat [CHAT_ID]"
+black_1 : "<b>Kullanım:</b>\n/blacklistchat [CHAT_ID]"
 black_2 : "Sohbet zaten kara listeye alındı."
 black_3 : "Sohbet başarıyla kara listeye alındı"
-black_4 : "**Kullanım:**\n/whitelistchat [CHAT_ID]"
+black_4 : "<b>Kullanım:</b>\n/whitelistchat [CHAT_ID]"
 black_5 : "Sohbet zaten beyaz listede."
 black_6 : "Sohbet başarıyla beyaz listeye alındı"
-black_7 : "**Kara Listeye Alınmış Sohbetler:**\n\n"
+black_7 : "<b>Kara Listeye Alınmış Sohbetler:</b>\n\n"
 black_8 : "Kara Listeye Alınmış Sohbet Yok"
 
 #videolimit
-vid_1 : "**Kullanım:**\n/set_video_limit [İzin verilen sohbet sayısı] veya [Disable]"
+vid_1 : "<b>Kullanım:</b>\n/set_video_limit [İzin verilen sohbet sayısı] veya [Disable]"
 vid_2 : "Lütfen Limiti Ayarlamak için Sayısal Rakamlar Kullanın."
 vid_3 : "Görüntülü Görüşmelerin Maksimum Sınırı, {0} Sohbet İçin Tanımlandı."
 vid_4 : "Görüntülü Görüşmeler Devre Dışı"
 
 #maintenance
-maint_1 : "**Kullanım:**\n/maintenance [enable|disable]"
+maint_1 : "<b>Kullanım:</b>\n/maintenance [enable|disable]"
 maint_2 : "Bakım için Etkinleştirildi"
 maint_3 : "Bakım Modu Devre Dışı"
 
 #log
-log_1 : "**Kullanım:**\n/logger [enable|disable]"
+log_1 : "<b>Kullanım:</b>\n/logger [enable|disable]"
 log_2 : "Günlük Loglar Etkin"
 log_3 : "Günlük Loglar Devre Dışı"
 
 #videomode
 
-vidmode_1 : "**Kullanım:**\n/videomode [download|m3u8]"
+vidmode_1 : "<b>Kullanım:</b>\n/videomode [download|m3u8]"
 vidmode_2 : "Video Oynatma Modu, indirici olarak ayarlandı. Bot şimdi parçaları indirecek."
 vidmode_3 : "Video Oynatma Modu m3u8 olarak ayarlandı. Bot şimdi parçaları canlı olarak çalacak."
 
 #broadcast
-broad_1 : "**Bottan {1} Pinli {0} Sohbette Yayınlanan Mesaj.**"
+broad_1 : "<b>Bottan {1} Pinli {0} Sohbette Yayınlanan Mesaj.</b>"
 broad_2 : "Asistan Yayını Başlatıldı..."
-broad_3 : "**Yardımcı Yayın:**\n\n"
+broad_3 : "<b>Yardımcı Yayın:</b>\n\n"
 broad_4 : "Asistan 1, {0} sohbette yayınlandı\n"
 broad_5 : "Asistan 2, {0} sohbette yayınlandı\n"
 broad_6 : "Asistan 3, {0} sohbette yayınlandı\n"
 broad_7 : "Asistan 4, {0} sohbette yayınlandı\n"
 broad_8 : "Asistan 5, {0} sohbette yayınlandı\n"
-broad_9 : "**Kullanım**:\n/broadcast [Mesaj] veya [Bir Mesajı Yanıtla]"
+broad_9 : "<b>Kullanım</b>:\n/broadcast [Mesaj] veya [Bir Mesajı Yanıtla]"
 broad_10 : "Lütfen yayınlamak için biraz metin sağlayın."
-broad_11 : "**{0} Kullanıcıya Yayınlanan Mesaj.**"
+broad_11 : "<b>{0} Kullanıcıya Yayınlanan Mesaj.</b>"
 
 #Heroku
 heroku_1 : "Please make sure your Heroku API Key, Your App name are configured correctly in the heroku"
 heroku_2 : "You can only get logs of Heroku Apps"
-heroku_3 : "**Usage:**\n/get_var [Var Name]"
+heroku_3 : "<b>Usage:</b>\n/get_var [Var Name]"
 heroku_4 : "Unable to find any such var."
 heroku_5 : ".env file not found."
-heroku_6 : "**Usage:**\n/del_var [Var Name]"
+heroku_6 : "<b>Usage:</b>\n/del_var [Var Name]"
 heroku_7 : "{0} Deleted."
-heroku_8 : "**Usage:**\n/set_var [Var Name] [Var Value]"
+heroku_8 : "<b>Usage:</b>\n/set_var [Var Name] [Var Value]"
 heroku_9 : "{0} has been updated successfully"
 heroku_10 : "{0} has been added successfully"
 heroku_11 : "Only for Heroku Apps"
@@ -402,16 +402,16 @@ heroku_14 : "Git Command Error"
 heroku_15 : "Invalid Git Repsitory"
 
 #Private bot mode
-pbot_1 : "**Kullanım:**\n/authorize [CHAT_ID]"
-pbot_2 :  "**Kullanım:**\n/unauthorize [CHAT_ID]"
+pbot_1 : "<b>Kullanım:</b>\n/authorize [CHAT_ID]"
+pbot_2 :  "<b>Kullanım:</b>\n/unauthorize [CHAT_ID]"
 pbot_3 : "Yetkili listeye verilen sohbet eklendi"
 pbot_4 : "Verilen sohbet yetkili listeden kaldırıldı"
 pbot_5 : "Sohbet zaten yetkili listede"
 pbot_6 : "Yetkili listede böyle bir sohbet yok"
 pbot_7 : "Chat_id doğrulanamadı.\n\nSayısal olduğundan ve doğru biçimde olduğundan emin olun. Sohbet kullanıcı adı veya bağlantıları kullanmayın."
 pbot_8 : "Lütfen bekleyin... Yetkili sohbetler getiriliyor."
-pbot_9 : "**<b>Getirilen Sohbetler:</b>**\n\n"
+pbot_9 : "<b>Getirilen Sohbetler:</b>\n\n"
 pbot_10 : "Özel sohbet"
 pbot_11 : "Yetkili sohbet bulunamadı"
-pbot_12 : "Özel Bot Modu devre dışı.\n\nBotunuzu özel bot olarak kullanmak için **PRIVATE_BOT_MODE** = **True** olarak ayarladığınızdan emin olun"
-pbot_13 : "\n**<b>Getirilmeyen Sohbetler:</b>**\n\n"
+pbot_12 : "Özel Bot Modu devre dışı.\n\nBotunuzu özel bot olarak kullanmak için <b>PRIVATE_BOT_MODE</b> = <b>True</b> olarak ayarladığınızdan emin olun"
+pbot_13 : "\n<b>Getirilmeyen Sohbetler:</b>\n\n"

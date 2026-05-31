@@ -7,7 +7,7 @@ import re
 
 import config
 from pyrogram import filters
-from YukkiMusic.utils.tg_send import _fix_tg_emoji
+from YukkiMusic.utils.tg_send import _prepare_html as _fix_tg_emoji
 from pyrogram.enums import ParseMode
 from pyrogram.types import InlineKeyboardMarkup, Message
 

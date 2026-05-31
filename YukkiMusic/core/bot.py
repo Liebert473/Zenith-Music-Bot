@@ -10,7 +10,7 @@
 import sys
 
 from pyrogram import Client
-from pyrogram.enums import ChatMemberStatus
+from pyrogram.enums import ChatMemberStatus, ParseMode
 from pyrogram.types import (BotCommand, BotCommandScopeAllGroupChats,
                              BotCommandScopeAllPrivateChats,
                              BotCommandScopeChat, BotCommandScopeDefault)
@@ -28,7 +28,31 @@ class YukkiBot(Client):
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             bot_token=config.BOT_TOKEN,
+            parse_mode=ParseMode.HTML,
         )
+
+    # ── Auto-enhance emoji in all outgoing messages ─────────────────────────
+    # These overrides apply _prepare_html (fix pyrogram <emoji> tags + wrap
+    # plain Unicode chars with <tg-emoji>) on every text/caption the bot sends
+    # via pyrogram.  Covers app.send_message(), message.reply_text(), etc.
+    async def send_message(self, chat_id, text, *args, **kwargs):
+        from YukkiMusic.utils.tg_send import _prepare_html
+        if text and isinstance(text, str):
+            text = _prepare_html(text)
+        return await super().send_message(chat_id, text, *args, **kwargs)
+
+    async def send_photo(self, chat_id, photo, *args, **kwargs):
+        from YukkiMusic.utils.tg_send import _prepare_html
+        caption = kwargs.get("caption")
+        if caption and isinstance(caption, str):
+            kwargs["caption"] = _prepare_html(caption)
+        return await super().send_photo(chat_id, photo, *args, **kwargs)
+
+    async def edit_message_text(self, chat_id, message_id, text, *args, **kwargs):
+        from YukkiMusic.utils.tg_send import _prepare_html
+        if text and isinstance(text, str):
+            text = _prepare_html(text)
+        return await super().edit_message_text(chat_id, message_id, text, *args, **kwargs)
 
     async def start(self):
         await super().start()
@@ -44,12 +68,8 @@ class YukkiBot(Client):
             LOGGER(__name__).info(f"Bot: cached {count} dialogs")
         except Exception as e:
             LOGGER(__name__).warning(f"Bot dialog warmup failed: {e}")
-        # Fetch animated custom emoji IDs for <tg-emoji> tags and button icons.
-        try:
-            from YukkiMusic.utils.custom_emoji import init_custom_emoji
-            await init_custom_emoji(self)
-        except Exception as e:
-            LOGGER(__name__).warning(f"Custom emoji init failed: {e}")
+        # Custom emoji IDs are now user-maintained in custom_emoji._IDS —
+        # no runtime API lookup needed.
         try:
             await self.send_message(
                 config.LOG_GROUP_ID, "Bot Started"
