@@ -32,26 +32,35 @@ class YukkiBot(Client):
         )
 
     # ── Auto-enhance emoji in all outgoing messages ─────────────────────────
-    # These overrides apply _prepare_html (fix pyrogram <emoji> tags + wrap
-    # plain Unicode chars with <tg-emoji>) on every text/caption the bot sends
-    # via pyrogram.  Covers app.send_message(), message.reply_text(), etc.
+    # Only applies when parse_mode is HTML (default).  MARKDOWN sends are
+    # left untouched — injecting <emoji> tags into markdown breaks rendering.
+    # pyrogram's HTML parser uses <emoji id="…"> (NOT <tg-emoji>), so we use
+    # _prepare_pyrogram which outputs the correct format.
+
+    def _should_enhance(self, kwargs) -> bool:
+        """Return True if the message will be parsed as HTML."""
+        pm = kwargs.get("parse_mode", ParseMode.HTML)
+        # ParseMode.DEFAULT means use client default (which is HTML)
+        return pm in (ParseMode.HTML, ParseMode.DEFAULT, None)
+
     async def send_message(self, chat_id, text, *args, **kwargs):
-        from YukkiMusic.utils.tg_send import _prepare_html
-        if text and isinstance(text, str):
-            text = _prepare_html(text)
+        if text and isinstance(text, str) and self._should_enhance(kwargs):
+            from YukkiMusic.utils.tg_send import _prepare_pyrogram
+            text = _prepare_pyrogram(text)
         return await super().send_message(chat_id, text, *args, **kwargs)
 
     async def send_photo(self, chat_id, photo, *args, **kwargs):
-        from YukkiMusic.utils.tg_send import _prepare_html
-        caption = kwargs.get("caption")
-        if caption and isinstance(caption, str):
-            kwargs["caption"] = _prepare_html(caption)
+        if self._should_enhance(kwargs):
+            from YukkiMusic.utils.tg_send import _prepare_pyrogram
+            caption = kwargs.get("caption")
+            if caption and isinstance(caption, str):
+                kwargs["caption"] = _prepare_pyrogram(caption)
         return await super().send_photo(chat_id, photo, *args, **kwargs)
 
     async def edit_message_text(self, chat_id, message_id, text, *args, **kwargs):
-        from YukkiMusic.utils.tg_send import _prepare_html
-        if text and isinstance(text, str):
-            text = _prepare_html(text)
+        if text and isinstance(text, str) and self._should_enhance(kwargs):
+            from YukkiMusic.utils.tg_send import _prepare_pyrogram
+            text = _prepare_pyrogram(text)
         return await super().edit_message_text(chat_id, message_id, text, *args, **kwargs)
 
     async def start(self):

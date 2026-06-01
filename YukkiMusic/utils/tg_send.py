@@ -59,7 +59,7 @@ def _fix_tg_emoji(text: str) -> str:
 
 
 def _prepare_html(text: str) -> str:
-    """Full HTML pipeline: fix pyrogram tags THEN animate plain emoji chars."""
+    """Full pipeline for HTTP Bot API: produces <tg-emoji emoji-id="…"> tags."""
     if not text:
         return text
     text = _fix_tg_emoji(text)
@@ -68,6 +68,30 @@ def _prepare_html(text: str) -> str:
         text = enhance_text(text)
     except Exception:
         pass
+    return text
+
+
+def _prepare_pyrogram(text: str) -> str:
+    """Full pipeline for pyrogram sends: produces <emoji id="…"> tags.
+
+    pyrogram 2.0.x HTML parser uses <emoji id="DOC_ID">char</emoji>,
+    NOT <tg-emoji emoji-id="…">.  This function enhances the text and
+    then converts to pyrogram's expected format.
+    """
+    if not text:
+        return text
+    # Step 1: fix any existing pyrogram tags (normalise to tg-emoji first)
+    text = _fix_tg_emoji(text)
+    # Step 2: enhance plain emoji chars → <tg-emoji> tags
+    try:
+        from YukkiMusic.utils.custom_emoji import enhance_text
+        text = enhance_text(text)
+    except Exception:
+        pass
+    # Step 3: convert <tg-emoji emoji-id="…"> → <emoji id="…"> for pyrogram
+    if "<tg-emoji" in text:
+        text = text.replace("<tg-emoji emoji-id=", "<emoji id=")
+        text = text.replace("</tg-emoji>", "</emoji>")
     return text
 
 import aiohttp
@@ -110,6 +134,9 @@ def btn(
         eid = get_id(icon_emoji)
         if eid:
             b["icon_custom_emoji_id"] = eid
+            # Remove the emoji char from button text to avoid showing both
+            # the custom icon AND the plain emoji character.
+            b["text"] = b["text"].replace(icon_emoji, "").strip()
     return b
 
 

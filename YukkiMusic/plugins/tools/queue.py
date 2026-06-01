@@ -97,16 +97,16 @@ async def ping_com(client, message: Message, _):
         else:
             IMAGE = get_image(videoid)
     send = (
-        "**⌛️Duration:** Unknown Duration Stream\n\nClick on button below to get whole queued list."
+        "<b>⌛️Duration:</b> Unknown Duration Stream\n\nClick on button below to get whole queued list."
         if DUR == "Unknown"
         else "\nClick on button below to get whole queued list."
     )
-    cap = f"""**{config.MUSIC_BOT_NAME} Player**
+    cap = f"""<b>{config.MUSIC_BOT_NAME} Player</b>
 
-🎥**Playing:** {title}
+🎥<b>Playing:</b> {title}
 
-🔗**Stream Type:** {typo}
-🙍‍♂️**Played By:** {user}
+🔗<b>Stream Type:</b> {typo}
+🙍‍♂️<b>Played By:</b> {user}
 {send}"""
     upl = (
         queue_markup(_, DUR, "c" if cplay else "g", videoid)
@@ -277,16 +277,16 @@ async def queue_back(client, CallbackQuery: CallbackQuery, _):
         else:
             IMAGE = get_image(videoid)
     send = (
-        "**⌛️Duration:** Unknown Duration Stream\n\nClick on button below to get whole queued list."
+        "<b>⌛️Duration:</b> Unknown Duration Stream\n\nClick on button below to get whole queued list."
         if DUR == "Unknown"
         else "\nClick on button below to get whole queued list."
     )
-    cap = f"""**{config.MUSIC_BOT_NAME} Player**
+    cap = f"""<b>{config.MUSIC_BOT_NAME} Player</b>
 
-🎥**Playing:** {title}
+🎥<b>Playing:</b> {title}
 
-🔗**Stream Type:** {typo}
-🙍‍♂️**Played By:** {user}
+🔗<b>Stream Type:</b> {typo}
+🙍‍♂️<b>Played By:</b> {user}
 {send}"""
     upl = (
         queue_markup(_, DUR, cplay, videoid)

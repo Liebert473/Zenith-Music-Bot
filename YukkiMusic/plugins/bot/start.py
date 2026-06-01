@@ -105,9 +105,9 @@ async def start_comm(client, message: Message, _):
                     details = stats.get(vidid)
                     title = (details["title"][:35]).title()
                     if vidid == "telegram":
-                        msg += f"🔗[Telegram Files and Audios](https://t.me/telegram) ** played {count} times**\n\n"
+                        msg += f"🔗 <a href='https://t.me/telegram'>Telegram Files and Audios</a> <b>played {count} times</b>\n\n"
                     else:
-                        msg += f"🔗 [{title}](https://www.youtube.com/watch?v={vidid}) ** played {count} times**\n\n"
+                        msg += f"🔗 <a href='https://www.youtube.com/watch?v={vidid}'>{_html.escape(title)}</a> <b>played {count} times</b>\n\n"
                 msg = _["ustats_2"].format(tot, tota, limit) + msg
                 return videoid, msg
 
@@ -129,7 +129,7 @@ async def start_comm(client, message: Message, _):
                 sender_name = message.from_user.first_name
                 return await app.send_message(
                     config.LOG_GROUP_ID,
-                    f"{message.from_user.mention} has just started bot to check <code>SUDOLIST</code>\n\n**USER ID:** {sender_id}\n**USER NAME:** {sender_name}",
+                    f"{message.from_user.mention} has just started bot to check <code>SUDOLIST</code>\n\n<b>USER ID:</b> {sender_id}\n<b>USER NAME:</b> {sender_name}",
                 )
             return
         if name[0:3] == "lyr":
@@ -160,19 +160,17 @@ async def start_comm(client, message: Message, _):
                 channel = result["channel"]["name"]
                 link = result["link"]
                 published = result["publishedTime"]
-            searched_text = f"""
-🔍__**Video Track Information**__
-
-❇️**Title:** {title}
-
-⏳**Duration:** {duration} Mins
-👀**Views:** `{views}`
-⏰**Published Time:** {published}
-🎥**Channel Name:** {channel}
-📎**Channel Link:** [Visit From Here]({channellink})
-🔗**Video Link:** [Link]({link})
-
-⚡️ __Searched Powered By {config.MUSIC_BOT_NAME}__"""
+            searched_text = (
+                f"🔍 <b><i>Video Track Information</i></b>\n\n"
+                f"❇️ <b>Title:</b> {_html.escape(title)}\n\n"
+                f"⏳ <b>Duration:</b> {_html.escape(duration)} Mins\n"
+                f"👀 <b>Views:</b> <code>{_html.escape(views)}</code>\n"
+                f"⏰ <b>Published Time:</b> {_html.escape(published)}\n"
+                f"🎥 <b>Channel Name:</b> {_html.escape(channel)}\n"
+                f"📎 <b>Channel Link:</b> <a href='{channellink}'>Visit From Here</a>\n"
+                f"🔗 <b>Video Link:</b> <a href='{link}'>Link</a>\n\n"
+                f"⚡️ <i>Searched Powered By {_html.escape(config.MUSIC_BOT_NAME)}</i>"
+            )
             key = InlineKeyboardMarkup(
                 [
                     [
@@ -190,7 +188,6 @@ async def start_comm(client, message: Message, _):
                 message.chat.id,
                 photo=thumbnail,
                 caption=searched_text,
-                parse_mode=ParseMode.MARKDOWN,
                 reply_markup=key,
             )
             if await is_on_off(config.LOG):
@@ -198,7 +195,7 @@ async def start_comm(client, message: Message, _):
                 sender_name = message.from_user.first_name
                 return await app.send_message(
                     config.LOG_GROUP_ID,
-                    f"{message.from_user.mention} has just started bot to check <code>VIDEO INFORMATION</code>\n\n**USER ID:** {sender_id}\n**USER NAME:** {sender_name}",
+                    f"{message.from_user.mention} has just started bot to check <code>VIDEO INFORMATION</code>\n\n<b>USER ID:</b> {sender_id}\n<b>USER NAME:</b> {sender_name}",
                 )
     else:
         try:
@@ -258,7 +255,7 @@ async def start_comm(client, message: Message, _):
             sender_name = message.from_user.first_name
             return await app.send_message(
                 config.LOG_GROUP_ID,
-                f"{message.from_user.mention} has just started Bot.\n\n**USER ID:** {sender_id}\n**USER NAME:** {sender_name}",
+                f"{message.from_user.mention} has just started Bot.\n\n<b>USER ID:</b> {sender_id}\n<b>USER NAME:</b> {sender_name}",
             )
 
 
@@ -496,7 +493,7 @@ async def welcome(client, message: Message):
     if config.PRIVATE_BOT_MODE == str(True):
         if not await is_served_private_chat(message.chat.id):
             await message.reply_text(
-                "**Private Music Bot**\n\nOnly for authorized chats from the owner. Ask my owner to allow your chat first."
+                "<b>Private Music Bot</b>\n\nOnly for authorized chats from the owner. Ask my owner to allow your chat first."
             )
             return await app.leave_chat(message.chat.id)
     else:
