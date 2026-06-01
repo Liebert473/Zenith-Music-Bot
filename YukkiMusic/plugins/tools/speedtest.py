@@ -8,8 +8,11 @@
 # All rights reserved.
 
 import asyncio
+import html as _html
+
 import speedtest
 from pyrogram import filters
+
 from strings import get_command
 from YukkiMusic import app
 from YukkiMusic.misc import SUDOERS
@@ -18,42 +21,60 @@ from YukkiMusic.misc import SUDOERS
 SPEEDTEST_COMMAND = get_command("SPEEDTEST_COMMAND")
 
 
-def testspeed(m):
-    try:
-        test = speedtest.Speedtest()
-        test.get_best_server()
-        m = m.edit("Running Download SpeedTest")
-        test.download()
-        m = m.edit("Running Upload SpeedTest")
-        test.upload()
-        test.results.share()
-        result = test.results.dict()
-        m = m.edit("Sharing SpeedTest Results")
-    except Exception as e:
-        return m.edit(e)
-    return result
+def _run_speedtest() -> dict:
+    """Run the speed test synchronously (executed in a thread executor).
+
+    Returns the result dict, or raises on failure — the caller handles
+    exceptions.  No message editing happens here: this runs in a worker
+    thread where awaiting pyrogram coroutines is not possible.
+    """
+    test = speedtest.Speedtest()
+    test.get_best_server()
+    test.download()
+    test.upload()
+    test.results.share()
+    return test.results.dict()
 
 
 @app.on_message(filters.command(SPEEDTEST_COMMAND) & SUDOERS)
 async def speedtest_function(client, message):
-    m = await message.reply_text("Running Speed test")
+    m = await message.reply_text("🔎 Running Speed test... Please wait.")
     loop = asyncio.get_event_loop()
-    result = await loop.run_in_executor(None, testspeed, m)
-    output = f"""<b>Speedtest Results</b>
-    
-<u><b>Client:</b></u>
-<b>__ISP:__</b> {result['client']['isp']}
-<b>__Country:__</b> {result['client']['country']}
-  
-<u><b>Server:</b></u>
-<b>__Name:__</b> {result['server']['name']}
-<b>__Country:__</b> {result['server']['country']}, {result['server']['cc']}
-<b>__Sponsor:__</b> {result['server']['sponsor']}
-<b>__Latency:__</b> {result['server']['latency']}  
-<b>__Ping:__</b> {result['ping']}"""
-    msg = await app.send_photo(
-        chat_id=message.chat.id, 
-        photo=result["share"], 
-        caption=output
+    try:
+        result = await loop.run_in_executor(None, _run_speedtest)
+    except Exception as e:
+        return await m.edit_text(
+            f"❌ <b>Speedtest failed:</b> <code>{_html.escape(str(e))}</code>"
+        )
+
+    def esc(*keys):
+        ref = result
+        try:
+            for k in keys:
+                ref = ref[k]
+            return _html.escape(str(ref))
+        except Exception:
+            return "N/A"
+
+    output = (
+        "<b>Speedtest Results</b>\n\n"
+        "<u><b>Client:</b></u>\n"
+        f"<b>ISP:</b> {esc('client', 'isp')}\n"
+        f"<b>Country:</b> {esc('client', 'country')}\n\n"
+        "<u><b>Server:</b></u>\n"
+        f"<b>Name:</b> {esc('server', 'name')}\n"
+        f"<b>Country:</b> {esc('server', 'country')}, {esc('server', 'cc')}\n"
+        f"<b>Sponsor:</b> {esc('server', 'sponsor')}\n"
+        f"<b>Latency:</b> {esc('server', 'latency')}\n"
+        f"<b>Ping:</b> {esc('ping')}"
     )
-    await m.delete()
+    try:
+        await app.send_photo(
+            chat_id=message.chat.id,
+            photo=result["share"],
+            caption=output,
+        )
+        await m.delete()
+    except Exception:
+        # Fall back to a text-only result if the share image fails.
+        await m.edit_text(output)

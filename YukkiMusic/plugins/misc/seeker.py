@@ -45,7 +45,9 @@ asyncio.create_task(timer())
 
 
 async def markup_timer():
-    while not await asyncio.sleep(4):
+    # 7s cadence keeps the progress bar lively without hammering the API.
+    # During a Telegram rate-limit cooldown each edit_reply_markup self-skips.
+    while not await asyncio.sleep(7):
         active_chats = await get_active_chats()
         for chat_id in active_chats:
             try:

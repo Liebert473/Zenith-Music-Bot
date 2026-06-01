@@ -124,9 +124,7 @@ async def settings_back_markup(
         await _ts.send_message(chat_id, caption, rows)
     else:
         buttons = setting_markup(_)
-        return await CallbackQuery.edit_message_reply_markup(
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
+        return await _ts.safe_cb_edit_markup(CallbackQuery, InlineKeyboardMarkup(buttons))
 
 
 ## Audio and Video Quality
@@ -279,9 +277,7 @@ async def without_Admin_rights(client, CallbackQuery, _):
         else:
             buttons = auth_users_markup(_)
     try:
-        return await CallbackQuery.edit_message_reply_markup(
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
+        return await _ts.safe_cb_edit_markup(CallbackQuery, InlineKeyboardMarkup(buttons))
     except MessageNotModified:
         return
 
@@ -327,9 +323,7 @@ async def aud_vid_cb(client, CallbackQuery, _):
         )
         buttons = video_quality_markup(_, high=True)
     try:
-        return await CallbackQuery.edit_message_reply_markup(
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
+        return await _ts.safe_cb_edit_markup(CallbackQuery, InlineKeyboardMarkup(buttons))
     except MessageNotModified:
         return
 
@@ -422,9 +416,7 @@ async def playmode_ans(client, CallbackQuery, _):
             Group = None
         buttons = playmode_users_markup(_, Direct, Group, Playtype)
     try:
-        return await CallbackQuery.edit_message_reply_markup(
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
+        return await _ts.safe_cb_edit_markup(CallbackQuery, InlineKeyboardMarkup(buttons))
     except MessageNotModified:
         return
 
@@ -508,9 +500,7 @@ async def authusers_mar(client, CallbackQuery, _):
             await remove_nonadmin_chat(CallbackQuery.message.chat.id)
             buttons = auth_users_markup(_, True)
     try:
-        return await CallbackQuery.edit_message_reply_markup(
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
+        return await _ts.safe_cb_edit_markup(CallbackQuery, InlineKeyboardMarkup(buttons))
     except MessageNotModified:
         return
 
@@ -547,9 +537,7 @@ async def cleanmode_mark(client, CallbackQuery, _):
         buttons = cleanmode_settings_markup(
             _, status=cle, dels=sta, sug=sug
         )
-        return await CallbackQuery.edit_message_reply_markup(
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
+        return await _ts.safe_cb_edit_markup(CallbackQuery, InlineKeyboardMarkup(buttons))
     if command == "COMMANDELMODE":
         cle = None
         sta = None
@@ -583,8 +571,6 @@ async def cleanmode_mark(client, CallbackQuery, _):
             _, status=cle, dels=sta, sug=sug
         )
     try:
-        return await CallbackQuery.edit_message_reply_markup(
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
+        return await _ts.safe_cb_edit_markup(CallbackQuery, InlineKeyboardMarkup(buttons))
     except MessageNotModified:
         return

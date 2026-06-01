@@ -102,6 +102,24 @@ _LOG = logging.getLogger(__name__)
 _API = f"https://api.telegram.org/bot{config.BOT_TOKEN}"
 _TIMEOUT = aiohttp.ClientTimeout(total=15)
 
+# ── Global rate-limit cooldown ───────────────────────────────────────────────
+# When Telegram returns 429 "Too Many Requests: retry after N", we record a
+# timestamp until which all NON-essential HTTP calls (button-icon upgrades,
+# timer markup refreshes) skip themselves instead of piling onto the flood.
+# Essential sends (send_message/send_photo) still go through.
+import time as _time
+
+_cooldown_until: float = 0.0
+
+
+def _in_cooldown() -> bool:
+    return _time.monotonic() < _cooldown_until
+
+
+def _note_flood(retry_after: int) -> None:
+    global _cooldown_until
+    _cooldown_until = max(_cooldown_until, _time.monotonic() + max(retry_after, 1))
+
 # ── Style constants ──────────────────────────────────────────────────────────
 PRIMARY = "primary"   # blue (Telegram default button colour)
 SUCCESS = "success"   # green
@@ -171,7 +189,15 @@ async def _post(endpoint: str, payload: dict) -> dict:
     try:
         async with aiohttp.ClientSession(timeout=_TIMEOUT) as sess:
             async with sess.post(f"{_API}/{endpoint}", json=payload) as r:
-                return await r.json()
+                data = await r.json()
+                # Record cooldown on 429 so non-essential calls back off.
+                if not data.get("ok") and r.status == 429:
+                    retry = (
+                        data.get("parameters", {}).get("retry_after")
+                        or 5
+                    )
+                    _note_flood(int(retry))
+                return data
     except Exception as exc:
         _LOG.warning("tg_send.%s failed: %s", endpoint, exc)
         return {"ok": False, "description": str(exc)}
@@ -281,8 +307,13 @@ async def edit_reply_markup(
     Keeps the existing text/caption/photo untouched.
     Supports Bot API 9.4 style + icon_custom_emoji_id — use this instead of
     pyrogram's edit_message_reply_markup when you want colored / icon buttons.
-    Errors are logged at DEBUG level (non-fatal: the message is still visible).
+
+    This is a NON-ESSENTIAL cosmetic upgrade (colored/icon buttons).  While
+    Telegram has us in a rate-limit cooldown we skip it entirely — the plain
+    pyrogram keyboard is already visible, so nothing breaks.
     """
+    if _in_cooldown():
+        return False
     res = await _post("editMessageReplyMarkup", {
         "chat_id": chat_id,
         "message_id": message_id,
@@ -290,9 +321,31 @@ async def edit_reply_markup(
     })
     if not res.get("ok"):
         desc = res.get("description", "")
-        if "not modified" not in desc:
+        if "not modified" not in desc and "Too Many" not in desc:
             _LOG.warning("editMessageReplyMarkup: %s", desc)
     return res.get("ok", False)
+
+
+async def safe_cb_edit_markup(cb, markup) -> bool:
+    """Safely edit a CallbackQuery's reply markup via pyrogram.
+
+    Swallows FloodWait and MessageNotModified so settings / panel handlers
+    never crash when the user taps quickly or selects the current option.
+    On FloodWait we also record the global cooldown so cosmetic HTTP edits
+    back off too.  Returns True on success.
+    """
+    from pyrogram.errors import FloodWait, MessageNotModified
+    try:
+        await cb.edit_message_reply_markup(reply_markup=markup)
+        return True
+    except MessageNotModified:
+        return True
+    except FloodWait as e:
+        _note_flood(int(getattr(e, "value", getattr(e, "x", 5)) or 5))
+        return False
+    except Exception as exc:
+        _LOG.debug("safe_cb_edit_markup: %s", exc)
+        return False
 
 
 async def delete_message(chat_id: int, message_id: int) -> bool:
