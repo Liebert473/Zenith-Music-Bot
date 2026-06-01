@@ -176,9 +176,12 @@ async def braodcast_message(client, message, _):
         """
         if src_msg_id is None:
             # Plain-text broadcast — HTML preserves custom emoji entity IDs.
+            # disable_web_page_preview=False forces the link preview card to
+            # render (Telegram unfurls the first URL it finds in the text).
             return await client_.send_message(
                 target_chat_id, text=text_only,
                 parse_mode=ParseMode.HTML,
+                disable_web_page_preview=False,
             )
         if use_forward:
             return await client_.forward_messages(
