@@ -75,5 +75,5 @@ def private_help_panel(_):
     return [
         [btn(_["S_B_1"],
              url=f"https://t.me/{app.username}?start=help",
-             style=SUCCESS, icon_emoji="🎵")],
+             style=SUCCESS)],
     ]

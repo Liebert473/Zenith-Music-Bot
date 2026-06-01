@@ -27,37 +27,37 @@ _cache: dict = {"data": None, "ts": 0.0}
 # Placeholders: {bot} {groups} {users} {plays} {live}
 _MSG = {
     "en": (
-        "📡 **{bot} — Reach Statistics**\n"
+        "📡 <b>{bot} — Reach Statistics</b>\n"
         "━━━━━━━━━━━━━━━━━━━━\n\n"
-        "🌐  **Serving Group Chats:** `{groups:,}`\n"
-        "👥  **Total Bot Users:**     `{users:,}`\n"
-        "🎵  **Tracks Played:**       `{plays:,}`\n"
-        "🔊  **Live Voice Chats:**    `{live}`\n\n"
+        "🌐  <b>Serving Group Chats:</b> <code>{groups:,}</code>\n"
+        "👥  <b>Total Bot Users:</b>     <code>{users:,}</code>\n"
+        "🎵  <b>Tracks Played:</b>       <code>{plays:,}</code>\n"
+        "🔊  <b>Live Voice Chats:</b>    <code>{live}</code>\n\n"
         "━━━━━━━━━━━━━━━━━━━━\n"
-        "_Interested in advertising or promoting your channel / group?\n"
-        "Tap **Contact Owner** below._"
+        "<i>Interested in advertising or promoting your channel / group?\n"
+        "Tap <b>Contact Owner</b> below.</i>"
     ),
     "cn": (
-        "📡 **{bot} — 覆盖统计**\n"
+        "📡 <b>{bot} — 覆盖统计</b>\n"
         "━━━━━━━━━━━━━━━━━━━━\n\n"
-        "🌐  **服务群组数量：** `{groups:,}`\n"
-        "👥  **总用户数量：**   `{users:,}`\n"
-        "🎵  **总播放次数：**   `{plays:,}`\n"
-        "🔊  **当前语音聊天：** `{live}`\n\n"
+        "🌐  <b>服务群组数量：</b> <code>{groups:,}</code>\n"
+        "👥  <b>总用户数量：</b>   <code>{users:,}</code>\n"
+        "🎵  <b>总播放次数：</b>   <code>{plays:,}</code>\n"
+        "🔊  <b>当前语音聊天：</b> <code>{live}</code>\n\n"
         "━━━━━━━━━━━━━━━━━━━━\n"
-        "_有意在此机器人投放广告或推广您的频道/群组？\n"
-        "请点击下方「联系主人」按钮。_"
+        "<i>有意在此机器人投放广告或推广您的频道/群组？\n"
+        "请点击下方「联系主人」按钮。</i>"
     ),
     "my": (
-        "📡 **[{bot} :: REACH STATS]**\n"
+        "📡 <b>{bot} — Reach Statistics</b>\n"
         "━━━━━━━━━━━━━━━━━━━━\n\n"
-        "🌐  **[GROUPS SERVED]:**   `{groups:,}`\n"
-        "👥  **[USERS ONLINE]:**    `{users:,}`\n"
-        "🎵  **[TRACKS PLAYED]:**   `{plays:,}`\n"
-        "🔊  **[LIVE STREAMS]:**    `{live}`\n\n"
+        "🌐  <b>Serving Group Chats:</b> <code>{groups:,}</code>\n"
+        "👥  <b>Total Bot Users:</b>     <code>{users:,}</code>\n"
+        "🎵  <b>Tracks Played:</b>       <code>{plays:,}</code>\n"
+        "🔊  <b>Live Voice Chats:</b>    <code>{live}</code>\n\n"
         "━━━━━━━━━━━━━━━━━━━━\n"
-        "_Advertisement / promotion လုပ်ချင်ပါက\n"
-        "**Contact Owner** ကို နှိပ်ပါ_"
+        "<i>Advertisement / promotion လုပ်ချင်ပါက\n"
+        "<b>Contact Owner</b> ကို နှိပ်ပါ</i>"
     ),
 }
 

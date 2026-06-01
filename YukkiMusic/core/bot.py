@@ -47,6 +47,9 @@ class YukkiBot(Client):
         if text and isinstance(text, str) and self._should_enhance(kwargs):
             from YukkiMusic.utils.tg_send import _prepare_pyrogram
             text = _prepare_pyrogram(text)
+            # Force HTML since we've injected <emoji> tags
+            if "<emoji " in text:
+                kwargs["parse_mode"] = ParseMode.HTML
         return await super().send_message(chat_id, text, *args, **kwargs)
 
     async def send_photo(self, chat_id, photo, *args, **kwargs):
@@ -55,12 +58,16 @@ class YukkiBot(Client):
             caption = kwargs.get("caption")
             if caption and isinstance(caption, str):
                 kwargs["caption"] = _prepare_pyrogram(caption)
+                if "<emoji " in kwargs["caption"]:
+                    kwargs["parse_mode"] = ParseMode.HTML
         return await super().send_photo(chat_id, photo, *args, **kwargs)
 
     async def edit_message_text(self, chat_id, message_id, text, *args, **kwargs):
         if text and isinstance(text, str) and self._should_enhance(kwargs):
             from YukkiMusic.utils.tg_send import _prepare_pyrogram
             text = _prepare_pyrogram(text)
+            if "<emoji " in text:
+                kwargs["parse_mode"] = ParseMode.HTML
         return await super().edit_message_text(chat_id, message_id, text, *args, **kwargs)
 
     async def start(self):

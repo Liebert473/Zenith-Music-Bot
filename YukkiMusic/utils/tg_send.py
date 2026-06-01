@@ -134,8 +134,9 @@ def btn(
         eid = get_id(icon_emoji)
         if eid:
             b["icon_custom_emoji_id"] = eid
-            # Remove the emoji char from button text to avoid showing both
-            # the custom icon AND the plain emoji character.
+            # Store the original text with emoji for pyrogram fallback.
+            # The HTTP Bot API path strips the emoji since icon replaces it.
+            b["_text_with_emoji"] = b["text"]
             b["text"] = b["text"].replace(icon_emoji, "").strip()
     return b
 
@@ -152,7 +153,8 @@ def to_markup(rows: List[List[dict]]) -> InlineKeyboardMarkup:
     for row in rows:
         r = []
         for b in row:
-            text = b.get("text", "")
+            # Use original text (with emoji) for pyrogram fallback
+            text = b.get("_text_with_emoji") or b.get("text", "")
             if "callback_data" in b:
                 r.append(InlineKeyboardButton(
                     text=text, callback_data=b["callback_data"]
@@ -287,7 +289,9 @@ async def edit_reply_markup(
         "reply_markup": {"inline_keyboard": rows},
     })
     if not res.get("ok"):
-        _LOG.debug("editMessageReplyMarkup: %s", res.get("description"))
+        desc = res.get("description", "")
+        if "not modified" not in desc:
+            _LOG.warning("editMessageReplyMarkup: %s", desc)
     return res.get("ok", False)
 
 
